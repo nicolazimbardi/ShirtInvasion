@@ -5,15 +5,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test Database</title>
+    <title>ShirtInvasion - Test DB</title>
 </head>
 <body>
+    <h1>Benvenuto su ShirtInvasion! ⚽</h1>
     <h2>Verifica Connessione Database:</h2>
     <%
         Connection conn = null;
         try {
             InitialContext ctx = new InitialContext();
-            // CORRETTO: Aggiunta la virgoletta di chiusura alla fine della stringa
             DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/shirtinvasion");
             conn = ds.getConnection();
             
