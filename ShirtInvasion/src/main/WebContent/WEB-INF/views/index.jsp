@@ -11,10 +11,17 @@
 </head>
 <body>
 
-    <header class="main-header">
+  <header class="main-header">
         <div class="logo">
             <h1>Shirt<span>Invasion</span> ⚽</h1>
         </div>
+        
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/carrello">Il mio Carrello</a></li>
+                <li><a href="${pageContext.request.contextPath}/login">Accedi / Registrati</a></li>
+            </ul>
+        </nav>
     </header>
 
     <section class="hero-picture">
@@ -24,14 +31,6 @@
         </div>
     </section>
 
-    <nav class="nav-bar">
-        <ul>
-            <li><a href="home" class="active">Home Catalogo</a></li>
-            <li><a href="carrello">Il mio Carrello</a></li>
-            <li><a href="login">Accedi / Registrati</a></li>
-            <li><a href="admin">Area Admin</a></li>
-        </ul>
-    </nav>
 
     <main class="main-container">
         
