@@ -18,18 +18,10 @@ public class ProdottiServlet extends HttpServlet {
             throws ServletException, IOException {
         
         ProdottoDAO prodottoDao = new ProdottoDAO();
-        String idParam = request.getParameter("id");
         
-        if (idParam != null) {
-            int id = Integer.parseInt(idParam);
-            Prodotto prodotto = prodottoDao.doRetrieveById(id);
-            request.setAttribute("prodotto", prodotto);
-            request.getRequestDispatcher("/WEB-INF/views/dettaglio.jsp").forward(request, response);
-        } else {
-            
-            List<Prodotto> lista = prodottoDao.doRetrieveAll();
-            request.setAttribute("prodotti", lista);
-            request.getRequestDispatcher("/WEB-INF/views/prodotti.jsp").forward(request, response);
-        }
+        List<Prodotto> lista = prodottoDao.doRetrieveAll();
+        
+        request.setAttribute("prodotti", lista);
+        request.getRequestDispatcher("/WEB-INF/views/prodotti.jsp").forward(request, response);
     }
 }
