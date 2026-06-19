@@ -18,15 +18,12 @@ public class UtenteDAO {
             InitialContext ctx = new InitialContext();
             ds = (DataSource) ctx.lookup("java:comp/env/jdbc/shirtinvasion");
         } catch (NamingException e) {
-            System.out.println("Errore nell'inizializzazione del DataSource in UtenteDAO!");
             e.printStackTrace();
         }
     }
 
-   
     public Utente doRetrieveByEmailAndPassword(String email, String password) {
         String query = "SELECT * FROM utenti WHERE email = ? AND password = ?";
-        
         try (Connection conn = ds.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             
@@ -35,22 +32,75 @@ public class UtenteDAO {
             
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    Utente utente = new Utente();
-                    utente.setIdUtente(rs.getInt("id_utente"));
-                    utente.setNome(rs.getString("nome"));
-                    utente.setCognome(rs.getString("cognome"));
-                    utente.setEmail(rs.getString("email"));
-                    utente.setPassword(rs.getString("password"));
-                    utente.setIndirizzo(rs.getString("indirizzo"));
-                    utente.setTelefono(rs.getString("telefono"));
-                    utente.setRuolo(rs.getString("ruolo"));
-                    return utente;
+                    Utente u = new Utente();
+                    u.setIdUtente(rs.getInt("id_utente"));
+                    u.setNome(rs.getString("nome"));
+                    u.setCognome(rs.getString("cognome"));
+                    u.setEmail(rs.getString("email"));
+                    u.setPassword(rs.getString("password"));
+                    u.setIndirizzo(rs.getString("indirizzo"));
+                    u.setTelefono(rs.getString("telefono"));
+                    u.setRuolo(rs.getString("ruolo"));
+                    return u;
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Errore nel metodo doRetrieveByEmailAndPassword!");
             e.printStackTrace();
         }
-        return null; 
+        return null;
+    }
+
+    public boolean doSave(Utente utente) {
+        String query = "INSERT INTO utenti (nome, cognome, email, password, indirizzo, telefono, ruolo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = ds.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setString(1, utente.getNome());
+            ps.setString(2, utente.getCognome());
+            ps.setString(3, utente.getEmail());
+            ps.setString(4, utente.getPassword());
+            ps.setString(5, utente.getIndirizzo());
+            ps.setString(6, utente.getTelefono());
+            ps.setString(7, utente.getRuolo() != null ? utente.getRuolo() : "CLIENTE");
+            
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean doUpdate(Utente utente) {
+        String query = "UPDATE utenti SET nome = ?, cognome = ?, email = ?, password = ?, indirizzo = ?, telefono = ?, ruolo = ? WHERE id_utente = ?";
+        try (Connection conn = ds.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setString(1, utente.getNome());
+            ps.setString(2, utente.getCognome());
+            ps.setString(3, utente.getEmail());
+            ps.setString(4, utente.getPassword());
+            ps.setString(5, utente.getIndirizzo());
+            ps.setString(6, utente.getTelefono());
+            ps.setString(7, utente.getRuolo());
+            ps.setInt(8, utente.getIdUtente());
+            
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean doDelete(int idUtente) {
+        String query = "DELETE FROM utenti WHERE id_utente = ?";
+        try (Connection conn = ds.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setInt(1, idUtente);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
