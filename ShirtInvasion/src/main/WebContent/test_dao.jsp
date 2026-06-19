@@ -8,28 +8,25 @@
 </head>
 <body>
     <h2>Verifica Funzionamento del DAO e del Modello:</h2>
-    <%
-        try {
-            UtenteDAO utenteDao = new UtenteDAO();
-            
-           
-            Utente u = utenteDao.doRetrieveByEmailAndPassword("nicolazim@gmail.it", "admin123");
-            
-            if (u != null) {
-                out.println("<h3 style='color:green;'>TEST COMPLETATO CON SUCCESSO! 🎉</h3>");
-                out.println("<p>Il DAO ha estratto i dati con il PreparedStatement e ha popolato il Modello Utente.</p>");
-                out.println("<strong>Dati Utente Estratti (grazie al metodo toString):</strong>");
-                out.println("<pre style='background:#f4f4f4; padding:10px; border:1px solid #ccc;'>" + u.toString() + "</pre>");
-            } else {
-                out.println("<h3 style='color:orange;'>Connessione riuscita, ma utente non trovato!</h3>");
-                out.println("<p>Verifica che nel database ci sia l'utente con email 'nicolazim@gmail.it' e password 'admin123'.</p>");
+   <%
+    try {
+        dao.ProdottoDAO prodottoDao = new dao.ProdottoDAO();
+        java.util.List<model.Prodotto> lista = prodottoDao.doRetrieveAll();
+        
+        if (lista != null && !lista.isEmpty()) {
+            out.println("<h3 style='color:green;'>TEST PRODOTTI RIUSCITO! ⚽</h3>");
+            out.println("<p>Prodotti trovati nel database: " + lista.size() + "</p>");
+            for(model.Prodotto p : lista) {
+                out.println("<pre style='background:#eef; padding:5px;'>" + p.toString() + "</pre>");
             }
-        } catch (Exception e) {
-            out.println("<h3 style='color:red;'>ERRORE DURANTE IL TEST DEL DAO! ❌</h3>");
-            out.println("<pre style='color:red;'>");
-            e.printStackTrace(new java.io.PrintWriter(out));
-            out.println("</pre>");
+        } else {
+            out.println("<h3 style='color:orange;'>Connessione OK, ma la tabella prodotti è vuota!</h3>");
         }
-    %>
+    } catch (Exception e) {
+        out.println("<h3 style='color:red;'>ERRORE TEST PRODOTTI! ❌</h3>");
+        e.printStackTrace(new java.io.PrintWriter(out));
+    }
+%>
+
 </body>
 </html>
