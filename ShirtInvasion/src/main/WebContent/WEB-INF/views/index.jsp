@@ -20,11 +20,8 @@
         <nav class="nav-bar">
             <ul>
                 <% 
-                   
                     Utente utenteLoggato = (Utente) session.getAttribute("utente");
-                    
                     if (utenteLoggato != null) { 
-                        
                 %>
                         <li style="color: white; font-weight: bold; padding: 10px 15px;">
                             Ciao, <%= utenteLoggato.getNome() %> 👋
@@ -42,7 +39,6 @@
                         <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
                 <% 
                     } else { 
-                     
                 %>
                         <li><a href="${pageContext.request.contextPath}/CarrelloServlet">Il mio Carrello 🛒</a></li>
                         <li><a href="${pageContext.request.contextPath}/LoginServlet" style="font-weight: bold;">Accedi</a></li>
@@ -67,9 +63,7 @@
             <h2>Maglie Disponibili</h2>
             <div class="products-grid">
                 <%
-                    
                     List<Prodotto> prodotti = (List<Prodotto>) request.getAttribute("prodotti");
-                    
                     if (prodotti != null && !prodotti.isEmpty()) {
                         for (Prodotto p : prodotti) {
                 %>
@@ -89,8 +83,7 @@
                                 
                                 <div class="card-footer">
                                     <span class="price"><%= String.format("%.2f", p.getPrezzo()) %> €</span>
-                                    <%-- 2. ALLINEAMENTO AZIONE AGGIUNGI ALLA CARRELLOSERVLET --%>
-                                    <a class="btn-add-cart" href="CarrelloServlet?azione=aggiungi&idProdotto=<%= p.getIdProdotto() %>">Aggiungi</a>
+                                    <a class="btn-add-cart" href="CarrelloServlet?azione=aggiungi&id=<%= p.getIdProdotto() %>">Aggiungi</a>
                                 </div>
                             </div>
                 <%
