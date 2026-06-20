@@ -83,7 +83,13 @@
                                 
                                 <div class="card-footer">
                                     <span class="price"><%= String.format("%.2f", p.getPrezzo()) %> €</span>
-                                    <a class="btn-add-cart" href="CarrelloServlet?azione=aggiungi&id=<%= p.getIdProdotto() %>">Aggiungi</a>
+                                    
+                                    <%-- LOGICA DI CONTROLLO: L'ADMIN NON PUO' AGGIUNGERE AL CARRELLO --%>
+                                    <% if (utenteLoggato == null || !"ADMIN".equals(utenteLoggato.getRuolo())) { %>
+                                        <a class="btn-add-cart" href="CarrelloServlet?azione=aggiungi&id=<%= p.getIdProdotto() %>">Aggiungi</a>
+                                    <% } else { %>
+                                        <span style="color: gray; font-size: 0.8em; font-weight: bold;">(Admin non può acquistare)</span>
+                                    <% } %>
                                 </div>
                             </div>
                 <%
