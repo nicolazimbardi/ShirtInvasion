@@ -31,12 +31,16 @@
             nuovo.setDescrizione(request.getParameter("descrizione"));
             nuovo.setAttivo(true);
             prodottoDao.doSave(nuovo);
-            response.sendRedirect(request.getRequestURI()); 
+            
+            
+            response.sendRedirect("AdminServlet"); 
             return;
         } else if (azioneProdotto.equals("elimina")) {
             int idDel = Integer.parseInt(request.getParameter("id"));
             prodottoDao.doDelete(idDel); 
-            response.sendRedirect(request.getRequestURI());
+            
+            
+            response.sendRedirect("AdminServlet");
             return;
         } else if (azioneProdotto.equals("modifica")) {
             int idMod = Integer.parseInt(request.getParameter("id"));
@@ -46,10 +50,13 @@
                 pMod.setQuantita(Integer.parseInt(request.getParameter("quantita")));
                 prodottoDao.doUpdate(pMod);
             }
-            response.sendRedirect(request.getRequestURI());
+            
+            
+            response.sendRedirect("AdminServlet");
             return;
         }
     }
+
 
     String filtroCliente = request.getParameter("filtroCliente");
     String dataInizio = request.getParameter("dataInizio");
@@ -89,15 +96,16 @@
             </tr>
         </thead>
         <tbody>
-            <%
+                  <%
                 List<Prodotto> listaTutti = prodottoDao.doRetrieveAll();
                 if (listaTutti != null && !listaTutti.isEmpty()) {
                     for (Prodotto p : listaTutti) {
             %>
-                                                <tr>
+                        <tr>
                             <td>
                                 <%= p.getIdProdotto() %>
-<form id="formModifica<%= p.getIdProdotto() %>" action="AdminServlet?azioneProdotto=modifica&id=<%= p.getIdProdotto() %>" method="post" style="display:none;"></form>
+                                <!-- Il form si apre e SI CHIUDE subito qui, senza toccare i tag td della tabella -->
+                                <form id="formModifica<%= p.getIdProdotto() %>" action="AdminServlet?azioneProdotto=modifica&id=<%= p.getIdProdotto() %>" method="post" style="display:none;"></form>
                             </td>
                             <td><strong><%= p.getSquadra() %></strong></td>
                             <td><%= p.getNome() %></td>
@@ -108,19 +116,20 @@
                                 <input type="number" name="quantita" value="<%= p.getQuantita() %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 50px;"> pz
                             </td>
                             <td>
-                                <button type="submit" form="formModifica<%= p.getIdProdotto() %>" style="background: blue; color: white; cursor: pointer;">Modifica</button>
+                                <button type="submit" form="formModifica<%= p.getIdProdotto() %>" style="background: blue; color: white; cursor: pointer; border: none; padding: 4px 8px; border-radius: 3px;">Modifica</button>
                                 
-<a href="AdminServlet?azioneProdotto=elimina&id=<%= p.getIdProdotto() %>" onclick="return confirm('Eliminare?');">
+                                <a href="AdminServlet?azioneProdotto=elimina&id=<%= p.getIdProdotto() %>" onclick="return confirm('Eliminare questa maglia?');" style="text-decoration: none;">
+                                    <button type="button" style="background: red; color: white; cursor: pointer; border: none; padding: 4px 8px; border-radius: 3px; margin-left: 5px;">Elimina</button>
                                 </a>
                             </td>
                         </tr>
-
             <%
                     }
                 } else {
             %>
-                    <tr><td colspan="6">Nessun prodotto attivo.</td></tr>
+                    <tr><td colspan="6">Nessun prodotto attivo nel database.</td></tr>
             <% } %>
+
         </tbody>
     </table>
 
