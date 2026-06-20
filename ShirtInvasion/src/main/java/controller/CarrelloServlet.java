@@ -8,9 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import dao.ProdottoDAO;
-import dao.OrdineDAO; // <--- NUOVO IMPORT FONDAMENTALE
+import dao.OrdineDAO;
 import model.Carrello;
 import model.Prodotto;
+import model.Utente; // Import necessario
 
 @WebServlet("/CarrelloServlet")
 public class CarrelloServlet extends HttpServlet {
@@ -26,10 +27,30 @@ public class CarrelloServlet extends HttpServlet {
             session.setAttribute("carrello", carrello);
         }
         
+        // Recupero ruolo per i controlli di sicurezza
+        Utente utenteLoggato = (Utente) session.getAttribute("utente");
+        String ruolo = (utenteLoggato != null) ? utenteLoggato.getRuolo() : "GUEST";
+        
         String azione = request.getParameter("azione");
         ProdottoDAO prodottoDao = new ProdottoDAO();
         
         if (azione != null) {
+            
+            // --- 1. CONTROLLO ADMIN: Non può modificare il carrello ---
+            if ("ADMIN".equals(ruolo) && (azione.equals("aggiungi") || azione.equals("rimuovi") || azione.equals("svuota") || azione.equals("checkout"))) {
+                // Reindirizziamo l'admin al pannello di controllo se prova ad acquistare
+                response.sendRedirect(request.getContextPath() + "/AdminServlet?msg=adminNonPuòComprare");
+                return;
+            }
+
+            // --- 2. CONTROLLO OSPITE: Non può fare checkout ---
+            if (azione.equals("checkout") && "GUEST".equals(ruolo)) {
+                // Reindirizziamo l'ospite alla pagina di Login
+                response.sendRedirect(request.getContextPath() + "/LoginServlet?msg=deviEffettuareIlLoginPerAcquistare");
+                return;
+            }
+
+            // --- LOGICA AZIONI ---
             if (azione.equals("aggiungi")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 Prodotto p = prodottoDao.doRetrieveById(id);
@@ -41,39 +62,19 @@ public class CarrelloServlet extends HttpServlet {
                 carrello.rimuoviProdotto(id);
             } else if (azione.equals("svuota")) {
                 carrello.svuota();
-            } 
-            // ================================================================
-            // NUOVO BLOCCO: GESTIONE CHECKOUT (RICHIESTA PROFESSORE)
-            // ================================================================
-            else if (azione.equals("checkout")) {
+            } else if (azione.equals("checkout")) {
+                // Procedura di checkout solo per utenti registrati
                 if (carrello != null && !carrello.getElementi().isEmpty()) {
-                    
-                    // Proviamo a recuperare l'utente loggato dalla sessione
-                    model.Utente utenteLoggato = (model.Utente) session.getAttribute("utente");
-                    
-                    // Se non hai ancora implementato il login, per fare i test usiamo l'ID 1 
-                    // (ovvero Nicola Zimbardi, che è presente nel dump del tuo database)
-                    int idUtente = (utenteLoggato != null) ? utenteLoggato.getIdUtente() : 1;
-
-                    // Istanziamo il nuovo DAO che lavora su 'ordini' e 'dettagli_ordine'
                     OrdineDAO ordineDao = new OrdineDAO();
-                    boolean inserito = ordineDao.doSave(carrello, idUtente);
+                    boolean inserito = ordineDao.doSave(carrello, utenteLoggato.getIdUtente());
                     
                     if (inserito) {
-                        System.out.println("DEBUG: Ordine e dettagli salvati nel DB!");
-                        
-                        // SVUOTAMENTO CARRELLO: Il contenuto viene ripulito dalla sessione utente
                         carrello.svuota();
-                        
-                        // Reindirizziamo l'utente alla pagina di successo esterna a WEB-INF
-                        response.sendRedirect(request.getContextPath() + "/confermaOrdine.jsp");
-                        return; // Blocca l'esecuzione ed evita il forward finale sulla jsp del carrello
-                    } else {
-                        System.out.println("DEBUG ERRORE: Qualcosa è fallito nella transazione SQL.");
+                        request.getRequestDispatcher("/WEB-INF/views/confermaOrdine.jsp").forward(request, response);
+                        return;
                     }
                 }
             }
-            // ================================================================
         }
         
         // Se non è stato fatto il checkout, mostra normalmente la pagina del carrello
