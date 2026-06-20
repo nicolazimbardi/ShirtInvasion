@@ -46,15 +46,18 @@
             int idMod = Integer.parseInt(request.getParameter("id"));
             Prodotto pMod = prodottoDao.doRetrieveById(idMod);
             if (pMod != null) {
+                pMod.setStagione(request.getParameter("stagione"));
+                pMod.setMarca(request.getParameter("marca"));
+                pMod.setTaglia(request.getParameter("taglia"));
                 pMod.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
                 pMod.setQuantita(Integer.parseInt(request.getParameter("quantita")));
+                pMod.setDescrizione(request.getParameter("descrizione"));
                 prodottoDao.doUpdate(pMod);
             }
-            
-            
             response.sendRedirect("AdminServlet");
             return;
         }
+
     }
 
 
@@ -96,14 +99,23 @@
     </form>
 
 
-        <table border="1" style="width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 40px;">
+            <table border="1" style="width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 40px;">
         <thead style="background: #eee;">
             <tr>
-                <th>ID</th><th>Squadra</th><th>Modello</th><th>Prezzo (€)</th><th>Stock</th><th>Azioni</th>
+                <th>ID</th>
+                <th>Squadra</th>
+                <th>Modello</th>
+                <th>Stagione</th>
+                <th>Marca</th>
+                <th>Taglia</th>
+                <th>Prezzo (€)</th>
+                <th>Stock</th>
+                <th>Descrizione</th>
+                <th>Azioni</th>
             </tr>
         </thead>
         <tbody>
-                  <%
+            <%
                 List<Prodotto> listaTutti = prodottoDao.doRetrieveAll();
                 if (listaTutti != null && !listaTutti.isEmpty()) {
                     for (Prodotto p : listaTutti) {
@@ -111,22 +123,34 @@
                         <tr>
                             <td>
                                 <%= p.getIdProdotto() %>
-                                <!-- Il form si apre e SI CHIUDE subito qui, senza toccare i tag td della tabella -->
+                                <%-- Il form invisibile raccoglierà tutti gli input di questa riga --%>
                                 <form id="formModifica<%= p.getIdProdotto() %>" action="AdminServlet?azioneProdotto=modifica&id=<%= p.getIdProdotto() %>" method="post" style="display:none;"></form>
                             </td>
                             <td><strong><%= p.getSquadra() %></strong></td>
                             <td><%= p.getNome() %></td>
                             <td>
-                                <input type="number" step="0.01" name="prezzo" value="<%= p.getPrezzo() %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 70px;">
+                                <input type="text" name="stagione" value="<%= (p.getStagione() != null) ? p.getStagione() : "" %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 80px;">
                             </td>
                             <td>
-                                <input type="number" name="quantita" value="<%= p.getQuantita() %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 50px;"> pz
+                                <input type="text" name="marca" value="<%= (p.getMarca() != null) ? p.getMarca() : "" %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 80px;">
                             </td>
                             <td>
-                                <button type="submit" form="formModifica<%= p.getIdProdotto() %>" style="background: blue; color: white; cursor: pointer; border: none; padding: 4px 8px; border-radius: 3px;">Modifica</button>
+                                <input type="text" name="taglia" value="<%= (p.getTaglia() != null) ? p.getTaglia() : "" %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 40px; text-align: center;">
+                            </td>
+                            <td>
+                                <input type="number" step="0.01" name="prezzo" value="<%= p.getPrezzo() %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 65px;">
+                            </td>
+                            <td>
+                                <input type="number" name="quantita" value="<%= p.getQuantita() %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 45px;"> pz
+                            </td>
+                            <td>
+                                <input type="text" name="descrizione" value="<%= (p.getDescrizione() != null) ? p.getDescrizione() : "" %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 150px;">
+                            </td>
+                            <td>
+                                <button type="submit" form="formModifica<%= p.getIdProdotto() %>" style="background: blue; color: white; cursor: pointer; border: none; padding: 4px 8px; border-radius: 3px; font-weight: bold;">Modifica</button>
                                 
                                 <a href="AdminServlet?azioneProdotto=elimina&id=<%= p.getIdProdotto() %>" onclick="return confirm('Eliminare questa maglia?');" style="text-decoration: none;">
-                                    <button type="button" style="background: red; color: white; cursor: pointer; border: none; padding: 4px 8px; border-radius: 3px; margin-left: 5px;">Elimina</button>
+                                    <button type="button" style="background: red; color: white; cursor: pointer; border: none; padding: 4px 8px; border-radius: 3px; margin-left: 5px; font-weight: bold;">Elimina</button>
                                 </a>
                             </td>
                         </tr>
@@ -134,11 +158,11 @@
                     }
                 } else {
             %>
-                    <tr><td colspan="6">Nessun prodotto attivo nel database.</td></tr>
+                    <tr><td colspan="10">Nessun prodotto attivo nel database.</td></tr>
             <% } %>
-
         </tbody>
     </table>
+
 
     
     <h3>2. Visualizzazione Ordini per Data e per Cliente</h3>
