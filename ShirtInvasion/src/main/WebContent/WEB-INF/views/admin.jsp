@@ -80,14 +80,21 @@
    
     <h3>1. Gestione Catalogo Articoli (Aggiungi, Elimina, Modifica)</h3>
     
-<form action="AdminServlet?azioneProdotto=inserisci" method="post" style="background: #f4f4f4; padding: 10px; margin-bottom: 20px; display: inline-block;">
-        <strong>Nuovo Articolo:</strong> 
-        <input type="text" name="squadra" placeholder="Squadra" required>
-        <input type="text" name="nome" placeholder="Modello" required>
-        <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required>
-        <input type="number" name="quantita" placeholder="Stock" required>
-        <button type="submit" style="background: green; color: white;">Salva</button>
+    <form action="AdminServlet?azioneProdotto=inserisci" method="post" style="background: #f4f4f4; padding: 12px; margin-bottom: 20px; border-radius: 5px;">
+        <strong style="display: block; margin-bottom: 8px;">Nuovo Articolo Completo:</strong>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+            <input type="text" name="squadra" placeholder="Squadra" required style="width: 130px;">
+            <input type="text" name="nome" placeholder="Modello/Nome" required style="width: 130px;">
+            <input type="text" name="stagione" placeholder="Stagione (es. 2026/27)" style="width: 130px;">
+            <input type="text" name="marca" placeholder="Marca" style="width: 90px;">
+            <input type="text" name="taglia" placeholder="Taglia" style="width: 60px;">
+            <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required style="width: 80px;">
+            <input type="number" name="quantita" placeholder="Stock" required style="width: 60px;">
+            <input type="text" name="descrizione" placeholder="Descrizione maglia..." style="width: 180px;">
+            <button type="submit" style="background: green; color: white; border: none; padding: 6px 12px; border-radius: 3px; cursor: pointer; font-weight: bold;">Salva</button>
+        </div>
     </form>
+
 
         <table border="1" style="width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 40px;">
         <thead style="background: #eee;">
