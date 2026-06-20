@@ -77,7 +77,7 @@
                 <button type="submit" class="btn-svuota" style="background: none; border: 1px solid #ccc; padding: 10px; cursor: pointer;">Svuota carrello</button>
             </form>
 
-            <a href="<%= request.getContextPath() %>/checkout" class="btn-checkout" style="background-color: #00bcd4; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; display: inline-block;">Procedi al checkout</a>
+           <a href="<%= request.getContextPath() %>/CarrelloServlet?azione=checkout" class="btn-checkout" style="background-color: #00bcd4; color: white; padding: 12px 25px; text-decoration: none; border-radius: 4px; display: inline-block;">Procedi al checkout</a>
         </div>
     <%
         } // Fine del blocco else
