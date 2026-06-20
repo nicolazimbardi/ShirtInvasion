@@ -93,7 +93,7 @@
             <input type="text" name="taglia" placeholder="Taglia" style="width: 60px;">
             <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required style="width: 80px;">
             <input type="number" name="quantita" placeholder="Stock" required style="width: 60px;">
-            <input type="text" name="descrizione" placeholder="Descrizione maglia..." style="width: 180px;">
+            <textarea name="descrizione" placeholder="Descrizione dettagliata maglia..." style="width: 200px; height: 24px; font-family: Arial, sans-serif; font-size: 13px; padding: 4px; resize: vertical; box-sizing: border-box;"></textarea>
             <button type="submit" style="background: green; color: white; border: none; padding: 6px 12px; border-radius: 3px; cursor: pointer; font-weight: bold;">Salva</button>
         </div>
     </form>
@@ -144,8 +144,7 @@
                                 <input type="number" name="quantita" value="<%= p.getQuantita() %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 45px;"> pz
                             </td>
                             <td>
-                                <input type="text" name="descrizione" value="<%= (p.getDescrizione() != null) ? p.getDescrizione() : "" %>" form="formModifica<%= p.getIdProdotto() %>" style="width: 150px;">
-                            </td>
+<textarea name="descrizione" form="formModifica<%= p.getIdProdotto() %>" style="width: 180px; height: 40px; font-family: Arial, sans-serif; font-size: 12px; resize: vertical;"><%= (p.getDescrizione() != null) ? p.getDescrizione() : "" %></textarea>                            </td>
                             <td>
                                 <button type="submit" form="formModifica<%= p.getIdProdotto() %>" style="background: blue; color: white; cursor: pointer; border: none; padding: 4px 8px; border-radius: 3px; font-weight: bold;">Modifica</button>
                                 
