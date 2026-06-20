@@ -76,7 +76,11 @@
 
     <h2>Pannello di Controllo Amministratore 🛠️</h2>
     
-<p>Admin: <%= utenteInSessione.getNome() %> <%= utenteInSessione.getCognome() %> | <a href="${pageContext.request.contextPath}/">Home</a></p> 
+    <p>
+        Admin: <strong><%= utenteInSessione.getNome() %> <%= utenteInSessione.getCognome() %></strong> | 
+        <a href="${pageContext.request.contextPath}/">Home</a> | 
+        <a href="LogoutServlet" style="color: red; font-weight: bold; text-decoration: none;">Logout 🚪</a>
+    </p>
 
 
 

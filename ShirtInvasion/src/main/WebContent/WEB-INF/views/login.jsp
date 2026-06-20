@@ -33,7 +33,13 @@
         
         <p style="margin-top: 15px; font-size: 14px;">
             <a href="${pageContext.request.contextPath}/">Torna alla Home</a>
+            
         </p>
+                <p style="margin-top: 15px; font-size: 14px; color: #555;">
+            Non sei ancora registrato? <br>
+            <a href="${pageContext.request.contextPath}/RegistrazioneServlet" style="color: #0056b3; font-weight: bold; text-decoration: none;">Clicca qui per registrarti</a>
+        </p>
+        
     </div>
 
 </body>
