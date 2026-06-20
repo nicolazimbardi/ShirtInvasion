@@ -19,7 +19,7 @@
         <nav class="nav-bar">
             <ul>
                 <li><a href="${pageContext.request.contextPath}/carrello">Il mio Carrello</a></li>
-                <li><a href="${pageContext.request.contextPath}/login">Accedi / Registrati</a></li>
+                <li><a href="${pageContext.request.contextPath}/LoginServlet">Accedi / Registrati</a></li>
             </ul>
         </nav>
     </header>

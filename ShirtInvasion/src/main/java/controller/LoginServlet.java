@@ -26,8 +26,15 @@ public class LoginServlet extends HttpServlet {
         if (utenteLoggato != null) {
             HttpSession session = request.getSession();
             session.setAttribute("utente", utenteLoggato);
-            response.sendRedirect(request.getContextPath() + "/");
-        } else {
+            
+            if ("ADMIN".equals(utenteLoggato.getRuolo())) {
+                response.sendRedirect(request.getContextPath() + "/AdminServlet");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/");
+            }
+        }
+
+        else {
             request.setAttribute("messaggioErrore", "Email o password errate!");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
@@ -36,5 +43,5 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-    }
+    } 
 }
