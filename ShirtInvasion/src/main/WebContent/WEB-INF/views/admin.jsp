@@ -73,7 +73,7 @@
    
     <h3>1. Gestione Catalogo Articoli (Aggiungi, Elimina, Modifica)</h3>
     
-    <form action="<%= request.getRequestURI() %>?azioneProdotto=inserisci" method="post" style="background: #f4f4f4; padding: 10px; margin-bottom: 20px; display: inline-block;">
+<form action="${pageContext.request.contextPath}/AdminServlet?azioneProdotto=inserisci" method="post" style="background: #f4f4f4; padding: 10px; margin-bottom: 20px; display: inline-block;">
         <strong>Nuovo Articolo:</strong> 
         <input type="text" name="squadra" placeholder="Squadra" required>
         <input type="text" name="nome" placeholder="Modello" required>
@@ -110,8 +110,7 @@
                             <td>
                                 <button type="submit" form="formModifica<%= p.getIdProdotto() %>" style="background: blue; color: white; cursor: pointer;">Modifica</button>
                                 
-                                <a href="<%= request.getRequestURI() %>?azioneProdotto=elimina&id=<%= p.getIdProdotto() %>" onclick="return confirm('Eliminare?');">
-                                    <button type="button" style="background: red; color: white; cursor: pointer;">Elimina</button>
+ <a href="${pageContext.request.contextPath}/AdminServlet?azioneProdotto=elimina&id=<%= p.getIdProdotto() %>" onclick="return confirm('Eliminare?');">                                    <button type="button" style="background: red; color: white; cursor: pointer;">Elimina</button>
                                 </a>
                             </td>
                         </tr>
@@ -128,14 +127,12 @@
     
     <h3>2. Visualizzazione Ordini per Data e per Cliente</h3>
     
-    <form action="<%= request.getRequestURI() %>" method="get" style="background: #eef; padding: 10px; margin-bottom: 20px;">
-        <label>Cliente (ID/Email):</label> 
+<form action="${pageContext.request.contextPath}/AdminServlet" method="get" style="background: #eef; padding: 10px; margin-bottom: 20px;">        <label>Cliente (ID/Email):</label> 
         <input type="text" name="filtroCliente" value="<%= (filtroCliente != null) ? filtroCliente : "" %>">
         <label>Da:</label> <input type="date" name="dataInizio" value="<%= (dataInizio != null) ? dataInizio : "" %>">
         <label>A:</label> <input type="date" name="dataFine" value="<%= (dataFine != null) ? dataFine : "" %>">
         <button type="submit">Filtra</button>
-        <a href="<%= request.getRequestURI() %>"><button type="button">Azzera</button></a>
-    </form>
+<a href="${pageContext.request.contextPath}/AdminServlet"><button type="button">Azzera</button></a>    </form>
 
     <table border="1" style="width: 100%; text-align: left; border-collapse: collapse; padding: 6px;">
         <thead style="background: #ddd;">
