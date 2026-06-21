@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Prodotto" %>
 <%@ page import="model.Utente" %>
+<%@ page import="model.Carrello" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +21,13 @@
         <nav class="nav-bar">
             <ul>
                 <% 
+                    // Recupero del carrello dalla sessione per il conteggio degli articoli
+                    Carrello carrelloSession = (Carrello) session.getAttribute("carrello");
+                    int numeroArticoli = 0;
+                    if (carrelloSession != null && carrelloSession.getElementi() != null) {
+                        numeroArticoli = carrelloSession.getElementi().size();
+                    }
+
                     Utente utenteLoggato = (Utente) session.getAttribute("utente");
                     if (utenteLoggato != null) { 
                 %>
@@ -30,7 +38,14 @@
                             <% } %>
                         </li>
                         
-                        <li><a href="${pageContext.request.contextPath}/CarrelloServlet">Il mio Carrello 🛒</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/CarrelloServlet" class="cart-nav-link">
+                                Il mio Carrello 🛒
+                                <% if (numeroArticoli > 0) { %>
+                                    <span class="cart-badge"><%= numeroArticoli %></span>
+                                <% } %>
+                            </a>
+                        </li>
                         
                         <% if ("ADMIN".equals(utenteLoggato.getRuolo())) { %>
                             <li><a href="${pageContext.request.contextPath}/AdminServlet" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
@@ -40,7 +55,14 @@
                 <% 
                     } else { 
                 %>
-                        <li><a href="${pageContext.request.contextPath}/CarrelloServlet">Il mio Carrello 🛒</a></li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/CarrelloServlet" class="cart-nav-link">
+                                Il mio Carrello 🛒
+                                <% if (numeroArticoli > 0) { %>
+                                    <span class="cart-badge"><%= numeroArticoli %></span>
+                                <% } %>
+                            </a>
+                        </li>
                         <li><a href="${pageContext.request.contextPath}/LoginServlet" style="font-weight: bold;">Accedi</a></li>
                         <li><a href="${pageContext.request.contextPath}/RegistrazioneServlet" style="font-weight: bold;">Registrati</a></li>
                 <% 
@@ -122,6 +144,23 @@
     <footer class="main-footer">
         <p>&copy; 2026 ShirtInvasion. Tutti i diritti riservati. Sviluppato in Java Web MVC.</p>
     </footer>
+
+    <%-- SCRIPT PER MANTENERE LA POSIZIONE DELLO SCROLL AL CLICK DI AGGIUNGI --%>
+    <script>
+        document.querySelectorAll('.btn-add-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                localStorage.setItem('catalogoScrollPos', window.scrollY);
+            });
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const scrollPos = localStorage.getItem('catalogoScrollPos');
+            if (scrollPos) {
+                window.scrollTo(0, parseInt(scrollPos));
+                localStorage.removeItem('catalogoScrollPos');
+            }
+        });
+    </script>
 
 </body>
 </html>

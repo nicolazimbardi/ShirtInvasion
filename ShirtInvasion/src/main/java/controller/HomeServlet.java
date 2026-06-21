@@ -10,20 +10,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import dao.ProdottoDAO;
 import model.Prodotto;
 
-@WebServlet("") 
+@WebServlet(urlPatterns = {"/home", ""}) 
 public class HomeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-       
         ProdottoDAO prodottoDao = new ProdottoDAO();
         List<Prodotto> listaProdotti = prodottoDao.doRetrieveAll();
         
-        
         request.setAttribute("prodotti", listaProdotti);
-        
         
         request.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(request, response);
     }

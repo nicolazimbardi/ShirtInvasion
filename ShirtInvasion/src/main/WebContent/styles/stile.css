@@ -486,3 +486,27 @@ h2 {
         text-align: center;
     }
 }
+    /* ==========================================================================
+   11. BADGE DEL CARRELLO NEL MENU
+   ========================================================================== */
+.cart-nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cart-badge {
+    background-color: #e74c3c; /* Rosso acceso stile notifica */
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+    position: absolute;
+    top: -8px;
+    right: -15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    min-width: 20px;
+    text-align: center;
+}

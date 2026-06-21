@@ -11,7 +11,7 @@ import dao.ProdottoDAO;
 import dao.OrdineDAO;
 import model.Carrello;
 import model.Prodotto;
-import model.Utente; // Import necessario
+import model.Utente;
 
 @WebServlet("/CarrelloServlet")
 public class CarrelloServlet extends HttpServlet {
@@ -38,14 +38,12 @@ public class CarrelloServlet extends HttpServlet {
             
             // --- 1. CONTROLLO ADMIN: Non può modificare il carrello ---
             if ("ADMIN".equals(ruolo) && (azione.equals("aggiungi") || azione.equals("rimuovi") || azione.equals("svuota") || azione.equals("checkout"))) {
-                // Reindirizziamo l'admin al pannello di controllo se prova ad acquistare
                 response.sendRedirect(request.getContextPath() + "/AdminServlet?msg=adminNonPuòComprare");
                 return;
             }
 
             // --- 2. CONTROLLO OSPITE: Non può fare checkout ---
             if (azione.equals("checkout") && "GUEST".equals(ruolo)) {
-                // Reindirizziamo l'ospite alla pagina di Login
                 response.sendRedirect(request.getContextPath() + "/LoginServlet?msg=deviEffettuareIlLoginPerAcquistare");
                 return;
             }
@@ -57,13 +55,22 @@ public class CarrelloServlet extends HttpServlet {
                 if (p != null) {
                     carrello.aggiungiProdotto(p);
                 }
+                
+                // Rimanere sulla stessa pagina senza andare al carrello
+                String referer = request.getHeader("referer");
+                if (referer != null && !referer.isEmpty()) {
+                    response.sendRedirect(referer);
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/home");
+                }
+                return; // Interrompe l'esecuzione evitando il forward a carrello.jsp
+                
             } else if (azione.equals("rimuovi")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 carrello.rimuoviProdotto(id);
             } else if (azione.equals("svuota")) {
                 carrello.svuota();
             } else if (azione.equals("checkout")) {
-                // Procedura di checkout solo per utenti registrati
                 if (carrello != null && !carrello.getElementi().isEmpty()) {
                     OrdineDAO ordineDao = new OrdineDAO();
                     boolean inserito = ordineDao.doSave(carrello, utenteLoggato.getIdUtente());
@@ -77,7 +84,7 @@ public class CarrelloServlet extends HttpServlet {
             }
         }
         
-        // Se non è stato fatto il checkout, mostra normalmente la pagina del carrello
+        // Mostra normalmente la pagina del carrello per le altre azioni (visualizza, rimuovi, svuota)
         request.getRequestDispatcher("/WEB-INF/views/carrello.jsp").forward(request, response);
     }
 
