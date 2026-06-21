@@ -110,11 +110,10 @@ h2 {
 }
 
 /* ==========================================================================
-   5. GRIGLIA E CARD PRODOTTI (Risolto il bug dell'allineamento e dell'overflow)
+   5. GRIGLIA E CARD PRODOTTI
    ========================================================================== */
 .products-grid, .prodotti-grid {
     display: grid;
-    /* Dispone le maglie in una griglia flessibile a 2 colonne larghe, o 1 colonna se lo schermo è piccolo */
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     gap: 25px;
     margin-bottom: 50px;
@@ -126,8 +125,6 @@ h2 {
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-    /* Sistema a due colonne: 160px fissi per l'immagine a sinistra, tutto il resto a destra */
     display: grid;
     grid-template-columns: 160px 1fr;
     gap: 10px 20px;
@@ -139,10 +136,9 @@ h2 {
     box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 
-/* Box per l'Immagine Placeholder (Colonna 1, bloccata a sinistra) */
 .product-img-placeholder, .card-img-placeholder, .product-card img, .card-prodotto img {
     grid-column: 1;
-    grid-row: 1 / span 6; /* Si estende in altezza per coprire tutte le righe di testo */
+    grid-row: 1 / span 6;
     width: 160px;
     height: 160px;
     background-color: #f8f8f8;
@@ -151,7 +147,7 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 65px; /* Dimensione dell'emoji della maglietta 👕 */
+    font-size: 65px;
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -162,13 +158,11 @@ h2 {
     object-fit: cover;
 }
 
-/* Forza TUTTI i testi e dettagli ad incolonnarsi nella Colonna 2 (a destra dell'immagine) */
 .product-card > *:not(img):not(.product-img-placeholder):not(.card-img-placeholder),
 .card-prodotto > *:not(img):not(.product-img-placeholder):not(.card-img-placeholder) {
     grid-column: 2;
 }
 
-/* Formattazione elementi di testo */
 .product-card h3, .card-prodotto h3 {
     font-size: 20px;
     color: #022340;
@@ -195,7 +189,6 @@ h2 {
     margin-bottom: 5px;
 }
 
-/* Contenitore interno per Prezzo + Bottone (Se presente nell'HTML) */
 .card-footer {
     grid-column: 2;
     display: flex;
@@ -207,8 +200,6 @@ h2 {
     width: 100%;
 }
 
-/* Se prezzo e bottone sono elementi sciolti e non dentro un .card-footer, 
-   questo blocco si assicura che stiano comunque affiancati correttamente in fondo */
 .price {
     font-size: 22px;
     font-weight: 700;
@@ -219,7 +210,7 @@ h2 {
 
 .btn-add-cart {
     grid-column: 2;
-    justify-self: end; /* Spinge il bottone a destra */
+    justify-self: end;
     background-color: #00a8ff;
     color: #FFFFFF;
     text-decoration: none;
@@ -281,7 +272,7 @@ h2 {
 }
 
 /* ==========================================================================
-   8. RESPONSIVE PER SMARTPHONE
+   8. RESPONSIVE PER SMARTPHONE (HOMEPAGE)
    ========================================================================== */
 @media (max-width: 600px) {
     .products-grid, .prodotti-grid {
@@ -289,7 +280,7 @@ h2 {
     }
     
     .product-card, .card-prodotto {
-        grid-template-columns: 1fr; /* Torna a 1 colonna verticale su mobile */
+        grid-template-columns: 1fr; 
         text-align: center;
     }
     
@@ -312,5 +303,186 @@ h2 {
     .btn-add-cart {
         justify-self: center;
         width: 100%;
+    }
+} /* <--- HO AGGIUNTO QUESTA PARENTESI CHE MANCAVA! */
+
+/* ==========================================================================
+   9. SEZIONE CARRELLO (LAYOUT A ELENCO)
+   ========================================================================== */
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.cart-item {
+    background-color: #FFFFFF;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center; 
+    gap: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.cart-thumb-box {
+    width: 120px; 
+    height: 120px;
+    background-color: #f8f8f8;
+    border: 1px solid #eeeeee;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px; 
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.cart-thumb-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.cart-item-details {
+    flex-grow: 1; 
+}
+
+.cart-item-details h3 {
+    font-size: 20px;
+    color: #022340;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.cart-item-details p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.cart-item-right {
+    text-align: right;
+    min-width: 120px;
+}
+
+.cart-item-price {
+    font-size: 22px;
+    font-weight: bold;
+    color: #022340;
+    margin-bottom: 10px;
+}
+
+.btn-remove-item {
+    background-color: #ffe6e6;
+    color: #cc0000;
+    border: 1px solid #ffcccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.btn-remove-item:hover {
+    background-color: #ffcccc;
+}
+
+.cart-summary-box {
+    background-color: #FFFFFF;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-top: 4px solid #00a8ff; 
+}
+
+.cart-total-text h3 {
+    font-size: 24px;
+    color: #022340;
+}
+
+.cart-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-empty-cart {
+    background-color: white;
+    color: #555;
+    border: 1px solid #ccc;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-empty-cart:hover {
+    background-color: #f4f4f4;
+}
+
+.btn-checkout-cart {
+    background-color: #00a8ff;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: 0.3s;
+    border: none;
+    display: inline-block;
+}
+
+.btn-checkout-cart:hover {
+    background-color: #0568A6;
+    color: #FFFFFF;
+}
+
+/* ==========================================================================
+   10. RESPONSIVE PER SMARTPHONE (CARRELLO)
+   ========================================================================== */
+@media (max-width: 600px) {
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .cart-item-right {
+        align-items: center;
+        width: 100%;
+        border-top: 1px solid #eeeeee;
+        padding-top: 15px;
+        text-align: center;
+    }
+    
+    .cart-summary-box {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .cart-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-empty-cart, .btn-checkout-cart {
+        width: 100%;
+        text-align: center;
     }
 }
