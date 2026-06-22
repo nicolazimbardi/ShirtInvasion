@@ -4,25 +4,30 @@ import java.io.Serializable;
 
 public class Prodotto implements Serializable {
 
-    
-	private static final long serialVersionUID = 1L;
-	private int idProdotto;
+    private static final long serialVersionUID = 1L;
+    private int idProdotto;
     private String nome;
     private String squadra;
     private String stagione;
     private String marca;
     private String taglia;
     private double prezzo;
-    private int quantita;
+    
+    // Questa è la quantità in MAGAZZINO (nel database)
+    private int quantita; 
+    
     private String descrizione;
     private String immagine;
     private boolean attivo;
 
-    
+    // --- NUOVA VARIABILE AGGIUNTA PER IL CARRELLO ---
+    // Impostata di default a 1. Rappresenta quante copie di questa maglia l'utente ha messo nel carrello
+    private int quantitaCarrello = 1;
+
     public Prodotto() {}
 
     public Prodotto(int idProdotto, String nome, String squadra, String stagione, String marca, String taglia,
-			double prezzo, int quantita, String descrizione, String immagine, boolean attivo) {
+            double prezzo, int quantita, String descrizione, String immagine, boolean attivo) {
         this.idProdotto = idProdotto;
         this.nome = nome;
         this.squadra = squadra;
@@ -36,7 +41,8 @@ public class Prodotto implements Serializable {
         this.attivo = attivo;
     }
 
-    
+    // --- GETTER E SETTER ORIGINALI ---
+
     public int getIdProdotto() { return idProdotto; }
     public void setIdProdotto(int idProdotto) { this.idProdotto = idProdotto; }
 
@@ -69,6 +75,11 @@ public class Prodotto implements Serializable {
 
     public boolean isAttivo() { return attivo; }
     public void setAttivo(boolean attivo) { this.attivo = attivo; }
+
+    // --- NUOVI GETTER E SETTER PER IL CARRELLO ---
+
+    public int getQuantitaCarrello() { return quantitaCarrello; }
+    public void setQuantitaCarrello(int quantitaCarrello) { this.quantitaCarrello = quantitaCarrello; }
 
     @Override
     public String toString() {

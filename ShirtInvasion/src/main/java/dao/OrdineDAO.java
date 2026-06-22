@@ -31,46 +31,42 @@ public class OrdineDAO {
         PreparedStatement psDettaglio = null;
         ResultSet rs = null;
 
-        // Query per l'ordine (data e stato si compilano da soli con i default del tuo DB)
         String queryOrdine = "INSERT INTO ordini (id_utente, totale) VALUES (?, ?)";
-        // Query per i dettagli
-        String queryDettaglio = "INSERT INTO dettagli_ordine (id_ordine, id_prodotto, nome_prodotto, prezzo_unitario, quantita) VALUES (?, ?, ?, ?, 1)";
+        // Inserito il quinto parametro (?) per la Quantità
+        String queryDettaglio = "INSERT INTO dettagli_ordine (id_ordine, id_prodotto, nome_prodotto, prezzo_unitario, quantita) VALUES (?, ?, ?, ?, ?)";
 
         try {
             conn = ds.getConnection();
-            // Disabilitiamo l'autocommit per fare una transazione sicura
             conn.setAutoCommit(false);
 
-            // 1. SALVIAMO L'ORDINE GENERALE
-            // RETURN_GENERATED_KEYS ci permette di recuperare l'id_ordine appena generato dal DB
             psOrdine = conn.prepareStatement(queryOrdine, Statement.RETURN_GENERATED_KEYS);
             psOrdine.setInt(1, idUtente);
             psOrdine.setDouble(2, carrello.getPrezzoTotale());
             psOrdine.executeUpdate();
 
-            // Recuperiamo l'ID dell'ordine
             rs = psOrdine.getGeneratedKeys();
             int idOrdineGenerato = 0;
             if (rs.next()) {
                 idOrdineGenerato = rs.getInt(1);
             }
 
-            // 2. SALVIAMO I DETTAGLI PER OGNI MAGLIA NEL CARRELLO
             psDettaglio = conn.prepareStatement(queryDettaglio);
             for (Prodotto p : carrello.getElementi()) {
                 psDettaglio.setInt(1, idOrdineGenerato);
                 psDettaglio.setInt(2, p.getIdProdotto());
                 psDettaglio.setString(3, p.getNome());
                 psDettaglio.setDouble(4, p.getPrezzo());
+                
+                // Salviamo la VERA quantità dal carrello
+                psDettaglio.setInt(5, p.getQuantitaCarrello()); 
+                
                 psDettaglio.executeUpdate();
             }
 
-            // Tutto è andato a buon fine: Confermiamo il salvataggio!
             conn.commit();
             return true;
 
         } catch (SQLException e) {
-            // Se c'è un errore, annulliamo tutto (Rollback) per non lasciare dati a metà
             if (conn != null) {
                 try {
                     conn.rollback();
@@ -81,7 +77,6 @@ public class OrdineDAO {
             e.printStackTrace();
             return false;
         } finally {
-            // Chiusura sicura delle risorse
             try {
                 if (rs != null) rs.close();
                 if (psDettaglio != null) psDettaglio.close();
