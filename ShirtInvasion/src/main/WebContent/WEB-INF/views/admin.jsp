@@ -196,10 +196,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="5" class="text-empty">Nessun ordine presente nel database.</td>
-                        </tr>
-                    </tbody>
+    <% 
+        List<String[]> ordiniClienti = (List<String[]>) request.getAttribute("listaOrdiniSenzaClasse");
+        if (ordiniClienti != null && !ordiniClienti.isEmpty()) {
+            for (String[] ord : ordiniClienti) {
+    %>
+                <tr>
+                    <td><%= ord[0] %></td> <!-- ID Ordine -->
+                    <td><%= ord[1] %></td> <!-- Email Cliente -->
+                    <td><%= ord[2] %></td> <!-- Data Ordine -->
+                    <td><strong><%= ord[3] %></strong></td> <!-- Totale -->
+                    <td><%= ord[4] %></td> <!-- Stato -->
+                </tr>
+    <% 
+            }
+        } else {
+    %>
+            <tr>
+                <td colspan="5" class="text-empty">Nessun ordine presente nel database.</td>
+            </tr>
+    <% 
+        }
+    %>
+</tbody>
+
+
                 </table>
             </div>
         </section>
