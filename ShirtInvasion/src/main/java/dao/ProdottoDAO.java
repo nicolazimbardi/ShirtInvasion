@@ -130,7 +130,7 @@ public class ProdottoDAO {
     }
 
     public boolean doDelete(int idProdotto) {
-        String query = "UPDATE prodotti SET attivo = 0 WHERE id_prodotto = ?";
+        String query = "UPDATE prodotti SET attivo = false WHERE id_prodotto = ?";
         try (Connection conn = ds.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             
@@ -141,4 +141,5 @@ public class ProdottoDAO {
             return false;
         }
     }
+
 }
