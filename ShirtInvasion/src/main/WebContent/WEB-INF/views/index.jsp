@@ -92,7 +92,7 @@
                             <div class="product-card">
                                 <div class="product-img-placeholder">
                                     <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
-                                        <img src="<%= p.getImmagine() %>" alt="<%= p.getNome() %>" style="max-height:100%; max-width:100%;">
+                                        <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="<%= p.getNome() %>">
                                     <% } else { %>
                                         👕
                                     <% } %>
@@ -106,7 +106,6 @@
                                 <div class="card-footer">
                                     <span class="price"><%= String.format("%.2f", p.getPrezzo()) %> €</span>
                                     
-                                    <%-- LOGICA DI CONTROLLO: L'ADMIN NON PUO' AGGIUNGERE AL CARRELLO --%>
                                     <% if (utenteLoggato == null || !"ADMIN".equals(utenteLoggato.getRuolo())) { %>
                                         <a class="btn-add-cart" href="CarrelloServlet?azione=aggiungi&id=<%= p.getIdProdotto() %>">Aggiungi</a>
                                     <% } else { %>
@@ -133,7 +132,7 @@
                 <p>Usa il codice sconto <strong>BOMBER10</strong> alla cassa per ricevere il 10% di sconto sul primo acquisto!</p>
             </div>
             
-            <div class="widget-box bg-alt">
+            <div class="widget-box">
                 <h3>📦 Spedizione Express</h3>
                 <p>Spedizione totalmente gratuita per ordini superiori a 50€. Ricevi la maglia a casa entro 24/48 ore.</p>
             </div>

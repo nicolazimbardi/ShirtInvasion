@@ -155,7 +155,8 @@ h2 {
 .product-img-placeholder img, .card-img-placeholder img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Adatta le maglie senza tagliarle o distorcerle */
+    background-color: #ffffff;
 }
 
 .product-card > *:not(img):not(.product-img-placeholder):not(.card-img-placeholder),
@@ -259,7 +260,84 @@ h2 {
 }
 
 /* ==========================================================================
-   7. FOOTER
+   7. PANNELLO AMMINISTRATORE (NUOVO ARTICOLO)
+   ========================================================================== */
+.admin-form-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.admin-form-row input[type="text"],
+.admin-form-row input[type="number"],
+.admin-form-row select {
+    padding: 6px 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.admin-form-row select {
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.btn-admin-save {
+    background-color: #28a745;
+    color: #ffffff;
+    padding: 8px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.btn-admin-save:hover {
+    background-color: #218838;
+}
+
+/* Box per l'anteprima visiva della maglia */
+.preview-gallery-container {
+    margin-top: 15px;
+    display: none; /* Gestito via JavaScript */
+    align-items: center;
+    gap: 15px;
+    background: #ffffff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border-left: 4px solid #00a8ff;
+}
+
+.preview-gallery-container p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 14px;
+    color: #555555;
+}
+
+.preview-image-frame {
+    border: 1px solid #dddddd;
+    padding: 4px;
+    background: #ffffff;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.preview-image-frame img {
+    max-height: 100px;
+    width: auto;
+    display: block;
+}
+
+/* ==========================================================================
+   8. FOOTER
    ========================================================================== */
 .main-footer {
     background-color: #022340;
@@ -272,10 +350,10 @@ h2 {
 }
 
 /* ==========================================================================
-   8. RESPONSIVE PER SMARTPHONE (HOMEPAGE)
+   9. RESPONSIVE PER SMARTPHONE (HOMEPAGE)
    ========================================================================== */
 @media (max-width: 600px) {
-    .products-grid, .prodotti-grid {
+    .products-grid, .proditti-grid {
         grid-template-columns: 1fr;
     }
     
@@ -304,10 +382,10 @@ h2 {
         justify-self: center;
         width: 100%;
     }
-} /* <--- HO AGGIUNTO QUESTA PARENTESI CHE MANCAVA! */
+}
 
 /* ==========================================================================
-   9. SEZIONE CARRELLO (LAYOUT A ELENCO)
+   10. SEZIONE CARRELLO (LAYOUT A ELENCO)
    ========================================================================== */
 .cart-list {
     display: flex;
@@ -342,10 +420,10 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 60px; 
-    flex-shrink: 0;
-    overflow: hidden;
+    font-size: 60px;
 }
+
+
 
 .cart-thumb-box img {
     width: 100%;
@@ -508,5 +586,141 @@ h2 {
     right: -15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     min-width: 20px;
-    text-align: center;
+    text-align: center;	
 }
+/* ==========================================================================
+   11. AFFINAMENTI STRUTTURALI PANNELLO ADMIN (SENZA INLINE CSS)
+   ========================================================================== */
+.main-container.admin-page {
+    margin-top: 30px;
+}
+
+.admin-section {
+    margin-bottom: 40px;
+}
+
+.admin-section h2 {
+    font-size: 22px;
+    border-bottom: 2px solid #00a8ff;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.admin-section-title-sub {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Dimensioni specifiche dei campi di input della riga admin */
+.admin-form-row input[name="squadra"]   { width: 110px; }
+.admin-form-row input[name="modello"]   { width: 120px; }
+.admin-form-row input[name="stagione"]  { width: 140px; }
+.admin-form-row input[name="marca"]     { width: 90px; }
+.admin-form-row input[name="taglia"]    { width: 60px; }
+.admin-form-row input[name="prezzo"]    { width: 90px; }
+.admin-form-row input[name="stock"]     { width: 70px; }
+.admin-form-row input[name="descrizione"] { width: 180px; }
+.admin-form-row select[name="immagine"] { width: 150px; }
+
+/* Messaggi di notifica dell'admin */
+.alert-msg {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Tabelle dati del pannello di controllo */
+.admin-table-wrapper {
+    overflow-x: auto;
+    margin-top: 25px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-table readiness, .admin-table th {
+    padding: 12px;
+}
+
+.admin-table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.admin-table tbody tr {
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.admin-table td {
+    padding: 12px;
+}
+
+.admin-table td.td-foto {
+    padding: 6px 12px;
+}
+
+.admin-table td.td-id {
+    font-weight: bold;
+}
+
+.admin-table td.td-desc {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.admin-table .img-mini {
+    height: 40px;
+    width: auto;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    display: block;
+}
+
+.admin-table .btn-action {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12px;
+}
+.admin-table .btn-edit { background: #007bff; margin-right: 5px; }
+.admin-table .btn-delete { background: #dc3545; }
+.admin-table .text-empty { padding: 20px; text-align: center; color: #999; font-style: italic; }
+
+/* Barra dei filtri ordini */
+.admin-filter-bar {
+    background-color: #f1f3f5;
+    padding: 12px 15px;
+    border-radius: 6px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.admin-filter-bar label { font-size: 14px; font-weight: 600; }
+.admin-filter-bar input { padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 120px; }
+.admin-filter-bar .btn-filter { background: #6c757d; color: white; padding: 6px 15px; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; }
+.admin-filter-bar .btn-reset { background: #e2e6ea; color: #333; padding: 6px 15px; border: 1px solid #ccc; border-radius: 4px; font-weight: 600; cursor: pointer; }
