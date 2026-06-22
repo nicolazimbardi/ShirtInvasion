@@ -30,7 +30,6 @@
 
     <main class="main-container admin-page">
         
-        <!-- MESSAGGI DI NOTIFICA -->
         <% 
             String msgSuccesso = (String) request.getAttribute("messaggioSuccesso");
             if (msgSuccesso != null && !msgSuccesso.isEmpty()) { 
@@ -59,7 +58,6 @@
             
             <p class="admin-section-title-sub">Nuovo Articolo Completo:</p>
             
-            <!-- FORM DI INSERIMENTO COMPILATO TRAMITE CLASSI ESTERNE -->
             <form action="${pageContext.request.contextPath}/AdminServlet" method="POST" data-context="${pageContext.request.contextPath}">
                 <div class="admin-form-row">
                     <input type="text" name="squadra" placeholder="Squadra" required>
@@ -115,50 +113,66 @@
                             <th>Azioni</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <% 
-                            List<Prodotto> catalogo = (List<Prodotto>) request.getAttribute("prodottiCatalogo"); 
-                            if (catalogo != null && !catalogo.isEmpty()) {
-                                for (Prodotto p : catalogo) {
-                        %>
-                                    <tr>
-                                        <td class="td-id"><%= p.getIdProdotto() %></td>
-                                        <td class="td-foto">
-                                            <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
-                                                <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="Maglia" class="img-mini">
-                                            <% } else { %>
-                                                
-                                            <% } %>
-                                        </td>
-                                        <td><%= p.getSquadra() %></td>
-                                        <td><%= p.getNome() %></td>
-                                        <td><%= p.getStagione() %></td>
-                                        <td><%= p.getMarca() %></td>
-                                        <td><span class="info-prodotto"><%= p.getTaglia() %></span></td>
-                                        <td><%= p.getPrezzo() %></td>
-                                        <td><%= p.getQuantita() %> pz</td>
-                                        <td class="td-desc"><%= p.getDescrizione() %></td>
-                                        <td>
-                                            <a href="AdminServlet?azione=modifica&id=<%= p.getIdProdotto() %>" class="btn-action btn-edit">Modifica</a>
-                                            <a href="AdminServlet?azione=elimina&id=<%= p.getIdProdotto() %>" class="btn-action btn-delete" onclick="return confirm('Sicuro di voler eliminare questo articolo?')">Elimina</a>
-                                        </td>
-                                    </tr>
-                        <% 
-                                }
-                            } else {
-                        %>
-                                <tr>
-                                    <td colspan="11" class="text-empty">Nessun prodotto censito nel catalogo.</td>
-                                </tr>
-                        <% 
-                            }
-                        %>
-                    </tbody>
+             <tbody>
+    <% 
+        List<Prodotto> catalogo = (List<Prodotto>) request.getAttribute("prodottiCatalogo"); 
+        if (catalogo != null && !catalogo.isEmpty()) {
+            for (Prodotto p : catalogo) {
+    %>
+                <tr>
+                    <td class="td-id">
+                        <%= p.getIdProdotto() %>
+                        <form id="formModifica<%= p.getIdProdotto() %>" action="AdminServlet?azioneProdotto=modifica&id=<%= p.getIdProdotto() %>" method="POST" style="display:none;"></form>
+                    </td>
+                    <td class="td-foto">
+                        <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
+                            <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="Maglia" class="img-mini">
+                        <% } else { %>
+                            👕
+                        <% } %>
+                    </td>
+                    <td><%= p.getSquadra() %></td>
+                    <td><%= p.getNome() %></td>
+                    
+                    <td>
+                        <input type="text" name="stagione" value="<%= p.getStagione() %>" form="formModifica<%= p.getIdProdotto() %>">
+                    </td>
+                    <td>
+                        <input type="text" name="marca" value="<%= p.getMarca() %>" form="formModifica<%= p.getIdProdotto() %>">
+                    </td>
+                    <td>
+                        <input type="text" name="taglia" value="<%= p.getTaglia() %>" form="formModifica<%= p.getIdProdotto() %>">
+                    </td>
+                    <td>
+                        <input type="number" step="0.01" name="prezzo" value="<%= p.getPrezzo() %>" form="formModifica<%= p.getIdProdotto() %>">
+                    </td>
+                    <td>
+                        <input type="number" name="stock" value="<%= p.getQuantita() %>" form="formModifica<%= p.getIdProdotto() %>">
+                    </td>
+                    <td class="td-desc">
+                        <input type="text" name="descrizione" value="<%= p.getDescrizione() %>" form="formModifica<%= p.getIdProdotto() %>">
+                    </td>
+                    <td>
+                        <button type="submit" form="formModifica<%= p.getIdProdotto() %>" class="btn-action btn-edit" style="border:none; cursor:pointer;">Aggiorna</button>
+                        <a href="AdminServlet?azioneProdotto=elimina&id=<%= p.getIdProdotto() %>" class="btn-action btn-delete" onclick="return confirm('Sicuro di voler eliminare questo articolo?')">Elimina</a>
+                    </td>
+                </tr>
+    <% 
+            }
+        } else {
+    %>
+            <tr>
+                <td colspan="11" class="text-empty">Nessun prodotto censito nel catalogo.</td>
+            </tr>
+    <% 
+        }
+    %>
+</tbody>
+
                 </table>
             </div>
         </section>
 
-        <!-- SEZIONE 2: VISUALIZZAZIONE ORDINI -->
         <section class="admin-section">
             <h2>2. Visualizzazione Ordini per Data e per Cliente</h2>
             
