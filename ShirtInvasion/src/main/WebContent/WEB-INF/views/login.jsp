@@ -4,42 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>ShirtInvasion - Login</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css" type="text/css">
 </head>
-<body style="font-family: Arial, sans-serif; margin: 50px; text-align: center;">
-
-    <div style="max-width: 300px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background: #f9f9f9;">
+<body class="login-body"> <div class="login-card">
         <h2>Accedi a ShirtInvasion</h2>
         
-        <%-- Mostra il messaggio di errore se le credenziali sono errate --%>
         <% if (request.getAttribute("messaggioErrore") != null) { %>
-            <p style="color: red; font-weight: bold;"><%= request.getAttribute("messaggioErrore") %></p>
+            <p class="login-error"><%= request.getAttribute("messaggioErrore") %></p>
         <% } %>
 
         <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
-            <div style="margin-bottom: 15px; text-align: left;">
-                <label>Email:</label><br>
-                <input type="email" name="email" required style="width: 100%; padding: 5px; box-sizing: border-box;">
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" name="email" required>
             </div>
             
-            <div style="margin-bottom: 15px; text-align: left;">
-                <label>Password:</label><br>
-                <input type="password" name="password" required style="width: 100%; padding: 5px; box-sizing: border-box;">
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" name="password" required>
             </div>
             
-            <button type="submit" style="background: #0056b3; color: white; padding: 8px 15px; border: none; border-radius: 3px; cursor: pointer; width: 100%;">
-                Accedi
-            </button>
+            <button type="submit" class="btn-login">Accedi</button>
         </form>
         
-        <p style="margin-top: 15px; font-size: 14px;">
-            <a href="${pageContext.request.contextPath}/">Torna alla Home</a>
-            
-        </p>
-                <p style="margin-top: 15px; font-size: 14px; color: #555;">
-            Non sei ancora registrato? <br>
-            <a href="${pageContext.request.contextPath}/RegistrazioneServlet" style="color: #0056b3; font-weight: bold; text-decoration: none;">Clicca qui per registrarti</a>
-        </p>
-        
+        <div class="login-links">
+            <p><a href="${pageContext.request.contextPath}/home">Torna alla Home</a></p>
+            <p class="login-register-text">
+                Non sei ancora registrato? <br>
+                <a href="${pageContext.request.contextPath}/registrazione.jsp">Clicca qui per registrarti</a>
+            </p>
+        </div>
     </div>
 
 </body>

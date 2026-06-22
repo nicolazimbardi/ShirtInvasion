@@ -2,8 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+   <meta charset="UTF-8">
     <title>ShirtInvasion - Registrazione</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
 </head>
 <body style="font-family: Arial, sans-serif; margin: 40px; text-align: center;">
 

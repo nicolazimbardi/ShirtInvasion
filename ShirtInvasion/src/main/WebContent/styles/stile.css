@@ -1,8 +1,7 @@
 @charset "UTF-8";
 
-/* ==========================================================================
-   1. RESET E PALETTE COLORI
-   ========================================================================== */
+/* 1. RESET E PALETTE COLORI
+   */
 * {
     margin: 0;
     padding: 0;
@@ -483,7 +482,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 40px; /* RISOLTO: Crea una distanza minima di sicurezza tra il totale e i pulsanti */
+    gap: 40px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     border-top: 4px solid #00a8ff; 
 }
@@ -491,7 +490,7 @@ h2 {
 .cart-total-text h3 {
     font-size: 24px;
     color: #022340;
-    white-space: nowrap; /* Impedisce al totale di andare a capo */
+    white-space: nowrap;
 }
 
 .cart-actions {
@@ -500,15 +499,14 @@ h2 {
     align-items: center;
 }
 
-/* REGOLE COMUNI: Forza i due pulsanti ad avere ESATTAMENTE le stesse dimensioni */
 .btn-empty-cart, .btn-checkout-cart {
     display: inline-block;
     box-sizing: border-box;
-    height: 44px;            /* Altezza identica bloccata */
-    min-width: 180px;        /* Larghezza identica bloccata per simmetria */
-    padding: 0 20px;         
-    font-size: 14px;         /* Stessa dimensione del font */
-    line-height: 42px;       /* Centra perfettamente il testo in verticale */
+    height: 44px;
+    min-width: 180px;
+    padding: 0 20px;        
+    font-size: 14px;        
+    line-height: 42px;      
     text-align: center;
     font-weight: bold;
     border-radius: 4px;
@@ -516,10 +514,11 @@ h2 {
     text-decoration: none;
     transition: all 0.2s ease;
 }
+
 .btn-empty-cart {
     background-color: white;
     color: #555;
-    border: 1px solid #ccc; /* Il bordo occupa 1px */
+    border: 1px solid #ccc; 
 }
 
 .btn-empty-cart:hover {
@@ -531,7 +530,7 @@ h2 {
 .btn-checkout-cart {
     background-color: #00a8ff;
     color: #FFFFFF;
-    border: 1px solid #00a8ff; /* Aggiunto bordo finto dello stesso colore per pareggiare al millimetro l'altezza */
+    border: 1px solid #00a8ff; 
 }
 
 .btn-checkout-cart:hover {
@@ -540,9 +539,6 @@ h2 {
     color: #FFFFFF;
 }
 
-/* ==========================================================================
-   10. RESPONSIVE PER SMARTPHONE (CARRELLO)
-   ========================================================================== */
 @media (max-width: 600px) {
     .cart-item {
         flex-direction: column;
@@ -585,7 +581,7 @@ h2 {
 }
 
 .cart-badge {
-    background-color: #e74c3c; /* Rosso acceso stile notifica */
+    background-color: #e74c3c;
     color: white;
     font-size: 12px;
     font-weight: bold;
@@ -600,7 +596,7 @@ h2 {
 }
 
 /* ==========================================================================
-   12. AFFINAMENTI STRUTTURALI PANNELLO ADMIN (SENZA INLINE CSS)
+   12. AFFINAMENTI STRUTTURALI PANNELLO ADMIN
    ========================================================================== */
 .main-container.admin-page {
     margin-top: 30px;
@@ -624,7 +620,6 @@ h2 {
     color: #555;
 }
 
-/* Dimensioni specifiche dei campi di input della riga admin */
 .admin-form-row input[name="squadra"]   { width: 110px; }
 .admin-form-row input[name="modello"]   { width: 120px; }
 .admin-form-row input[name="stagione"]  { width: 140px; }
@@ -635,7 +630,6 @@ h2 {
 .admin-form-row input[name="descrizione"] { width: 180px; }
 .admin-form-row select[name="immagine"] { width: 150px; }
 
-/* Messaggi di notifica dell'admin */
 .alert-msg {
     padding: 12px;
     margin-bottom: 20px;
@@ -651,7 +645,6 @@ h2 {
     color: #721c24;
 }
 
-/* Tabelle dati del pannello di controllo */
 .admin-table-wrapper {
     overflow-x: auto;
     margin-top: 25px;
@@ -717,7 +710,6 @@ h2 {
 .admin-table .btn-delete { background: #dc3545; }
 .admin-table .text-empty { padding: 20px; text-align: center; color: #999; font-style: italic; }
 
-/* Barra dei filtri ordini */
 .admin-filter-bar {
     background-color: #f1f3f5;
     padding: 12px 15px;
@@ -729,20 +721,216 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* ==========================================================================
-   13. FIX FOOTER APPICCICATO SOLO PER IL CARRELLO
-   ========================================================================== */
+/* 13. FIX FOOTER APPICCICATO SOLO PER IL CARRELLO
+   */
 body.page-carrello {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Forza la pagina a prendere tutta l'altezza dello schermo */
+    min-height: 100vh;
 }
 
 body.page-carrello main, 
 body.page-carrello .main-container {
-    flex: 1; /* Spinge il footer magneticamente verso il basso */
+    flex: 1;
 }
+
 .admin-filter-bar label { font-size: 14px; font-weight: 600; }
 .admin-filter-bar input { padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 120px; }
 .admin-filter-bar .btn-filter { background: #6c757d; color: white; padding: 6px 15px; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; }
 .admin-filter-bar .btn-reset { background: #e2e6ea; color: #333; padding: 6px 15px; border: 1px solid #ccc; border-radius: 4px; font-weight: 600; cursor: pointer; }
+
+/* ==========================================================================
+   14. SCHERMATA DI LOGIN
+   ========================================================================== */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.login-card {
+    background-color: #FFFFFF;
+    max-width: 360px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.login-card h2 {
+    font-size: 24px;
+    color: #022340;
+    margin-bottom: 20px;
+}
+
+.login-error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #022340;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn-login {
+    background-color: #00a8ff;
+    color: #FFFFFF;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.btn-login:hover {
+    background-color: #0568A6;
+}
+
+.login-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-links a {
+    color: #00a8ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.login-links a:hover {
+    color: #0568A6;
+}
+
+.login-register-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666666;
+    border-top: 1px solid #eeeeee;
+    padding-top: 15px;
+}
+
+/* ==========================================================================
+   15. SCHERMATA DI REGISTRAZIONE
+   ========================================================================== */
+.register-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    padding: 20px;
+}
+
+.register-card {
+    background-color: #FFFFFF;
+    max-width: 450px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.register-card h2 {
+    font-size: 24px;
+    color: #022340;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.register-error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.register-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.btn-register {
+    background-color: #00a8ff;
+    color: #FFFFFF;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+.btn-register:hover {
+    background-color: #0568A6;
+}
+
+.register-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.register-links a {
+    color: #00a8ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.register-links a:hover {
+    color: #0568A6;
+}
+
+.register-login-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666666;
+    border-top: 1px solid #eeeeee;
+    padding-top: 15px;
+}
+
+/* ==========================================================================
+   16. RESPONSIVE REGISTRAZIONE
+   ========================================================================== */
+@media (max-width: 480px) {
+    .register-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
