@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-<<<<<<< HEAD
-   <meta charset="UTF-8">
-=======
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
->>>>>>> branch 'main' of https://github.com/nicolazimbardi/ShirtInvasion
     <title>ShirtInvasion - Registrazione</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
 </head>
