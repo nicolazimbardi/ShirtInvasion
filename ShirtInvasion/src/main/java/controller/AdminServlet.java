@@ -2,8 +2,16 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,6 +27,17 @@ import model.Utente;
 @WebServlet("/AdminServlet")
 public class AdminServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static DataSource ds;
+
+    // Recupera la risorsa DataSource tramite JNDI esattamente come nel tuo ProdottoDAO
+    static {
+        try {
+            InitialContext ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/shirtinvasion");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
@@ -54,11 +73,40 @@ public class AdminServlet extends HttpServlet {
             }
         }
         
+        // 3. Recupero del catalogo prodotti dal DAO
         ProdottoDAO prodottoDao = new ProdottoDAO();
         List<Prodotto> catalogo = prodottoDao.doRetrieveAll(); 
 
+        // 4. Estrazione degli ordini senza creare nuove classi model (Mappatura in array di Stringhe)
+        List<String[]> listaOrdiniArray = new ArrayList<>();
+        // Eseguiamo una JOIN con utenti se vuoi mostrare l'email del cliente al posto del solo ID numerico
+        String queryOrdini = "SELECT o.id_ordine, u.email, o.data_ordine, o.totale, o.stato " +
+                             "FROM ordini o JOIN utenti u ON o.id_utente = u.id_utente"; 
+        
+        if (ds != null) {
+            try (Connection conn = ds.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(queryOrdini);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    String[] rigaOrdine = new String[5];
+                    rigaOrdine[0] = rs.getString("id_ordine");
+                    rigaOrdine[1] = rs.getString("email"); // Mostra l'email del cliente
+                    rigaOrdine[2] = rs.getString("data_ordine");
+                    rigaOrdine[3] = String.format("%.2f €", rs.getDouble("totale"));
+                    rigaOrdine[4] = rs.getString("stato");
+                    
+                    listaOrdiniArray.add(rigaOrdine);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Passaggio degli attributi alla pagina JSP
         request.setAttribute("listaFotoDisponibili", elencoFoto);
         request.setAttribute("prodottiCatalogo", catalogo);
+        request.setAttribute("listaOrdiniSenzaClasse", listaOrdiniArray); // Inviato alla Sezione 2 della JSP
         
         request.getRequestDispatcher("/WEB-INF/views/admin.jsp").forward(request, response);
     }
@@ -80,17 +128,18 @@ public class AdminServlet extends HttpServlet {
         ProdottoDAO prodottoDao = new ProdottoDAO();
         String azioneProdotto = request.getParameter("azioneProdotto");
 
+        // AZIONE A: INSERIMENTO NUOVO PRODOTTO
         if (azioneProdotto == null || azioneProdotto.isEmpty() || "inserisci".equals(azioneProdotto)) {
             Prodotto nuovo = new Prodotto();
             nuovo.setSquadra(request.getParameter("squadra"));
-            nuovo.setNome(request.getParameter("modello")); // 'modello' nel form -> 'nome' nel DB
+            nuovo.setNome(request.getParameter("modello")); 
             nuovo.setStagione(request.getParameter("stagione"));
             nuovo.setMarca(request.getParameter("marca"));
             nuovo.setTaglia(request.getParameter("taglia"));
             nuovo.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-            nuovo.setQuantita(Integer.parseInt(request.getParameter("stock"))); // 'stock' nel form -> 'quantita' nel DB
+            nuovo.setQuantita(Integer.parseInt(request.getParameter("stock"))); 
             nuovo.setDescrizione(request.getParameter("descrizione"));
-            nuovo.setImmagine(request.getParameter("immagine")); // Il nome del file (es: milan.jpg)
+            nuovo.setImmagine(request.getParameter("immagine")); 
             nuovo.setAttivo(true);
             
             boolean salvato = prodottoDao.doSave(nuovo);
@@ -100,11 +149,17 @@ public class AdminServlet extends HttpServlet {
                 request.setAttribute("messaggioErrore", "Errore nel salvataggio del prodotto.");
             }
         }
+        // AZIONE B: ELIMINAZIONE LOGICA DI UN PRODOTTO
         else if ("elimina".equals(azioneProdotto)) {
             int idDel = Integer.parseInt(request.getParameter("id"));
-            prodottoDao.doDelete(idDel);
-            request.setAttribute("messaggioSuccesso", "Articolo eliminato dal catalogo.");
+            boolean eliminato = prodottoDao.doDelete(idDel);
+            if (eliminato) {
+                request.setAttribute("messaggioSuccesso", "Articolo rimosso dal catalogo con successo.");
+            } else {
+                request.setAttribute("messaggioErrore", "Errore durante l'eliminazione.");
+            }
         }
+        // AZIONE C: AGGIORNAMENTO DATI DA TABELLA MODIFICABILE
         else if ("modifica".equals(azioneProdotto)) {
             int idMod = Integer.parseInt(request.getParameter("id"));
             Prodotto pMod = prodottoDao.doRetrieveById(idMod);
@@ -113,13 +168,19 @@ public class AdminServlet extends HttpServlet {
                 pMod.setMarca(request.getParameter("marca"));
                 pMod.setTaglia(request.getParameter("taglia"));
                 pMod.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-                pMod.setQuantita(Integer.parseInt(request.getParameter("stock")));
+                pMod.setQuantita(Integer.parseInt(request.getParameter("stock"))); // Allineato al campo stock del form riga
                 pMod.setDescrizione(request.getParameter("descrizione"));
-                prodottoDao.doUpdate(pMod);
-                request.setAttribute("messaggioSuccesso", "Articolo aggiornato con successo.");
+                
+                boolean aggiornato = prodottoDao.doUpdate(pMod);
+                if (aggiornato) {
+                    request.setAttribute("messaggioSuccesso", "Articolo aggiornato con successo.");
+                } else {
+                    request.setAttribute("messaggioErrore", "Errore durante l'aggiornamento dell'articolo.");
+                }
             }
         }
 
+        // Riesegue la logica del doGet per caricare le liste aggiornate prima del rendering finale
         doGet(request, response);
     }
 }
