@@ -66,4 +66,16 @@ public class Carrello implements Serializable {
     public void svuota() {
         this.elementi.clear();
     }
+    
+    /**
+     * Calcola il numero totale di maglie fisiche presenti nel carrello.
+     * Es: Se ho 2 maglie della Juve e 1 del Napoli, restituisce 3.
+     */
+    public int getNumeroTotaleArticoli() {
+        int conteggio = 0;
+        for (Prodotto p : elementi) {
+            conteggio += p.getQuantitaCarrello();
+        }
+        return conteggio;
+    }
 }

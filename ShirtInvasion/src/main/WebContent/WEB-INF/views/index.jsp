@@ -21,11 +21,12 @@
         <nav class="nav-bar">
             <ul>
                 <% 
-                    // Recupero del carrello dalla sessione per il conteggio degli articoli
+                    // Recupero del carrello dalla sessione per il conteggio totale degli articoli fisici
                     Carrello carrelloSession = (Carrello) session.getAttribute("carrello");
                     int numeroArticoli = 0;
-                    if (carrelloSession != null && carrelloSession.getElementi() != null) {
-                        numeroArticoli = carrelloSession.getElementi().size();
+                    if (carrelloSession != null) {
+                        // Utilizzo del nuovo metodo per sommare le quantità invece delle righe (.size())
+                        numeroArticoli = carrelloSession.getNumeroTotaleArticoli();
                     }
 
                     Utente utenteLoggato = (Utente) session.getAttribute("utente");
