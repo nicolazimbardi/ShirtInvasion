@@ -12,7 +12,7 @@
         <p>Il tuo ordine sarà presto in lavorazione.</p>
         <p>Il carrello è stato svuotato.</p>
         <br>
-        <a href="<%= request.getContextPath() %>/index.jsp" style="background: #00bcd4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Torna alla Home</a>
+<a href="<%= request.getParameter("contextPath") != null ? request.getParameter("contextPath") : request.getContextPath() %>/home" style="background: #00bcd4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Torna alla Home</a>
     </div>
 </body>
 </html>

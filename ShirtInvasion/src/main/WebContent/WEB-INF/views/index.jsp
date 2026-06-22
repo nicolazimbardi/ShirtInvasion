@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShirtInvasion - Catalogo Maglie</title>
     <link rel="stylesheet" href="styles/stile.css">
+    <script src="scripts/scripts.js" defer></script>
 </head>
 <body>
 
@@ -21,12 +22,10 @@
         <nav class="nav-bar">
             <ul>
                 <% 
-                    // Recupero del carrello dalla sessione per il conteggio totale degli articoli fisici
                     Carrello carrelloSession = (Carrello) session.getAttribute("carrello");
                     int numeroArticoli = 0;
-                    if (carrelloSession != null) {
-                        // Utilizzo del nuovo metodo per sommare le quantità invece delle righe (.size())
-                        numeroArticoli = carrelloSession.getNumeroTotaleArticoli();
+                    if (carrelloSession != null && carrelloSession.getElementi() != null) {
+                        numeroArticoli = carrelloSession.getElementi().size();
                     }
 
                     Utente utenteLoggato = (Utente) session.getAttribute("utente");
@@ -107,6 +106,7 @@
                                 <div class="card-footer">
                                     <span class="price"><%= String.format("%.2f", p.getPrezzo()) %> €</span>
                                     
+                                    <%-- LOGICA DI CONTROLLO: L'ADMIN NON PUO' AGGIUNGERE AL CARRELLO --%>
                                     <% if (utenteLoggato == null || !"ADMIN".equals(utenteLoggato.getRuolo())) { %>
                                         <a class="btn-add-cart" href="CarrelloServlet?azione=aggiungi&id=<%= p.getIdProdotto() %>">Aggiungi</a>
                                     <% } else { %>
@@ -119,7 +119,7 @@
                     } else {
                 %>
                         <div class="no-products">
-                            <p>Il catalogo è attualmente vuoto. Controlla che nella tabella 'prodotti' ci siano righe con attivo = 1!</p>
+                            <p>Il catalogo è attualmente vuoto. </p>
                         </div>
                 <%
                     }
@@ -144,23 +144,6 @@
     <footer class="main-footer">
         <p>&copy; 2026 ShirtInvasion. Tutti i diritti riservati. Sviluppato in Java Web MVC.</p>
     </footer>
-
-    <%-- SCRIPT PER MANTENERE LA POSIZIONE DELLO SCROLL AL CLICK DI AGGIUNGI --%>
-    <script>
-        document.querySelectorAll('.btn-add-cart').forEach(btn => {
-            btn.addEventListener('click', () => {
-                localStorage.setItem('catalogoScrollPos', window.scrollY);
-            });
-        });
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const scrollPos = localStorage.getItem('catalogoScrollPos');
-            if (scrollPos) {
-                window.scrollTo(0, parseInt(scrollPos));
-                localStorage.removeItem('catalogoScrollPos');
-            }
-        });
-    </script>
 
 </body>
 </html>
