@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Carrello" %>
 <%@ page import="model.Prodotto" %>
+<%@ page import="model.Utente" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="it">
@@ -15,10 +16,27 @@
     <div class="logo">
         <h1>Shirt<span>Invasion</span> &#9917;</h1>
     </div>
+    
+    <%
+        // Recuperiamo l'utente loggato dalla sessione
+        Utente utenteLoggato = (Utente) session.getAttribute("utente");
+    %>
+    
     <nav class="nav-bar">
         <ul>
             <li><a href="${pageContext.request.contextPath}/home">Continua lo shopping</a></li>
-            <li><a href="${pageContext.request.contextPath}/login">Accedi / Registrati</a></li>
+            
+            <% if (utenteLoggato == null) { %>
+                <li><a href="${pageContext.request.contextPath}/LoginServlet">Accedi / Registrati</a></li>
+            <% } else { %>
+                <%-- Controlliamo se è un admin usando getRuolo() --%>
+                <% if ("ADMIN".equalsIgnoreCase(utenteLoggato.getRuolo())) { %>
+                    <li><a href="${pageContext.request.contextPath}/admin.jsp" style="color: #00a8ff;">Pannello Admin 🛠️</a></li>
+                <% } %>
+                
+                <li class="user-name-display">Ciao, <%= utenteLoggato.getNome() %> 👋</li>
+                <li><a href="${pageContext.request.contextPath}/LogoutServlet" class="btn-logout-nav">Logout</a></li>
+            <% } %>
         </ul>
     </nav>
 </header>
@@ -38,8 +56,13 @@
         </div>
     <%
         } else {
+            // Calcoliamo la quantità FISICA totale contando le quantità inserite per ogni prodotto
+            int totaleArticoliFisici = 0;
+            for (Prodotto p : elementi) {
+                totaleArticoliFisici += p.getQuantitaCarrello();
+            }
     %>
-        <p style="margin-bottom: 20px; color: #666;"><%= elementi.size() %> articolo/i nel carrello</p>
+        <p style="margin-bottom: 20px; color: #666;"><%= totaleArticoliFisici %> articolo/i nel carrello</p>
 
         <div class="cart-list">
             <%
