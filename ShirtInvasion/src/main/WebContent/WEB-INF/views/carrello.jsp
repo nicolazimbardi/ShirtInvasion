@@ -64,7 +64,17 @@
                     </div>
 
                     <div class="cart-item-right">
-                        <div class="cart-item-price"><%= String.format("%.2f", p.getPrezzo()) %> €</div>
+                        <div class="cart-item-price"><%= String.format("%.2f", p.getPrezzo() * p.getQuantitaCarrello()) %> €</div>
+                        
+                        <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
+                            <label for="qta_<%= p.getIdProdotto() %>" style="font-size: 13px; color: #666;">Q.tà:</label>
+                            <input type="hidden" name="azione" value="aggiornaQta">
+                            <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
+                            <input type="number" id="qta_<%= p.getIdProdotto() %>" name="quantita" value="<%= p.getQuantitaCarrello() %>" min="1" max="20" 
+                                   style="width: 55px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-weight: 600;" 
+                                   onchange="this.form.submit()">
+                        </form>
+
                         <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post">
                             <input type="hidden" name="azione" value="rimuovi">
                             <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">

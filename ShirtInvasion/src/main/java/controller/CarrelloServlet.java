@@ -36,13 +36,13 @@ public class CarrelloServlet extends HttpServlet {
         
         if (azione != null) {
             
-            // --- 1. CONTROLLO ADMIN: Non può modificare il carrello ---
-            if ("ADMIN".equals(ruolo) && (azione.equals("aggiungi") || azione.equals("rimuovi") || azione.equals("svuota") || azione.equals("checkout"))) {
-                response.sendRedirect(request.getContextPath() + "/AdminServlet?msg=adminNonPuòComprare");
+            // --- 1. CONTROLLO ADMIN ---
+            if ("ADMIN".equals(ruolo) && (azione.equals("aggiungi") || azione.equals("rimuovi") || azione.equals("aggiornaQta") || azione.equals("svuota") || azione.equals("checkout"))) {
+                response.sendRedirect(request.getContextPath() + "/AdminServlet?msg=adminNonPuoComprare");
                 return;
             }
 
-            // --- 2. CONTROLLO OSPITE: Non può fare checkout ---
+            // --- 2. CONTROLLO OSPITE ---
             if (azione.equals("checkout") && "GUEST".equals(ruolo)) {
                 response.sendRedirect(request.getContextPath() + "/LoginServlet?msg=deviEffettuareIlLoginPerAcquistare");
                 return;
@@ -56,20 +56,28 @@ public class CarrelloServlet extends HttpServlet {
                     carrello.aggiungiProdotto(p);
                 }
                 
-                // Rimanere sulla stessa pagina senza andare al carrello
                 String referer = request.getHeader("referer");
                 if (referer != null && !referer.isEmpty()) {
                     response.sendRedirect(referer);
                 } else {
                     response.sendRedirect(request.getContextPath() + "/home");
                 }
-                return; // Interrompe l'esecuzione evitando il forward a carrello.jsp
+                return; 
                 
             } else if (azione.equals("rimuovi")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 carrello.rimuoviProdotto(id);
+                
+            } else if (azione.equals("aggiornaQta")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                int quantita = Integer.parseInt(request.getParameter("quantita"));
+                if (quantita > 0) {
+                    carrello.aggiornaQuantita(id, quantita);
+                }
+                
             } else if (azione.equals("svuota")) {
                 carrello.svuota();
+                
             } else if (azione.equals("checkout")) {
                 if (carrello != null && !carrello.getElementi().isEmpty()) {
                     OrdineDAO ordineDao = new OrdineDAO();
@@ -84,7 +92,6 @@ public class CarrelloServlet extends HttpServlet {
             }
         }
         
-        // Mostra normalmente la pagina del carrello per le altre azioni (visualizza, rimuovi, svuota)
         request.getRequestDispatcher("/WEB-INF/views/carrello.jsp").forward(request, response);
     }
 
