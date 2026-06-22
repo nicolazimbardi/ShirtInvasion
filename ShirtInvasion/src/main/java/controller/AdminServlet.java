@@ -29,7 +29,6 @@ public class AdminServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static DataSource ds;
 
-    // Recupera la risorsa DataSource tramite JNDI esattamente come nel tuo ProdottoDAO
     static {
         try {
             InitialContext ctx = new InitialContext();
@@ -42,7 +41,6 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        // 1. Controllo di Sicurezza Sessione ed Admin
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("utente") == null) {
             request.setAttribute("messaggioErrore", "Accesso negato. Effettua il login!");
@@ -56,7 +54,6 @@ public class AdminServlet extends HttpServlet {
             return;
         }
         
-        // 2. Lettura dei file immagine esistenti nella cartella /images per il menu a tendina
         List<String> elencoFoto = new ArrayList<>();
         String pathImages = getServletContext().getRealPath("") + File.separator + "images";
         File cartellaImages = new File(pathImages);
@@ -73,13 +70,10 @@ public class AdminServlet extends HttpServlet {
             }
         }
         
-        // 3. Recupero del catalogo prodotti dal DAO
         ProdottoDAO prodottoDao = new ProdottoDAO();
         List<Prodotto> catalogo = prodottoDao.doRetrieveAll(); 
 
-        // 4. Estrazione degli ordini senza creare nuove classi model (Mappatura in array di Stringhe)
         List<String[]> listaOrdiniArray = new ArrayList<>();
-        // Eseguiamo una JOIN con utenti se vuoi mostrare l'email del cliente al posto del solo ID numerico
         String queryOrdini = "SELECT o.id_ordine, u.email, o.data_ordine, o.totale, o.stato " +
                              "FROM ordini o JOIN utenti u ON o.id_utente = u.id_utente"; 
         
@@ -91,7 +85,7 @@ public class AdminServlet extends HttpServlet {
                 while (rs.next()) {
                     String[] rigaOrdine = new String[5];
                     rigaOrdine[0] = rs.getString("id_ordine");
-                    rigaOrdine[1] = rs.getString("email"); // Mostra l'email del cliente
+                    rigaOrdine[1] = rs.getString("email"); 
                     rigaOrdine[2] = rs.getString("data_ordine");
                     rigaOrdine[3] = String.format("%.2f €", rs.getDouble("totale"));
                     rigaOrdine[4] = rs.getString("stato");
@@ -103,7 +97,6 @@ public class AdminServlet extends HttpServlet {
             }
         }
 
-        // Passaggio degli attributi alla pagina JSP
         request.setAttribute("listaFotoDisponibili", elencoFoto);
         request.setAttribute("prodottiCatalogo", catalogo);
         request.setAttribute("listaOrdiniSenzaClasse", listaOrdiniArray); // Inviato alla Sezione 2 della JSP
@@ -128,7 +121,6 @@ public class AdminServlet extends HttpServlet {
         ProdottoDAO prodottoDao = new ProdottoDAO();
         String azioneProdotto = request.getParameter("azioneProdotto");
 
-        // AZIONE A: INSERIMENTO NUOVO PRODOTTO
         if (azioneProdotto == null || azioneProdotto.isEmpty() || "inserisci".equals(azioneProdotto)) {
             Prodotto nuovo = new Prodotto();
             nuovo.setSquadra(request.getParameter("squadra"));
@@ -149,7 +141,6 @@ public class AdminServlet extends HttpServlet {
                 request.setAttribute("messaggioErrore", "Errore nel salvataggio del prodotto.");
             }
         }
-        // AZIONE B: ELIMINAZIONE LOGICA DI UN PRODOTTO
         else if ("elimina".equals(azioneProdotto)) {
             int idDel = Integer.parseInt(request.getParameter("id"));
             boolean eliminato = prodottoDao.doDelete(idDel);
@@ -159,7 +150,6 @@ public class AdminServlet extends HttpServlet {
                 request.setAttribute("messaggioErrore", "Errore durante l'eliminazione.");
             }
         }
-        // AZIONE C: AGGIORNAMENTO DATI DA TABELLA MODIFICABILE
         else if ("modifica".equals(azioneProdotto)) {
             int idMod = Integer.parseInt(request.getParameter("id"));
             Prodotto pMod = prodottoDao.doRetrieveById(idMod);
@@ -168,7 +158,7 @@ public class AdminServlet extends HttpServlet {
                 pMod.setMarca(request.getParameter("marca"));
                 pMod.setTaglia(request.getParameter("taglia"));
                 pMod.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-                pMod.setQuantita(Integer.parseInt(request.getParameter("stock"))); // Allineato al campo stock del form riga
+                pMod.setQuantita(Integer.parseInt(request.getParameter("stock"))); 
                 pMod.setDescrizione(request.getParameter("descrizione"));
                 
                 boolean aggiornato = prodottoDao.doUpdate(pMod);
@@ -179,8 +169,21 @@ public class AdminServlet extends HttpServlet {
                 }
             }
         }
+        else if ("elimina".equals(azioneProdotto)) {
+            int idDel = Integer.parseInt(request.getParameter("id")); 
+            boolean eliminato = prodottoDao.doDelete(idDel);
+            
+            if (eliminato) {
+                request.setAttribute("messaggioSuccesso", "Articolo rimosso dal catalogo con successo.");
+            } else {
+                request.setAttribute("messaggioErrore", "Errore durante l'eliminazione dal database.");
+            }
+            
+            List<Prodotto> catalogoAggiornato = prodottoDao.doRetrieveAll(); 
+            request.setAttribute("prodottiCatalogo", catalogoAggiornato);
+        }
 
-        // Riesegue la logica del doGet per caricare le liste aggiornate prima del rendering finale
         doGet(request, response);
     }
 }
+
