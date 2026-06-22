@@ -56,13 +56,15 @@
         </div>
     <%
         } else {
-            // Calcoliamo la quantità FISICA totale contando le quantità inserite per ogni prodotto
+            // Calcoliamo la quantità FISICA reale totale sommando la quantità di ciascun articolo distinto
             int totaleArticoliFisici = 0;
             for (Prodotto p : elementi) {
                 totaleArticoliFisici += p.getQuantitaCarrello();
             }
     %>
-        <p style="margin-bottom: 20px; color: #666;"><%= totaleArticoliFisici %> articolo/i nel carrello</p>
+        <p style="margin-bottom: 20px; color: #666; font-weight: 500;">
+            <%= totaleArticoliFisici %> <%= (totaleArticoliFisici == 1) ? "articolo" : "articoli" %> nel carrello
+        </p>
 
         <div class="cart-list">
             <%

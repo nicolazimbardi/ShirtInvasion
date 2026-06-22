@@ -24,8 +24,12 @@
                 <% 
                     Carrello carrelloSession = (Carrello) session.getAttribute("carrello");
                     int numeroArticoli = 0;
+                    
+                    // RISOLTO: Calcoliamo la quantità fisica totale sommando i quantitativi nel carrello
                     if (carrelloSession != null && carrelloSession.getElementi() != null) {
-                        numeroArticoli = carrelloSession.getElementi().size();
+                        for (Prodotto p : carrelloSession.getElementi()) {
+                            numeroArticoli += p.getQuantitaCarrello();
+                        }
                     }
 
                     Utente utenteLoggato = (Utente) session.getAttribute("utente");
@@ -48,7 +52,7 @@
                         </li>
                         
                         <% if ("ADMIN".equals(utenteLoggato.getRuolo())) { %>
-                            <li><a href="${pageContext.request.contextPath}/AdminServlet" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
+                            <li><a href="${pageContext.request.contextPath}/admin.jsp" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
                         <% } %>
                         
                         <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
