@@ -9,7 +9,7 @@
     <title>ShirtInvasion - Il mio Carrello</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
 </head>
-<body>
+<body class="page-carrello">
 
 <header class="main-header">
     <div class="logo">

@@ -483,6 +483,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 40px; /* RISOLTO: Crea una distanza minima di sicurezza tra il totale e i pulsanti */
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     border-top: 4px solid #00a8ff; 
 }
@@ -490,6 +491,7 @@ h2 {
 .cart-total-text h3 {
     font-size: 24px;
     color: #022340;
+    white-space: nowrap; /* Impedisce al totale di andare a capo */
 }
 
 .cart-actions {
@@ -498,34 +500,43 @@ h2 {
     align-items: center;
 }
 
+/* REGOLE COMUNI: Forza i due pulsanti ad avere ESATTAMENTE le stesse dimensioni */
+.btn-empty-cart, .btn-checkout-cart {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 44px;            /* Altezza identica bloccata */
+    min-width: 180px;        /* Larghezza identica bloccata per simmetria */
+    padding: 0 20px;         
+    font-size: 14px;         /* Stessa dimensione del font */
+    line-height: 42px;       /* Centra perfettamente il testo in verticale */
+    text-align: center;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
 .btn-empty-cart {
     background-color: white;
     color: #555;
-    border: 1px solid #ccc;
-    padding: 12px 20px;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
+    border: 1px solid #ccc; /* Il bordo occupa 1px */
 }
 
 .btn-empty-cart:hover {
     background-color: #f4f4f4;
+    border-color: #b3b3b3;
+    color: #cc0000;
 }
 
 .btn-checkout-cart {
     background-color: #00a8ff;
     color: #FFFFFF;
-    text-decoration: none;
-    padding: 12px 25px;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: 0.3s;
-    border: none;
-    display: inline-block;
+    border: 1px solid #00a8ff; /* Aggiunto bordo finto dello stesso colore per pareggiare al millimetro l'altezza */
 }
 
 .btn-checkout-cart:hover {
     background-color: #0568A6;
+    border-color: #0568A6;
     color: #FFFFFF;
 }
 
@@ -716,6 +727,20 @@ h2 {
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   13. FIX FOOTER APPICCICATO SOLO PER IL CARRELLO
+   ========================================================================== */
+body.page-carrello {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Forza la pagina a prendere tutta l'altezza dello schermo */
+}
+
+body.page-carrello main, 
+body.page-carrello .main-container {
+    flex: 1; /* Spinge il footer magneticamente verso il basso */
 }
 .admin-filter-bar label { font-size: 14px; font-weight: 600; }
 .admin-filter-bar input { padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 120px; }
