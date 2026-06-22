@@ -1,7 +1,13 @@
 @charset "UTF-8";
 
+<<<<<<< HEAD
 /* 1. RESET E PALETTE COLORI
    */
+=======
+/* 
+   1. RESET E PALETTE COLORI
+    */
+>>>>>>> branch 'main' of https://github.com/nicolazimbardi/ShirtInvasion
 * {
     margin: 0;
     padding: 0;
@@ -503,10 +509,16 @@ h2 {
     display: inline-block;
     box-sizing: border-box;
     height: 44px;
+<<<<<<< HEAD
     min-width: 180px;
     padding: 0 20px;        
     font-size: 14px;        
     line-height: 42px;      
+=======
+    min-width: 180px;    padding: 0 20px;         
+    font-size: 14px;         
+    line-height: 42px;       
+>>>>>>> branch 'main' of https://github.com/nicolazimbardi/ShirtInvasion
     text-align: center;
     font-weight: bold;
     border-radius: 4px;
@@ -531,7 +543,10 @@ h2 {
     background-color: #00a8ff;
     color: #FFFFFF;
     border: 1px solid #00a8ff; 
+<<<<<<< HEAD
 }
+=======
+>>>>>>> branch 'main' of https://github.com/nicolazimbardi/ShirtInvasion
 
 .btn-checkout-cart:hover {
     background-color: #0568A6;
@@ -539,6 +554,10 @@ h2 {
     color: #FFFFFF;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'main' of https://github.com/nicolazimbardi/ShirtInvasion
 @media (max-width: 600px) {
     .cart-item {
         flex-direction: column;
@@ -721,7 +740,12 @@ h2 {
     margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
 /* 13. FIX FOOTER APPICCICATO SOLO PER IL CARRELLO
+=======
+/* 
+   13. FIX FOOTER APPICCICATO SOLO PER IL CARRELLO
+>>>>>>> branch 'main' of https://github.com/nicolazimbardi/ShirtInvasion
    */
 body.page-carrello {
     display: flex;
@@ -731,7 +755,11 @@ body.page-carrello {
 
 body.page-carrello main, 
 body.page-carrello .main-container {
+<<<<<<< HEAD
     flex: 1;
+=======
+    flex: 1; /* Spinge il footer verso il basso */
+>>>>>>> branch 'main' of https://github.com/nicolazimbardi/ShirtInvasion
 }
 
 .admin-filter-bar label { font-size: 14px; font-weight: 600; }
@@ -740,6 +768,7 @@ body.page-carrello .main-container {
 .admin-filter-bar .btn-reset { background: #e2e6ea; color: #333; padding: 6px 15px; border: 1px solid #ccc; border-radius: 4px; font-weight: 600; cursor: pointer; }
 
 /* ==========================================================================
+<<<<<<< HEAD
    14. SCHERMATA DI LOGIN
    ========================================================================== */
 .login-body {
@@ -933,4 +962,200 @@ body.page-carrello .main-container {
         grid-template-columns: 1fr;
         gap: 0;
     }
+=======
+   9. SCHERMATA DI LOGIN
+   ========================================================================== */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+.login-card {
+    background-color: #FFFFFF;
+    max-width: 360px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.login-card h2 {
+    font-size: 24px;
+    color: #022340;
+    margin-bottom: 20px;
+}
+
+.login-error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #022340;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn-login {
+    background-color: #00a8ff;
+    color: #FFFFFF;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.btn-login:hover {
+    background-color: #0568A6;
+}
+
+.login-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-links a {
+    color: #00a8ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.login-links a:hover {
+    color: #0568A6;
+}
+
+.login-register-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666666;
+    border-top: 1px solid #eeeeee;
+    padding-top: 15px;
+}
+
+/* ==========================================================================
+   10. SCHERMATA DI REGISTRAZIONE
+   ========================================================================== */
+.register-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    padding: 20px;
+}
+
+.register-card {
+    background-color: #FFFFFF;
+    max-width: 450px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.register-card h2 {
+    font-size: 24px;
+    color: #022340;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.register-error {
+    color: #dc3545;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.register-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.btn-register {
+    background-color: #00a8ff;
+    color: #FFFFFF;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+.btn-register:hover {
+    background-color: #0568A6;
+}
+
+.register-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.register-links a {
+    color: #00a8ff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.register-links a:hover {
+    color: #0568A6;
+}
+
+.register-login-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666666;
+    border-top: 1px solid #eeeeee;
+    padding-top: 15px;
+}
+
+/* ==========================================================================
+   14. RESPONSIVE REGISTRAZIONE
+   ========================================================================== */
+@media (max-width: 480px) {
+    .register-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+>>>>>>> branch 'main' of https://github.com/nicolazimbardi/ShirtInvasion
 }
