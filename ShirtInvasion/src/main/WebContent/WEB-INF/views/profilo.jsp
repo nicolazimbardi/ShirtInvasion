@@ -1,162 +1,151 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Utente" %>
-<%@ page import="java.util.List" %>
 <%@ page import="model.Indirizzo" %>
-<%@ page import="dao.IndirizzoDAO" %>
-<%
-    // Controllo Sessione
-    Utente utente = (Utente) session.getAttribute("utente");
-    if (utente == null) {
-        response.sendRedirect(request.getContextPath() + "/LoginServlet");
-        return;
-    }
-%>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il Mio Profilo - ShirtInvasion</title>
+    <title>ShirtInvasion - Gestione Profilo</title>
+    <!-- Collegamento al tuo file CSS globale -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
 </head>
 <body>
 
-    <div class="profilo-container">
+    <!-- RECUPERO DATI DALLA SESSIONE E REQUEST -->
+    <%
+        Utente utente = (Utente) session.getAttribute("utente");
+        List<Indirizzo> listaIndirizzi = (List<Indirizzo>) request.getAttribute("listaIndirizzi");
         
-        <h2>Gestione Profilo</h2>
-        <form id="profiloForm" action="${pageContext.request.contextPath}/AggiornaProfiloServlet" method="POST" onsubmit="return validaProfilo()">
-            <input type="hidden" name="idUtente" value="<%= utente.getIdUtente() %>">
-            
-            <label>Nome:</label>
-            <input type="text" id="nome" name="nome" value="<%= utente.getNome() %>">
-            <span id="errNome" style="color:red; display:none;">Inserisci un nome valido.</span>
+        // Se l'utente è loggato ma la lista non è stata passata, la recuperiamo
+        if (listaIndirizzi == null && utente != null) {
+            dao.IndirizzoDAO temporaryDao = new dao.IndirizzoDAO();
+            listaIndirizzi = temporaryDao.doRetrieveByUtente(utente.getIdUtente());
+        }
+    %>
 
-            <label>Cognome:</label>
-            <input type="text" id="cognome" name="cognome" value="<%= utente.getCognome() %>">
-            <span id="errCognome" style="color:red; display:none;">Inserisci un cognome valido.</span>
+    <!-- HEADER STANDARD -->
+    <header class="main-header">
+        <div class="logo">
+            <h1>Shirt<span>Invasion</span> ⚽</h1>
+        </div>
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
+                <!-- Solo il Carrello è stato rimosso -->
+                <!-- Tasto Esci mantenuto ben visibile in rosso -->
+                <li><a href="${pageContext.request.contextPath}/LoginServlet?azione=logout" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            <label>Email:</label>
-            <input type="email" id="email" name="email" value="<%= utente.getEmail() %>">
-            <span id="errEmail" style="color:red; display:none;">Inserisci un'email valida.</span>
+    <!-- CONTENITORE PRINCIPALE CENTRATO -->
+    <main class="main-container" style="margin-top: 40px; min-height: 70vh;">
+        
+        <h2 class="profile-page-title">Gestione Profilo</h2>
 
-            <label>Telefono:</label>
-            <input type="text" id="telefono" name="telefono" value="<%= utente.getTelefono() != null ? utente.getTelefono() : "" %>">
-            <span id="errTelefono" style="color:red; display:none;">Inserisci un numero di telefono valido.</span>
+        <!-- SEZIONE 1: DATI UTENTE -->
+        <div class="profile-card">
+            <h3 class="profile-section-title">👤 Informazioni Personali</h3>
+            <form action="${pageContext.request.contextPath}/ProfiloServlet?azione=modificaDati" method="post">
+                <div class="profile-form-grid">
+                    <div class="profile-form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" value="<%= utente != null ? utente.getNome() : "" %>" required>
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="cognome">Cognome</label>
+                        <input type="text" id="cognome" name="cognome" value="<%= utente != null ? utente.getCognome() : "" %>" required>
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="<%= utente != null ? utente.getEmail() : "" %>" required>
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="telefono">Telefono</label>
+                        <input type="text" id="telefono" name="telefono" value="<%= (utente != null && utente.getTelefono() != null) ? utente.getTelefono() : "" %>">
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="password">Nuova Password</label>
+                        <input type="password" id="password" name="password" placeholder="Lascia vuoto per non cambiare">
+                    </div>
+                    <div class="profile-form-group">
+                        <button type="submit" class="profile-btn-submit">Salva Modifiche Profilo 💾</button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-            <label>Nuova Password (lascia vuoto per non cambiare):</label>
-            <input type="password" id="password" name="password">
-            <span id="errPassword" style="color:red; display:none;">La password deve essere di almeno 6 caratteri.</span>
-
-            <button type="submit" class="btn-salva">Salva Modifiche Profilo</button>
-        </form>
-
-        <hr style="margin: 40px 0; border: 1px solid #eee;">
-
-        <h2>I Miei Indirizzi di Spedizione</h2>
-
-        <div class="indirizzi-salvati">
-            <%
-                IndirizzoDAO indDAO = new IndirizzoDAO();
-                List<Indirizzo> mieiIndirizzi = indDAO.doRetrieveByUtente(utente.getIdUtente());
-                
-                if (mieiIndirizzi != null && !mieiIndirizzi.isEmpty()) {
-                    for (Indirizzo ind : mieiIndirizzi) {
+        <!-- SEZIONE 2: LISTA INDIRIZZI SALVATI -->
+        <h2 class="profile-page-title">I Miei Indirizzi Di Spedizione</h2>
+        
+        <div class="profile-address-list">
+            <% 
+                if (listaIndirizzi != null && !listaIndirizzi.isEmpty()) {
+                    for (Indirizzo ind : listaIndirizzi) {
             %>
-                <div class="address-card <%= ind.isAttivo() ? "active-address" : "" %>">
+                <div class="profile-address-box <%= ind.isAttivo() ? "active" : "" %>">
+                    <% if (ind.isAttivo()) { %>
+                        <span class="profile-address-badge">Principale</span>
+                    <% } %>
                     <p><strong>Via:</strong> <%= ind.getVia() %></p>
                     <p><strong>Città:</strong> <%= ind.getCitta() %> (<%= ind.getProvincia() %>) - <%= ind.getCap() %></p>
                     <p><strong>Nazione:</strong> <%= ind.getNazione() %></p>
                     
-                    <div class="address-actions">
-                        <% if (ind.isAttivo()) { %>
-                            <span class="badge-attivo">📍 Indirizzo Attivo</span>
-                        <% } else { %>
-                            <a href="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=attiva&idIndirizzo=<%= ind.getIdIndirizzo() %>" class="btn-attiva">Rendi Attivo</a>
+                    <div class="profile-address-actions">
+                        <% if (!ind.isAttivo()) { %>
+                            <a href="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=attiva&idIndirizzo=<%= ind.getIdIndirizzo() %>" class="profile-action-activate">Rendi Attivo</a>
                         <% } %>
-                        
-                        <a href="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=elimina&idIndirizzo=<%= ind.getIdIndirizzo() %>" class="btn-elimina" onclick="return confirm('Sei sicuro di voler eliminare questo indirizzo?');">Elimina 🗑️</a>
+                        <a href="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=elimina&idIndirizzo=<%= ind.getIdIndirizzo() %>" class="profile-action-delete" onclick="return confirm('Vuoi davvero eliminare questo indirizzo?')">Elimina 🗑️</a>
                     </div>
                 </div>
-            <%      }
+            <% 
+                    }
                 } else {
             %>
-                <p style="color: #666; font-style: italic;">Non hai ancora salvato nessun indirizzo di spedizione.</p>
-            <%  } %>
+                <p style="grid-column: 1/-1; color: #777; font-style: italic;">Nessun indirizzo di spedizione salvato. Aggiungine uno qui sotto.</p>
+            <% } %>
         </div>
 
-        <h3 style="margin-top: 30px;">Aggiungi un nuovo indirizzo</h3>
-        <form action="${pageContext.request.contextPath}/GestioneIndirizziServlet" method="POST" onsubmit="return validaIndirizzo()">
-            <input type="hidden" name="azione" value="aggiungi">
-            
-            <label>Via/Piazza e Civico:</label>
-            <input type="text" id="via" name="via">
-            <span id="errVia" style="color:red; display:none;">Inserisci la via.</span>
+        <!-- SEZIONE 3: FORM AGGIUNTA NUOVO INDIRIZZO -->
+        <div class="profile-card">
+            <h3 class="profile-section-title">🏠 Aggiungi un nuovo indirizzo</h3>
+            <form action="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=aggiungi" method="post">
+                <div class="profile-form-grid">
+                    <div class="profile-form-group" style="grid-column: span 2;">
+                        <label for="via">Via/Piazza e Civico</label>
+                        <input type="text" id="via" name="via" placeholder="es. Via Roma, 12" required>
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="citta">Città</label>
+                        <input type="text" id="citta" name="citta" placeholder="es. Scafati" required>
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="cap">CAP</label>
+                        <input type="text" id="cap" name="cap" placeholder="es. 84018" required>
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="provincia">Provincia (Sigla)</label>
+                        <input type="text" id="provincia" name="provincia" placeholder="es. SA" maxlength="2" required>
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="nazione">Nazione/Area Geografica</label>
+                        <input type="text" id="nazione" name="nazione" value="Italia" required>
+                    </div>
+                    <div class="profile-form-group">
+                        <button type="submit" class="profile-btn-submit profile-btn-save-address">Salva Indirizzo 💾</button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-            <label>Città:</label>
-            <input type="text" id="citta" name="citta">
-            <span id="errCitta" style="color:red; display:none;">Inserisci la città.</span>
+    </main>
 
-            <label>CAP:</label>
-            <input type="text" id="cap" name="cap" maxlength="5">
-            <span id="errCap" style="color:red; display:none;">Inserisci un CAP valido (5 numeri).</span>
+    <!-- FOOTER STANDARD -->
+    <footer class="main-footer">
+        <p>© 2026 ShirtInvasion. Tutti i diritti riservati. Sviluppato in Java Web MVC.</p>
+    </footer>
 
-            <label>Provincia (Sigla es. NA, RM):</label>
-            <input type="text" id="provincia" name="provincia" maxlength="2" style="text-transform: uppercase;">
-            <span id="errProv" style="color:red; display:none;">Inserisci la provincia (2 lettere).</span>
-
-            <label>Nazione/Area Geografica:</label>
-            <input type="text" id="nazione" name="nazione" value="Italia">
-
-            <button type="submit" class="btn-salva">Salva Indirizzo 💾</button>
-        </form>
-
-    </div> 
-    
-    <script>
-        // 1. Validazione Form Profilo
-        function validaProfilo() {
-            let isValid = true;
-            let nome = document.getElementById("nome").value.trim();
-            let cognome = document.getElementById("cognome").value.trim();
-            let email = document.getElementById("email").value.trim();
-            let telefono = document.getElementById("telefono").value.trim();
-            let password = document.getElementById("password").value;
-
-            document.querySelectorAll("span[id^='err']").forEach(e => e.style.display = 'none');
-
-            if (nome === "") { document.getElementById("errNome").style.display = "block"; isValid = false; }
-            if (cognome === "") { document.getElementById("errCognome").style.display = "block"; isValid = false; }
-            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) { document.getElementById("errEmail").style.display = "block"; isValid = false; }
-            let telPattern = /^[0-9]{9,15}$/;
-            if (telefono !== "" && !telPattern.test(telefono)) { document.getElementById("errTelefono").style.display = "block"; isValid = false; }
-            if (password !== "" && password.length < 6) { document.getElementById("errPassword").style.display = "block"; isValid = false; }
-
-            return isValid;
-        }
-
-        // 2. Validazione Form Indirizzi
-        function validaIndirizzo() {
-            let isValid = true;
-            let via = document.getElementById("via").value.trim();
-            let citta = document.getElementById("citta").value.trim();
-            let cap = document.getElementById("cap").value.trim();
-            let provincia = document.getElementById("provincia").value.trim();
-
-            document.getElementById("errVia").style.display = "none";
-            document.getElementById("errCitta").style.display = "none";
-            document.getElementById("errCap").style.display = "none";
-            document.getElementById("errProv").style.display = "none";
-
-            if (via === "") { document.getElementById("errVia").style.display = "block"; isValid = false; }
-            if (citta === "") { document.getElementById("errCitta").style.display = "block"; isValid = false; }
-            let capPattern = /^[0-9]{5}$/;
-            if (!capPattern.test(cap)) { document.getElementById("errCap").style.display = "block"; isValid = false; }
-            let provPattern = /^[a-zA-Z]{2}$/;
-            if (!provPattern.test(provincia)) { document.getElementById("errProv").style.display = "block"; isValid = false; }
-
-            return isValid;
-        }
-    </script>
 </body>
 </html>

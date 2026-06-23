@@ -1198,3 +1198,373 @@ body.page-carrello .main-container {
     background:#f0f0f0;
 }
 
+/* ==========================================================================
+   18. GESTIONE PROFILO E INDIRIZZI (Integrato col tema principale)
+   ========================================================================== */
+
+/* Titolo della pagina coerente con gli altri H2 */
+.profile-page-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+    color: #022340;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #00a8ff;
+}
+
+/* Card e Sezioni ben delineate (Stile Widget-Box) */
+.profile-card {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 35px;
+    border-top: 4px solid #0568A6; /* Richiamo estetico della palette */
+}
+
+.profile-section-title {
+    color: #022340;
+    font-size: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+/* Griglia per i Form (Nome, Cognome, ecc.) */
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    align-items: end;
+}
+
+.profile-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.profile-form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #022340;
+}
+
+.profile-form-group input {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    background-color: #fafafa;
+    transition: border-color 0.3s;
+}
+
+.profile-form-group input:focus {
+    border-color: #00a8ff;
+    outline: none;
+    background-color: #ffffff;
+}
+
+/* Bottoni Profilo (Allineati ai bottoni Carrello) */
+.profile-btn-submit {
+    background-color: #00a8ff;
+    color: #FFFFFF;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.profile-btn-submit:hover {
+    background-color: #0568A6;
+}
+
+.profile-btn-save-address {
+    background-color: #28a745; /* Verde per l'aggiunta di un nuovo elemento */
+}
+
+.profile-btn-save-address:hover {
+    background-color: #218838;
+}
+
+/* Lista degli Indirizzi (Box come piccole card) */
+.profile-address-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.profile-address-box {
+    background-color: #FFFFFF;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.profile-address-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.profile-address-box.active {
+    border: 2px solid #00a8ff;
+    background-color: #f4f9fd;
+}
+
+.profile-address-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #00a8ff;
+    color: white;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.profile-address-box p {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555555;
+}
+
+.profile-address-box p strong {
+    color: #022340;
+}
+
+.profile-address-actions {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #eeeeee;
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+}
+
+.profile-address-actions a {
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.profile-action-activate { 
+    color: #00a8ff; 
+}
+.profile-action-activate:hover { 
+    color: #0568A6; 
+}
+
+.profile-action-delete { 
+    color: #dc3545; 
+}
+.profile-action-delete:hover { 
+    color: #c82333; 
+}
+
+/* ==========================================
+   STILI COMPLEMENTARI PER PAGINA ORDINI & HEADER
+   ========================================== */
+
+/* Sfondo grigio chiaro per la pagina generale */
+body.bg-light {
+    background-color: #f4f6f9;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Allineamento Header e Navigazione */
+.main-header {
+    background-color: #0d233a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    color: white;
+}
+
+.main-header .logo h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.main-header .logo span {
+    color: #3b82f6; /* Celeste del logo */
+}
+
+.nav-bar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Pulsante Home (Stile "Continua lo Shopping") */
+.btn-shopping {
+    background-color: #1d5287;
+    color: white;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-shopping:hover {
+    background-color: #163f69;
+}
+
+/* Scritta Esci in Rosso */
+.logout-link-red {
+    color: #ff4d4d !important;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.logout-link-red:hover {
+    text-decoration: underline;
+}
+
+/* Contenitore Principale Bianco (Stile Card) */
+.orders-page-container {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.orders-main-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.orders-title {
+    color: #04294f;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.orders-divider {
+    border: 0;
+    height: 2px;
+    background-color: #3b82f6;
+    margin-bottom: 20px;
+}
+
+/* Pulsante Torna allo Shopping (Stile Blu Header e più grande) */
+.back-to-shopping {
+    background-color: #00bcd4; /* Stesso identico blu scuro dell'header */
+    color: white !important;   /* Testo bianco ben visibile */
+    text-decoration: none;
+    padding: 12px 24px;        /* Più grande e spazioso */
+    font-size: 15px;           /* Font leggermente aumentato */
+    font-weight: bold;
+    border-radius: 6px;        /* Angoli arrotondati coerenti col sito */
+    display: inline-block;
+    margin-bottom: 25px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Effetto al passaggio del mouse sul pulsante */
+.back-to-shopping:hover {
+    background-color: #163654; /* Una sfumatura di blu leggermente più chiara per l'effetto di hover */
+    transform: translateY(-1px);
+}
+
+/* Lista dei blocchi d'ordine */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Singolo Box dell'Ordine */
+.order-item-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden; /* Mantiene gli angoli arrotondati sulla fascia azzurra */
+    background: #fff;
+}
+
+/* Intestazione dell'ordine (Fascia Celeste dello screenshot) */
+.order-item-header {
+    background-color: #e6f4fc;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.5;
+}
+
+.order-header-left p, .order-header-right p {
+    margin: 2px 0;
+}
+
+/* Colori di Stato e Totale */
+.status-orange {
+    color: #f59e0b; /* Arancione IN_LAVORAZIONE */
+    font-weight: bold;
+}
+
+.total-red {
+    color: #ef4444; /* Rosso del prezzo totale */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Corpo interno del Box */
+.order-item-body {
+    padding: 15px 20px;
+}
+
+.order-item-body h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+/* Riga del prodotto */
+.order-product-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #334155;
+    padding: 4px 0;
+}
+
+.product-name strong {
+    color: #0f172a;
+}
+
+.product-price {
+    color: #64748b;
+}
+
+/* Messaggio di assenza ordini */
+.no-orders {
+    text-align: center;
+    color: #64748b;
+    font-style: italic;
+    margin: 40px 0;
+}

@@ -66,7 +66,7 @@
                                        <a href="${pageContext.request.contextPath}/ProfiloServlet">
                                             <span>Profilo</span> <span>👤</span>
                                         </a>
-                                        <a href="${pageContext.request.contextPath}/ordini.jsp">
+                                        <a href="${pageContext.request.contextPath}/OrdiniServlet">
                                             <span>Ordini effettuati</span> <span>📦</span>
                                         </a>
                                         <a href="${pageContext.request.contextPath}/assistenza.jsp">
