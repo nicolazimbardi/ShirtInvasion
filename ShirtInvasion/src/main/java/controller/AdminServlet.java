@@ -125,6 +125,7 @@ public class AdminServlet extends HttpServlet {
                 nuovo.setMarca(request.getParameter("marca"));
                 nuovo.setTaglia(request.getParameter("taglia"));
                 nuovo.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+                nuovo.setCampionato(request.getParameter("campionato"));
                 nuovo.setQuantita(Integer.parseInt(request.getParameter("stock")));
                 nuovo.setDescrizione(request.getParameter("descrizione"));
                 nuovo.setImmagine(request.getParameter("immagine"));
@@ -157,6 +158,7 @@ public class AdminServlet extends HttpServlet {
                     pMod.setMarca(request.getParameter("marca"));
                     pMod.setTaglia(request.getParameter("taglia"));
                     pMod.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+                    pMod.setCampionato(request.getParameter("campionato"));
                     pMod.setQuantita(Integer.parseInt(request.getParameter("stock")));
                     pMod.setDescrizione(request.getParameter("descrizione"));
                     pMod.setImmagine(request.getParameter("immagine"));
@@ -167,7 +169,7 @@ public class AdminServlet extends HttpServlet {
                         request.setAttribute("messaggioErrore", "Errore durante l'aggiornamento.");
                     }
                 }
-            }
+            } 
         } catch (NumberFormatException | NullPointerException e) {
             request.setAttribute("messaggioErrore", "Dati inseriti non validi.");
             e.printStackTrace();

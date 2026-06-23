@@ -37,6 +37,7 @@ public class ProdottoDAO {
                 p.setIdProdotto(rs.getInt("id_prodotto"));
                 p.setNome(rs.getString("nome"));
                 p.setSquadra(rs.getString("squadra"));
+                p.setCampionato(rs.getString("campionato"));
                 p.setStagione(rs.getString("stagione"));
                 p.setMarca(rs.getString("marca"));
                 p.setTaglia(rs.getString("taglia"));
@@ -65,6 +66,7 @@ public class ProdottoDAO {
                     p.setIdProdotto(rs.getInt("id_prodotto"));
                     p.setNome(rs.getString("nome"));
                     p.setSquadra(rs.getString("squadra"));
+                    p.setCampionato(rs.getString("campionato"));
                     p.setStagione(rs.getString("stagione"));
                     p.setMarca(rs.getString("marca"));
                     p.setTaglia(rs.getString("taglia"));
@@ -83,20 +85,21 @@ public class ProdottoDAO {
     }
 
     public boolean doSave(Prodotto prodotto) {
-        String query = "INSERT INTO prodotti (nome, squadra, stagione, marca, taglia, prezzo, quantita, descrizione, immagine, attivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = ds.getConnection();
+    	String query ="INSERT INTO prodotti (nome, squadra, campionato, stagione, marca, taglia, prezzo, quantita, descrizione, immagine, attivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; 
+    			 		 try (Connection conn = ds.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             
-            ps.setString(1, prodotto.getNome());
-            ps.setString(2, prodotto.getSquadra());
-            ps.setString(3, prodotto.getStagione());
-            ps.setString(4, prodotto.getMarca());
-            ps.setString(5, prodotto.getTaglia());
-            ps.setDouble(6, prodotto.getPrezzo());
-            ps.setInt(7, prodotto.getQuantita());
-            ps.setString(8, prodotto.getDescrizione());
-            ps.setString(9, prodotto.getImmagine());
-            ps.setBoolean(10, prodotto.isAttivo());
+    			 			ps.setString(1, prodotto.getNome());
+    			 			ps.setString(2, prodotto.getSquadra());
+    			 			ps.setString(3, prodotto.getCampionato());
+    			 			ps.setString(4, prodotto.getStagione());
+    			 			ps.setString(5, prodotto.getMarca());
+    			 			ps.setString(6, prodotto.getTaglia());
+    			 			ps.setDouble(7, prodotto.getPrezzo());
+    			 			ps.setInt(8, prodotto.getQuantita());
+    			 			ps.setString(9, prodotto.getDescrizione());
+    			 			ps.setString(10, prodotto.getImmagine());
+    			 			ps.setBoolean(11, prodotto.isAttivo());
             
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -106,21 +109,21 @@ public class ProdottoDAO {
     }
 
     public boolean doUpdate(Prodotto prodotto) {
-        String query = "UPDATE prodotti SET nome = ?, squadra = ?, stagione = ?, marca = ?, taglia = ?, prezzo = ?, quantita = ?, descrizione = ?, immagine = ?, attivo = ? WHERE id_prodotto = ?";
-        try (Connection conn = ds.getConnection();
+    	String query = "INSERT INTO prodotti (nome, squadra, campionato, stagione, marca, taglia, prezzo, quantita, descrizione, immagine, attivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        try (Connection conn = ds.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             
-            ps.setString(1, prodotto.getNome());
-            ps.setString(2, prodotto.getSquadra());
-            ps.setString(3, prodotto.getStagione());
-            ps.setString(4, prodotto.getMarca());
-            ps.setString(5, prodotto.getTaglia());
-            ps.setDouble(6, prodotto.getPrezzo());
-            ps.setInt(7, prodotto.getQuantita());
-            ps.setString(8, prodotto.getDescrizione());
-            ps.setString(9, prodotto.getImmagine());
-            ps.setBoolean(10, prodotto.isAttivo());
-            ps.setInt(11, prodotto.getIdProdotto());
+        	ps.setString(1, prodotto.getNome());
+        	ps.setString(2, prodotto.getSquadra());
+        	ps.setString(3, prodotto.getCampionato());
+        	ps.setString(4, prodotto.getStagione());
+        	ps.setString(5, prodotto.getMarca());
+        	ps.setString(6, prodotto.getTaglia());
+        	ps.setDouble(7, prodotto.getPrezzo());
+        	ps.setInt(8, prodotto.getQuantita());
+        	ps.setString(9, prodotto.getDescrizione());
+        	ps.setString(10, prodotto.getImmagine());
+        	ps.setBoolean(11, prodotto.isAttivo());
+        	ps.setInt(12, prodotto.getIdProdotto());
             
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -190,6 +193,47 @@ public class ProdottoDAO {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return prodotti;
+    }
+    public List<Prodotto> doRetrieveByCampionato(String campionato) {
+
+        List<Prodotto> prodotti = new ArrayList<>();
+
+        String query =
+            "SELECT * FROM prodotti " +
+            "WHERE campionato = ? AND attivo = 1";
+
+        try (Connection conn = ds.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, campionato);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Prodotto p = new Prodotto();
+
+                    p.setIdProdotto(rs.getInt("id_prodotto"));
+                    p.setNome(rs.getString("nome"));
+                    p.setSquadra(rs.getString("squadra"));
+                    p.setStagione(rs.getString("stagione"));
+                    p.setMarca(rs.getString("marca"));
+                    p.setTaglia(rs.getString("taglia"));
+                    p.setPrezzo(rs.getDouble("prezzo"));
+                    p.setQuantita(rs.getInt("quantita"));
+                    p.setDescrizione(rs.getString("descrizione"));
+                    p.setImmagine(rs.getString("immagine"));
+                    p.setAttivo(rs.getBoolean("attivo"));
+
+                    prodotti.add(p);
+                }
+            }
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

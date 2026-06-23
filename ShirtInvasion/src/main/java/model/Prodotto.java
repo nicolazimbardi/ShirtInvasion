@@ -12,22 +12,20 @@ public class Prodotto implements Serializable {
     private String marca;
     private String taglia;
     private double prezzo;
-    
-    // Questa è la quantità in MAGAZZINO (nel database)
+    private String campionato;
     private int quantita; 
     
     private String descrizione;
     private String immagine;
     private boolean attivo;
 
-    // --- NUOVA VARIABILE AGGIUNTA PER IL CARRELLO ---
-    // Impostata di default a 1. Rappresenta quante copie di questa maglia l'utente ha messo nel carrello
+    
     private int quantitaCarrello = 1;
 
     public Prodotto() {}
 
     public Prodotto(int idProdotto, String nome, String squadra, String stagione, String marca, String taglia,
-            double prezzo, int quantita, String descrizione, String immagine, boolean attivo) {
+            double prezzo,String campionato, int quantita, String descrizione, String immagine, boolean attivo) {
         this.idProdotto = idProdotto;
         this.nome = nome;
         this.squadra = squadra;
@@ -35,6 +33,7 @@ public class Prodotto implements Serializable {
         this.marca = marca;
         this.taglia = taglia;
         this.prezzo = prezzo;
+        this.campionato=campionato;
         this.quantita = quantita;
         this.descrizione = descrizione;
         this.immagine = immagine;
@@ -63,6 +62,13 @@ public class Prodotto implements Serializable {
 
     public double getPrezzo() { return prezzo; }
     public void setPrezzo(double prezzo) { this.prezzo = prezzo; }
+    public String getCampionato() {
+        return campionato;
+    }
+
+    public void setCampionato(String campionato) {
+        this.campionato = campionato;
+    }
 
     public int getQuantita() { return quantita; }
     public void setQuantita(int quantita) { this.quantita = quantita; }
