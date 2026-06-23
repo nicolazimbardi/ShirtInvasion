@@ -109,21 +109,24 @@ public class ProdottoDAO {
     }
 
     public boolean doUpdate(Prodotto prodotto) {
-    	String query = "INSERT INTO prodotti (nome, squadra, campionato, stagione, marca, taglia, prezzo, quantita, descrizione, immagine, attivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";        try (Connection conn = ds.getConnection();
+        String query = "UPDATE prodotti SET nome = ?, squadra = ?, campionato = ?, stagione = ?, marca = ?, taglia = ?, prezzo = ?, quantita = ?, descrizione = ?, immagine = ?, attivo = ? WHERE id_prodotto = ?";        
+        
+        try (Connection conn = ds.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
             
-        	ps.setString(1, prodotto.getNome());
-        	ps.setString(2, prodotto.getSquadra());
-        	ps.setString(3, prodotto.getCampionato());
-        	ps.setString(4, prodotto.getStagione());
-        	ps.setString(5, prodotto.getMarca());
-        	ps.setString(6, prodotto.getTaglia());
-        	ps.setDouble(7, prodotto.getPrezzo());
-        	ps.setInt(8, prodotto.getQuantita());
-        	ps.setString(9, prodotto.getDescrizione());
-        	ps.setString(10, prodotto.getImmagine());
-        	ps.setBoolean(11, prodotto.isAttivo());
-        	ps.setInt(12, prodotto.getIdProdotto());
+            ps.setString(1, prodotto.getNome());
+            ps.setString(2, prodotto.getSquadra());
+            ps.setString(3, prodotto.getCampionato());
+            ps.setString(4, prodotto.getStagione());
+            ps.setString(5, prodotto.getMarca());
+            ps.setString(6, prodotto.getTaglia());
+            ps.setDouble(7, prodotto.getPrezzo());
+            ps.setInt(8, prodotto.getQuantita());
+            ps.setString(9, prodotto.getDescrizione());
+            ps.setString(10, prodotto.getImmagine());
+            ps.setBoolean(11, prodotto.isAttivo());
+            
+            ps.setInt(12, prodotto.getIdProdotto()); 
             
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -131,7 +134,6 @@ public class ProdottoDAO {
             return false;
         }
     }
-
     public boolean doDelete(int idProdotto) {
         String query = "UPDATE prodotti SET attivo = false WHERE id_prodotto = ?";
         try (Connection conn = ds.getConnection();

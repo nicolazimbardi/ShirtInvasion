@@ -131,7 +131,9 @@
                 <th>ID</th>
                 <th>Foto</th>
                 <th>Squadra</th>
+                <th>Campionato</th>
                 <th>Modello</th>
+                
                 <th>Stagione</th>
                 <th>Marca</th>
                 <th>Taglia</th>
@@ -174,11 +176,17 @@
     </select>
 </td>
 <td>
-    <input type="text"
-           name="squadra"
-           value="<%= p.getSquadra() %>"
-           form="<%= formId %>">
-</td>                    <td><input type="text" name="modello" value="<%= p.getNome() %>" form="<%= formId %>"></td>
+    <input type="text" name="squadra" value="<%= p.getSquadra() %>" form="<%= formId %>">
+</td>             
+
+<td>
+    <select name="campionato" form="<%= formId %>">
+        <option value="Serie A" <%= "Serie A".equals(p.getCampionato()) ? "selected" : "" %>>Serie A</option>
+        <option value="Premier League" <%= "Premier League".equals(p.getCampionato()) ? "selected" : "" %>>Premier League</option>
+        <option value="La Liga" <%= "La Liga".equals(p.getCampionato()) ? "selected" : "" %>>La Liga</option>
+    </select>
+</td>
+<td><input type="text" name="modello" value="<%= p.getNome() %>" form="<%= formId %>"></td>
                     <td><input type="text" name="stagione" value="<%= p.getStagione() %>" form="<%= formId %>"></td>
                     <td><input type="text" name="marca" value="<%= p.getMarca() %>" form="<%= formId %>"></td>
                     <td><input type="text" name="taglia" value="<%= p.getTaglia() %>" form="<%= formId %>"></td>
@@ -215,11 +223,21 @@
             <h2>2. Visualizzazione Ordini per Data e per Cliente</h2>
             
             <div class="admin-filter-bar">
-                <label>Da:</label>
-                <input type="text" placeholder="gg/mm/aaaa">
-                <label>A:</label>
-                <input type="text" placeholder="gg/mm/aaaa">
-                <button type="button" class="btn-filter">Cerca</button>
+            <form action="${pageContext.request.contextPath}/AdminServlet" method="get">
+
+    <input type="hidden" name="filtro" value="ordini">
+
+    <label>Da:</label>
+    <input type="date" name="dataInizio">
+
+    <label>A:</label>
+    <input type="date" name="dataFine">
+
+    <button type="submit" class="btn-filter">
+        Cerca
+    </button>
+
+</form>
             </div>
             
             <div class="admin-table-wrapper">
