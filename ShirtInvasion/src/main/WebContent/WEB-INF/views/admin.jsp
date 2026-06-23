@@ -57,9 +57,8 @@
         <section class="admin-section">
             <h2>1. Gestione Catalogo Articoli (Aggiungi, Elimina, Modifica)</h2>
             
-            <p class="admin-section-title-sub">Nuovo Articolo Completo:</p>
+            <p class="admin-section-title-sub"> Aggiungi un nuovo articolo :</p>
             
-<p class="admin-section-title-sub">Nuovo Articolo Completo:</p>
 
 <form action="${pageContext.request.contextPath}/AdminServlet" method="POST">
     <input type="hidden" name="azioneProdotto" value="inserisci">
