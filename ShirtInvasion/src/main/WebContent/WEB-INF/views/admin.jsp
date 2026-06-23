@@ -19,14 +19,21 @@
             <h1>Pannello di Controllo Amministratore 🛠️</h1>
         </div>
         <nav class="nav-bar">
-            <ul>
-                <li>
-                    Admin: <% Utente utenteSessione = (Utente) session.getAttribute("utente"); if(utenteSessione != null) { %><%= utenteSessione.getCognome() + " " + utenteSessione.getNome() %><% } %>
-                </li>
-                <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a></li>
-            </ul>
-        </nav>
+    <ul>
+        <li style="color: white; font-weight: bold; padding: 10px 15px;">
+            Admin: <% 
+                Utente utenteSessione = (Utente) session.getAttribute("utente"); 
+                if(utenteSessione != null) { 
+            %><%= utenteSessione.getCognome() + " " + utenteSessione.getNome() %><% 
+                } 
+            %>
+        </li>
+        
+        <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
+        
+        <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
+    </ul>
+</nav>
     </header>
 
     <main class="main-container admin-page">
