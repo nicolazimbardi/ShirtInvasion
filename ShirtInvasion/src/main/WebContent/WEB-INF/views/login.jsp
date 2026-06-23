@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShirtInvasion - Login</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css" type="text/css">
+    
+    <script src="${pageContext.request.contextPath}/scripts/login.js" defer></script>
 </head>
 <body class="login-body">
 
@@ -16,7 +18,7 @@
             <p class="login-error"><%= request.getAttribute("messaggioErrore") %></p>
         <% } %>
 
-        <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
+        <form id="loginForm" action="${pageContext.request.contextPath}/LoginServlet" method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
