@@ -94,15 +94,21 @@
                         for (Prodotto p : prodotti) {
                 %>
                             <div class="product-card">
-                                <div class="product-img-placeholder">
-                                    <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
-                                        <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="<%= p.getNome() %>">
-                                    <% } else { %>
-                                        👕
-                                    <% } %>
-                                </div>
-                                
-                                <h3><%= p.getNome() %></h3>
+<div class="product-img-placeholder">
+    <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none; color: inherit;">
+        <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
+            <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="<%= p.getNome() %>">
+        <% } else { %>
+            👕
+        <% } %>
+    </a>
+</div>
+
+<h3>
+    <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" style="text-decoration: none; color: inherit;">
+        <%= p.getNome() %>
+    </a>
+</h3>
                                 <p class="meta-info"><%= p.getMarca() %> • <%= p.getSquadra() %> • <%= p.getStagione() %></p>
                                 <p class="description"><%= p.getDescrizione() %></p>
                                 <p class="taglia">Taglia: <span><%= p.getTaglia() %></span></p>

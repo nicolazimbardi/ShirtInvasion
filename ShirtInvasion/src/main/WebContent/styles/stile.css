@@ -933,4 +933,117 @@ body.page-carrello .main-container {
         grid-template-columns: 1fr;
         gap: 0;
     }
+} 
+    /* ==========================================================================
+   17. PAGINA DETTAGLIO PRODOTTO (Stile Classic Football Shirts)
+   ========================================================================== */
+.product-detail-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 50px;
+}
+
+.detail-gallery {
+    flex: 1 1 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-gallery img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.detail-info-box {
+    flex: 1 1 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.detail-badges {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.detail-badges span {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.badge-black { background-color: #000000; }
+.badge-red { background-color: #9b0028; } 
+
+.detail-title {
+    font-size: 30px;
+    color: #111111;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 15px;
+    border: none; 
+    padding-bottom: 0;
+}
+
+.detail-price {
+    font-size: 26px;
+    font-weight: 800;
+    color: #111111;
+    margin-bottom: 25px;
+}
+
+.detail-description {
+    font-size: 15px;
+    color: #444444;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.detail-specs {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.btn-detail-cart {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #1e5a2d; /* Verde in stile Classic Football Shirts */
+    color: #ffffff;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-detail-cart:hover {
+    background-color: #14401e;
+    color: #ffffff;
+}
+
+/* Responsive per smartphone */
+@media (max-width: 768px) {
+    .product-detail-wrapper {
+        padding: 20px;
+        gap: 30px;
+    }
+}
+    
 }
