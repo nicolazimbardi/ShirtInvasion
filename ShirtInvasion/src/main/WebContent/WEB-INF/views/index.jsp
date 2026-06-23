@@ -51,8 +51,7 @@
                         </li>
                         
                         <% if ("ADMIN".equals(utenteLoggato.getRuolo())) { %>
-                            <li><a href="${pageContext.request.contextPath}/admin.jsp" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
-                        <% } %>
+<li><a href="${pageContext.request.contextPath}/AdminServlet" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>                        <% } %>
                         
                         <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
                 <% 
