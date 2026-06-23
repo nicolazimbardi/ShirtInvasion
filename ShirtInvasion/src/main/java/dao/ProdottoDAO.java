@@ -142,4 +142,36 @@ public class ProdottoDAO {
         }
     }
 
+    public List<Prodotto> doRetrieveByNome(String nome) {
+        List<Prodotto> prodotti = new ArrayList<>();
+        String query = "SELECT * FROM prodotti WHERE (nome LIKE ? OR squadra LIKE ?) AND attivo = 1";
+        
+        try (Connection conn = ds.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setString(1, "%" + nome + "%");
+            ps.setString(2, "%" + nome + "%");
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Prodotto p = new Prodotto();
+                    p.setIdProdotto(rs.getInt("id_prodotto"));
+                    p.setNome(rs.getString("nome"));
+                    p.setSquadra(rs.getString("squadra"));
+                    p.setStagione(rs.getString("stagione"));
+                    p.setMarca(rs.getString("marca"));
+                    p.setTaglia(rs.getString("taglia"));
+                    p.setPrezzo(rs.getDouble("prezzo"));
+                    p.setQuantita(rs.getInt("quantita"));
+                    p.setDescrizione(rs.getString("descrizione"));
+                    p.setImmagine(rs.getString("immagine"));
+                    p.setAttivo(rs.getBoolean("attivo"));
+                    prodotti.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return prodotti;
+    }
 }
