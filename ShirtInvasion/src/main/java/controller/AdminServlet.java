@@ -145,16 +145,22 @@ public class AdminServlet extends HttpServlet {
                 }
             } 
             else if ("modifica".equals(azioneProdotto)) {
+
                 int idMod = Integer.parseInt(request.getParameter("id"));
                 Prodotto pMod = prodottoDao.doRetrieveById(idMod);
+
                 if (pMod != null) {
+
+                    pMod.setSquadra(request.getParameter("squadra"));
+                    pMod.setNome(request.getParameter("modello"));
                     pMod.setStagione(request.getParameter("stagione"));
                     pMod.setMarca(request.getParameter("marca"));
                     pMod.setTaglia(request.getParameter("taglia"));
                     pMod.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
                     pMod.setQuantita(Integer.parseInt(request.getParameter("stock")));
                     pMod.setDescrizione(request.getParameter("descrizione"));
-                    
+                    pMod.setImmagine(request.getParameter("immagine"));
+
                     if (prodottoDao.doUpdate(pMod)) {
                         request.setAttribute("messaggioSuccesso", "Articolo aggiornato con successo.");
                     } else {

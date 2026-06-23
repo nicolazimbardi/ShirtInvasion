@@ -129,14 +129,34 @@
     %>
                 <tr>
                     <td class="td-id"><%= p.getIdProdotto() %></td>
-                    <td class="td-foto">
-                        <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
-                            <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="Maglia" class="img-mini">
-                        <% } else { %> 👕 <% } %>
-                    </td>
-                    
-                    <td><strong><%= p.getSquadra() %></strong></td>
-                    <td><input type="text" name="modello" value="<%= p.getNome() %>" form="<%= formId %>"></td>
+                    <td>
+    <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>"
+         class="img-mini"
+         alt="Maglia">
+
+    <br>
+
+    <select name="immagine" form="<%= formId %>">
+
+        <% if(fotoDisponibili != null){
+            for(String foto : fotoDisponibili){ %>
+
+            <option value="<%= foto %>"
+                <%= foto.equals(p.getImmagine()) ? "selected" : "" %>>
+                <%= foto %>
+            </option>
+
+        <% }
+        } %>
+
+    </select>
+</td>
+<td>
+    <input type="text"
+           name="squadra"
+           value="<%= p.getSquadra() %>"
+           form="<%= formId %>">
+</td>                    <td><input type="text" name="modello" value="<%= p.getNome() %>" form="<%= formId %>"></td>
                     <td><input type="text" name="stagione" value="<%= p.getStagione() %>" form="<%= formId %>"></td>
                     <td><input type="text" name="marca" value="<%= p.getMarca() %>" form="<%= formId %>"></td>
                     <td><input type="text" name="taglia" value="<%= p.getTaglia() %>" form="<%= formId %>"></td>

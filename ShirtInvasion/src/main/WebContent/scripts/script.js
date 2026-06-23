@@ -64,3 +64,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+document.addEventListener("DOMContentLoaded", function () {
+
+    const selectFoto = document.getElementById("scelta-immagine");
+    const imgAnteprima = document.getElementById("img-anteprima");
+
+    if (selectFoto && imgAnteprima) {
+
+        selectFoto.addEventListener("change", function () {
+
+            if (this.value !== "") {
+
+                const contextPath =
+                    window.location.pathname.substring(
+                        0,
+                        window.location.pathname.indexOf("/", 1)
+                    );
+
+                imgAnteprima.src =
+                    contextPath + "/images/" + this.value;
+
+                imgAnteprima.style.display = "block";
+            }
+        });
+    }
+
+});
