@@ -1145,3 +1145,56 @@ body.page-carrello .main-container {
     height: 10px;  /* Crea una zona invisibile ma intercettabile dal mouse */
     background: transparent; /* Rimane totalmente invisibile */
 }
+
+.main-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+}
+
+.logo{
+    margin-left:10px;
+    flex:none !important;
+    text-align:left !important;
+}
+
+.league-menu{
+    position:relative;
+}
+
+.league-btn{
+    background:none;
+    border:none;
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+    padding:0;
+}
+
+.league-dropdown{
+    display:none;
+    position:absolute;
+    top:35px;
+    left:0;
+    background:white;
+    min-width:180px;
+    border-radius:5px;
+    z-index:1000;
+}
+
+.league-dropdown a{
+    display:block;
+    padding:10px;
+    color:black;
+    text-decoration:none;
+}
+
+.league-dropdown a:hover{
+    background:#f0f0f0;
+}
+

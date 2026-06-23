@@ -11,16 +11,34 @@
     <title>ShirtInvasion - Catalogo Maglie</title>
     <link rel="stylesheet" href="styles/stile.css">
     <script src="scripts/ajax.js" defer></script>
+        <script src="${pageContext.request.contextPath}/scripts/menu.js" defer></script>
+    
 </head>
 <body>
 
-    <header class="main-header">
+  <header class="main-header">
+
+    <div class="header-left">
+
+        <div class="league-menu">
+            <button class="league-btn" id="menuBtn">☰</button>
+
+            <div class="league-dropdown" id="menuDropdown">
+                <a href="${pageContext.request.contextPath}/campionato?nome=Serie A">Serie A</a>
+                <a href="${pageContext.request.contextPath}/campionato?nome=Premier League">Premier League</a>
+                <a href="${pageContext.request.contextPath}/campionato?nome=La Liga">La Liga</a>
+            </div>
+        </div>
+
         <div class="logo">
             <h1>Shirt<span>Invasion</span> ⚽</h1>
         </div>
-        
-        <nav class="nav-bar">
-            <ul>
+
+    </div>
+    
+
+    <nav class="nav-bar">
+        <ul>
                 <% 
                     // Calcolo del numero di articoli nel carrello
                     Carrello carrelloSession = (Carrello) session.getAttribute("carrello");

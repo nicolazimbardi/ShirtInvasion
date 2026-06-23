@@ -71,15 +71,31 @@
     <input type="hidden" name="azioneProdotto" value="inserisci">
     
     <div class="admin-form-row">
-        <input type="text" name="squadra" placeholder="Squadra" required>
-        <input type="text" name="modello" placeholder="Modello/Nome" required>
-        <input type="text" name="stagione" placeholder="Stagione (es 2026/27)" required>
-        <input type="text" name="marca" placeholder="Marca" required>
-        <input type="text" name="taglia" placeholder="Taglia" required>
-        <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required>
-        <input type="number" name="stock" placeholder="Stock" required>
-        <input type="text" name="descrizione" placeholder="Descrizione dettagliata">
-        
+
+    <input type="text" name="squadra" placeholder="Squadra" required>
+
+    <select name="campionato" required>
+        <option value="">-- Campionato --</option>
+        <option value="Serie A">Serie A</option>
+        <option value="Premier League">Premier League</option>
+        <option value="La Liga">La Liga</option>
+    </select>
+
+    <input type="text" name="modello" placeholder="Modello/Nome" required>
+
+    <input type="text" name="stagione" placeholder="Stagione (es 2026/27)" required>
+
+    <input type="text" name="marca" placeholder="Marca" required>
+
+    <input type="text" name="taglia" placeholder="Taglia" required>
+
+    <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required>
+
+    <input type="number" name="stock" placeholder="Stock" required>
+
+    <input type="text" name="descrizione" placeholder="Descrizione dettagliata">
+
+</div>        
         <select name="immagine" id="scelta-immagine" required>
             <option value="">-- Scegli Foto --</option>
             <% 
