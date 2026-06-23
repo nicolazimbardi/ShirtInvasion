@@ -45,7 +45,7 @@
             <% if ("ADMIN".equals(utenteLoggato.getRuolo())) { %>
                 <li><a href="<%= request.getContextPath() %>/AdminServlet" style="color: #ffcc00;">Admin Panel</a></li>
             <% } %>
-            <li><a href="<%= request.getContextPath() %>/LogoutServlet">Logout</a></li>
+          <li><a href="<%= request.getContextPath() %>/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
         <% } %>
     </ul>
 </nav>

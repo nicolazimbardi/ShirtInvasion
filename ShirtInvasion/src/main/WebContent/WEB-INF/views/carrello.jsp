@@ -22,23 +22,26 @@
         Utente utenteLoggato = (Utente) session.getAttribute("utente");
     %>
     
-    <nav class="nav-bar">
-        <ul>
-            <li><a href="${pageContext.request.contextPath}/home">Continua lo shopping</a></li>
-            
-            <% if (utenteLoggato == null) { %>
-                <li><a href="${pageContext.request.contextPath}/LoginServlet">Accedi / Registrati</a></li>
-            <% } else { %>
-                <%-- Controlliamo se è un admin usando getRuolo() --%>
-                <% if ("ADMIN".equalsIgnoreCase(utenteLoggato.getRuolo())) { %>
-                    <li><a href="${pageContext.request.contextPath}/admin.jsp" style="color: #00a8ff;">Pannello Admin 🛠️</a></li>
-                <% } %>
-                
-                <li class="user-name-display">Ciao, <%= utenteLoggato.getNome() %> 👋</li>
-                <li><a href="${pageContext.request.contextPath}/LogoutServlet" class="btn-logout-nav">Logout</a></li>
+<nav class="nav-bar">
+    <ul>
+     
+        
+        <li><a href="${pageContext.request.contextPath}/home">Continua lo shopping</a></li>
+        
+        <% if (utenteLoggato != null) { %>
+            <%-- Se è un admin, mostriamo il link al pannello --%>
+            <% if ("ADMIN".equalsIgnoreCase(utenteLoggato.getRuolo())) { %>
+                <li><a href="${pageContext.request.contextPath}/AdminServlet" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
             <% } %>
-        </ul>
-    </nav>
+            
+            <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
+            
+        <% } else { %>
+            <li><a href="${pageContext.request.contextPath}/LoginServlet" style="font-weight: bold;">Accedi</a></li>
+            <li><a href="${pageContext.request.contextPath}/RegistrazioneServlet" style="font-weight: bold;">Registrati</a></li>
+        <% } %>
+    </ul>
+</nav>
 </header>
 
 <main class="main-container" style="margin-top: 40px;">
