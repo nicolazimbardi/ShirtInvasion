@@ -33,7 +33,7 @@ public class RicercaAjaxServlet extends HttpServlet {
                 ProdottoDAO prodottoDao = new ProdottoDAO();
                 risultati = prodottoDao.doRetrieveByNome(query);
                 
-            } catch (Exception e) {
+             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
