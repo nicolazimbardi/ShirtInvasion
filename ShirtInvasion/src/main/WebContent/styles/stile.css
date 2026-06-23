@@ -1058,4 +1058,90 @@ body.page-carrello .main-container {
     color: #00a8ff; /* Azzurro accesso stile logo */
 }
 
-    
+//* ==========================================================================
+   MENU A TENDINA UTENTE (NAVBAR)
+   ========================================================================== */
+
+/* Risolve il warning HTML e allinea il blocco nella navbar */
+.user-menu-item {
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+/* Il testo "Ciao, Lorenzo" */
+.user-menu-container {
+    position: relative;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Fa apparire il menu al passaggio del mouse */
+.user-menu-container:hover .dropdown-content {
+    display: block !important;
+}
+
+/* Il riquadro bianco del menu */
+.dropdown-content {
+    display: none; 
+    position: absolute;
+    top: 100%; 
+    right: 0;  
+    background-color: #ffffff !important;
+    min-width: 230px; /* Larghezza perfetta per non far andare a capo nulla */
+    box-shadow: 0px 8px 24px rgba(0,0,0,0.15) !important;
+    border-radius: 8px !important;
+    z-index: 9999 !important; /* Lo fa stare SEMPRE sopra al resto (carrello, prodotti, ecc.) */
+    padding: 8px 0 !important;
+    border: 1px solid #e0e0e0 !important;
+    margin-top: 5px;
+}
+
+/* Stile per i singoli link del menu */
+.dropdown-content a {
+    color: #333333 !important;
+    padding: 12px 20px !important;
+    text-decoration: none !important;
+    display: flex !important;          
+    justify-content: space-between !important; /* Spinge testo a sx e icona a dx */
+    align-items: center !important;    
+    font-weight: 500 !important;
+    font-size: 15px !important;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Effetto Hover sui link normali */
+.dropdown-content a:hover {
+    background-color: #f4f6f8 !important;
+    color: #007bff !important; 
+}
+
+/* Stile specifico per il link di uscita */
+.dropdown-content a.logout-link {
+    color: #d9534f !important; 
+    border-top: 1px solid #eeeeee !important; 
+    margin-top: 5px;
+    padding-top: 15px !important;
+    font-weight: bold !important;
+}
+
+/* Effetto Hover specifico per l'uscita */
+.dropdown-content a.logout-link:hover {
+    background-color: #fff5f5 !important; 
+    color: #c9302c !important;
+}
+
+/* Il "ponte invisibile" che cattura il mouse ed evita lo sfarfallio */
+.dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -10px;    /* Si estende verso l'alto per coprire il buco di 5px */
+    left: 0;
+    right: 0;
+    height: 10px;  /* Crea una zona invisibile ma intercettabile dal mouse */
+    background: transparent; /* Rimane totalmente invisibile */
+}
