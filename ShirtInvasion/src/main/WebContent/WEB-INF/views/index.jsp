@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShirtInvasion - Catalogo Maglie</title>
     <link rel="stylesheet" href="styles/stile.css">
-    <script src="scripts/scripts.js" defer></script>
+    <script src="scripts/ajax.js" defer></script>
 </head>
 <body>
 
@@ -25,7 +25,6 @@
                     Carrello carrelloSession = (Carrello) session.getAttribute("carrello");
                     int numeroArticoli = 0;
                     
-                    // RISOLTO: Calcoliamo la quantità fisica totale sommando i quantitativi nel carrello
                     if (carrelloSession != null && carrelloSession.getElementi() != null) {
                         for (Prodotto p : carrelloSession.getElementi()) {
                             numeroArticoli += p.getQuantitaCarrello();
@@ -80,6 +79,13 @@
         <div class="hero-text">
             <h2>Campioni sul Campo, Unici nello Stile</h2>
             <p>Trova le maglie da calcio più iconiche di sempre per la tua collezione.</p>
+            
+            <div class="search-container" style="position: relative; margin: 20px auto 0 auto; width: 100%; max-width: 450px; text-align: left;">
+                <input type="text" id="searchBar" placeholder="Cerca una maglia o una squadra..." autocomplete="off" style="width: 100%; padding: 12px 20px; border-radius: 25px; border: 2px solid #fff; font-size: 16px; outline: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                
+                <div id="suggerimentiBox" style="position: absolute; top: 110%; left: 0; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); display: none; z-index: 9999; max-height: 280px; overflow-y: auto; color: #333;">
+                </div>
+            </div>
         </div>
     </section>
 
@@ -116,7 +122,6 @@
                                 <div class="card-footer">
                                     <span class="price"><%= String.format("%.2f", p.getPrezzo()) %> €</span>
                                     
-                                    <%-- LOGICA DI CONTROLLO: L'ADMIN NON PUO' AGGIUNGERE AL CARRELLO --%>
                                     <% if (utenteLoggato == null || !"ADMIN".equals(utenteLoggato.getRuolo())) { %>
                                         <a class="btn-add-cart" href="CarrelloServlet?azione=aggiungi&id=<%= p.getIdProdotto() %>">Aggiungi</a>
                                     <% } else { %>
