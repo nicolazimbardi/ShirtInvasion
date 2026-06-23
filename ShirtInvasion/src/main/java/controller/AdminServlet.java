@@ -108,12 +108,7 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("utente") == null) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Non autorizzato");
-            return;
-        }
-        Utente utente = (Utente) session.getAttribute("utente");
-        if (!"ADMIN".equals(utente.getRuolo())) {
+        if (session == null || session.getAttribute("utente") == null || !"ADMIN".equals(((Utente)session.getAttribute("utente")).getRuolo())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Non autorizzato");
             return;
         }
@@ -121,69 +116,58 @@ public class AdminServlet extends HttpServlet {
         ProdottoDAO prodottoDao = new ProdottoDAO();
         String azioneProdotto = request.getParameter("azioneProdotto");
 
-        if (azioneProdotto == null || azioneProdotto.isEmpty() || "inserisci".equals(azioneProdotto)) {
-            Prodotto nuovo = new Prodotto();
-            nuovo.setSquadra(request.getParameter("squadra"));
-            nuovo.setNome(request.getParameter("modello")); 
-            nuovo.setStagione(request.getParameter("stagione"));
-            nuovo.setMarca(request.getParameter("marca"));
-            nuovo.setTaglia(request.getParameter("taglia"));
-            nuovo.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-            nuovo.setQuantita(Integer.parseInt(request.getParameter("stock"))); 
-            nuovo.setDescrizione(request.getParameter("descrizione"));
-            nuovo.setImmagine(request.getParameter("immagine")); 
-            nuovo.setAttivo(true);
-            
-            boolean salvato = prodottoDao.doSave(nuovo);
-            if (salvato) {
-                request.setAttribute("messaggioSuccesso", "Articolo inserito correttamente!");
-            } else {
-                request.setAttribute("messaggioErrore", "Errore nel salvataggio del prodotto.");
-            }
-        }
-        else if ("elimina".equals(azioneProdotto)) {
-            int idDel = Integer.parseInt(request.getParameter("id"));
-            boolean eliminato = prodottoDao.doDelete(idDel);
-            if (eliminato) {
-                request.setAttribute("messaggioSuccesso", "Articolo rimosso dal catalogo con successo.");
-            } else {
-                request.setAttribute("messaggioErrore", "Errore durante l'eliminazione.");
-            }
-        }
-        else if ("modifica".equals(azioneProdotto)) {
-            int idMod = Integer.parseInt(request.getParameter("id"));
-            Prodotto pMod = prodottoDao.doRetrieveById(idMod);
-            if (pMod != null) {
-                pMod.setStagione(request.getParameter("stagione"));
-                pMod.setMarca(request.getParameter("marca"));
-                pMod.setTaglia(request.getParameter("taglia"));
-                pMod.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
-                pMod.setQuantita(Integer.parseInt(request.getParameter("stock"))); 
-                pMod.setDescrizione(request.getParameter("descrizione"));
+        try {
+            if ("inserisci".equals(azioneProdotto)) {
+                Prodotto nuovo = new Prodotto();
+                nuovo.setSquadra(request.getParameter("squadra"));
+                nuovo.setNome(request.getParameter("modello"));
+                nuovo.setStagione(request.getParameter("stagione"));
+                nuovo.setMarca(request.getParameter("marca"));
+                nuovo.setTaglia(request.getParameter("taglia"));
+                nuovo.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+                nuovo.setQuantita(Integer.parseInt(request.getParameter("stock")));
+                nuovo.setDescrizione(request.getParameter("descrizione"));
+                nuovo.setImmagine(request.getParameter("immagine"));
+                nuovo.setAttivo(true);
                 
-                boolean aggiornato = prodottoDao.doUpdate(pMod);
-                if (aggiornato) {
-                    request.setAttribute("messaggioSuccesso", "Articolo aggiornato con successo.");
+                if (prodottoDao.doSave(nuovo)) {
+                    request.setAttribute("messaggioSuccesso", "Articolo inserito correttamente!");
                 } else {
-                    request.setAttribute("messaggioErrore", "Errore durante l'aggiornamento dell'articolo.");
+                    request.setAttribute("messaggioErrore", "Errore nel salvataggio.");
+                }
+            } 
+            else if ("elimina".equals(azioneProdotto)) {
+                int idDel = Integer.parseInt(request.getParameter("id"));
+                if (prodottoDao.doDelete(idDel)) {
+                    request.setAttribute("messaggioSuccesso", "Articolo rimosso con successo.");
+                } else {
+                    request.setAttribute("messaggioErrore", "Errore durante l'eliminazione.");
+                }
+            } 
+            else if ("modifica".equals(azioneProdotto)) {
+                int idMod = Integer.parseInt(request.getParameter("id"));
+                Prodotto pMod = prodottoDao.doRetrieveById(idMod);
+                if (pMod != null) {
+                    pMod.setStagione(request.getParameter("stagione"));
+                    pMod.setMarca(request.getParameter("marca"));
+                    pMod.setTaglia(request.getParameter("taglia"));
+                    pMod.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+                    pMod.setQuantita(Integer.parseInt(request.getParameter("stock")));
+                    pMod.setDescrizione(request.getParameter("descrizione"));
+                    
+                    if (prodottoDao.doUpdate(pMod)) {
+                        request.setAttribute("messaggioSuccesso", "Articolo aggiornato con successo.");
+                    } else {
+                        request.setAttribute("messaggioErrore", "Errore durante l'aggiornamento.");
+                    }
                 }
             }
-        }
-        else if ("elimina".equals(azioneProdotto)) {
-            int idDel = Integer.parseInt(request.getParameter("id")); 
-            boolean eliminato = prodottoDao.doDelete(idDel);
-            
-            if (eliminato) {
-                request.setAttribute("messaggioSuccesso", "Articolo rimosso dal catalogo con successo.");
-            } else {
-                request.setAttribute("messaggioErrore", "Errore durante l'eliminazione dal database.");
-            }
-            
-            List<Prodotto> catalogoAggiornato = prodottoDao.doRetrieveAll(); 
-            request.setAttribute("prodottiCatalogo", catalogoAggiornato);
+        } catch (NumberFormatException | NullPointerException e) {
+            request.setAttribute("messaggioErrore", "Dati inseriti non validi.");
+            e.printStackTrace();
         }
 
+        // Richiama doGet per ricaricare la pagina con i dati aggiornati
         doGet(request, response);
     }
 }
-

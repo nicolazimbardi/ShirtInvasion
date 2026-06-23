@@ -59,33 +59,38 @@
             
             <p class="admin-section-title-sub">Nuovo Articolo Completo:</p>
             
-            <form action="${pageContext.request.contextPath}/AdminServlet" method="POST" data-context="${pageContext.request.contextPath}">
-                <div class="admin-form-row">
-                    <input type="text" name="squadra" placeholder="Squadra" required>
-                    <input type="text" name="modello" placeholder="Modello/Nome" required>
-                    <input type="text" name="stagione" placeholder="Stagione (es 2026/27)" required>
-                    <input type="text" name="marca" placeholder="Marca" required>
-                    <input type="text" name="taglia" placeholder="Taglia" required>
-                    <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required>
-                    <input type="number" name="stock" placeholder="Stock" required>
-                    <input type="text" name="descrizione" placeholder="Descrizione dettagliata">
-                    
-                    <select name="immagine" id="scelta-immagine" required>
-                        <option value="">-- Scegli Foto --</option>
-                        <% 
-                            List<String> fotoDisponibili = (List<String>) request.getAttribute("listaFotoDisponibili");
-                            if (fotoDisponibili != null) {
-                                for (String foto : fotoDisponibili) {
-                        %>
-                                    <option value="<%= foto %>"><%= foto %></option>
-                        <% 
-                                }
-                            } 
-                        %>
-                    </select>
-                    
-                    <button type="submit" class="btn-admin-save">Salva</button>
-                </div>
+<p class="admin-section-title-sub">Nuovo Articolo Completo:</p>
+
+<form action="${pageContext.request.contextPath}/AdminServlet" method="POST">
+    <input type="hidden" name="azioneProdotto" value="inserisci">
+    
+    <div class="admin-form-row">
+        <input type="text" name="squadra" placeholder="Squadra" required>
+        <input type="text" name="modello" placeholder="Modello/Nome" required>
+        <input type="text" name="stagione" placeholder="Stagione (es 2026/27)" required>
+        <input type="text" name="marca" placeholder="Marca" required>
+        <input type="text" name="taglia" placeholder="Taglia" required>
+        <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required>
+        <input type="number" name="stock" placeholder="Stock" required>
+        <input type="text" name="descrizione" placeholder="Descrizione dettagliata">
+        
+        <select name="immagine" id="scelta-immagine" required>
+            <option value="">-- Scegli Foto --</option>
+            <% 
+                List<String> fotoDisponibili = (List<String>) request.getAttribute("listaFotoDisponibili");
+                if (fotoDisponibili != null) {
+                    for (String foto : fotoDisponibili) {
+            %>
+                        <option value="<%= foto %>"><%= foto %></option>
+            <% 
+                    }
+                } 
+            %>
+        </select>
+        
+        <button type="submit" class="btn-admin-save">Salva</button>
+    </div>
+</form>
 
                 <!-- BOX ANTEPRIMA VISIVA GESTITO DA CLASSI CSS -->
                 <div id="box-anteprima" class="preview-gallery-container">
@@ -97,7 +102,7 @@
             </form>
 
             <!-- TABELLA CATALOGO ARTICOLI -->
-            <<div class="admin-table-wrapper">
+            <div class="admin-table-wrapper">
     <table class="admin-table">
         <thead>
             <tr>
@@ -115,60 +120,51 @@
             </tr>
         </thead>
         <tbody>
-            <% 
-                List<Prodotto> catalogo = (List<Prodotto>) request.getAttribute("prodottiCatalogo"); 
-                if (catalogo != null && !catalogo.isEmpty()) {
-                    for (Prodotto p : catalogo) {
-            %>
-                        <tr>
-                            <td class="td-id"><%= p.getIdProdotto() %></td>
-                            <td class="td-foto">
-                                <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
-                                    <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="Maglia" class="img-mini">
-                                <% } else { %>
-                                    👕
-                                <% } %>
-                            </td>
-                            <td><strong><%= p.getSquadra() %></strong></td>
-                            <td><%= p.getNome() %></td>
-                            <td><%= p.getStagione() %></td>
-                            <td><%= p.getMarca() %></td>
-                            <td><span class="info-prodotto"><%= p.getTaglia() %></span></td>
-                            <td><%= String.format("%.2f", p.getPrezzo()) %></td>
-                            <td><%= p.getQuantita() %> pz</td>
-                            <td class="td-desc"><%= p.getDescrizione() != null ? p.getDescrizione() : "" %></td>
-                            
-                            <td>
-                                <!-- I FORM SONO CHIUSI E RACCHIUSI CORRETTAMENTE DENTRO LA CELLA <td>: STRUTTURA VALIDA PER IL BROWSER -->
-                                <form id="formModifica<%= p.getIdProdotto() %>" action="AdminServlet?azioneProdotto=modifica&id=<%= p.getIdProdotto() %>" method="POST" style="display:none;">
-                                    <input type="hidden" name="stagione" value="<%= p.getStagione() %>" id="hidStagione<%= p.getIdProdotto() %>">
-                                    <input type="hidden" name="marca" value="<%= p.getMarca() %>" id="hidMarca<%= p.getIdProdotto() %>">
-                                    <input type="hidden" name="taglia" value="<%= p.getTaglia() %>" id="hidTaglia<%= p.getIdProdotto() %>">
-                                    <input type="hidden" name="prezzo" value="<%= p.getPrezzo() %>" id="hidPrezzo<%= p.getIdProdotto() %>">
-                                    <input type="hidden" name="stock" value="<%= p.getQuantita() %>" id="hidStock<%= p.getIdProdotto() %>">
-                                    <input type="hidden" name="descrizione" value="<%= p.getDescrizione() != null ? p.getDescrizione() : "" %>" id="hidDesc<%= p.getIdProdotto() %>">
-                                </form>
-
-                                <!-- Pulsante di modifica -->
-                                <button type="button" class="btn-action btn-edit" onclick="modificaRapida(<%= p.getIdProdotto() %>, '<%= p.getStagione() %>', '<%= p.getMarca() %>', '<%= p.getTaglia() %>', <%= p.getPrezzo() %>, <%= p.getQuantita() %>, '<%= p.getDescrizione() != null ? p.getDescrizione().replace("'", "\\'") : "" %>')">Modifica</button>
-                                
-                                <!-- Form autonomo per l'eliminazione -->
-                                <form action="${pageContext.request.contextPath}/AdminServlet?azioneProdotto=elimina&id=<%= p.getIdProdotto() %>" method="POST" style="display: inline;" onsubmit="return confirm('Sicuro di voler eliminare questo articolo?')">
-                                    <button type="submit" class="btn-action btn-delete">Elimina</button>
-                                </form>
-                            </td>
-                        </tr>
-            <% 
-                    }
-                } else {
-            %>
-                    <tr>
-                        <td colspan="11" class="text-empty">Nessun prodotto censito nel catalogo.</td>
-                    </tr>
-            <% 
-                }
-            %>
-        </tbody>
+    <% 
+        List<Prodotto> catalogo = (List<Prodotto>) request.getAttribute("prodottiCatalogo"); 
+        if (catalogo != null && !catalogo.isEmpty()) {
+            for (Prodotto p : catalogo) {
+                // Generiamo un ID unico per il form di questa riga
+                String formId = "form_edit_" + p.getIdProdotto();
+    %>
+                <tr>
+                    <td class="td-id"><%= p.getIdProdotto() %></td>
+                    <td class="td-foto">
+                        <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
+                            <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="Maglia" class="img-mini">
+                        <% } else { %> 👕 <% } %>
+                    </td>
+                    
+                    <td><strong><%= p.getSquadra() %></strong></td>
+                    <td><input type="text" name="modello" value="<%= p.getNome() %>" form="<%= formId %>"></td>
+                    <td><input type="text" name="stagione" value="<%= p.getStagione() %>" form="<%= formId %>"></td>
+                    <td><input type="text" name="marca" value="<%= p.getMarca() %>" form="<%= formId %>"></td>
+                    <td><input type="text" name="taglia" value="<%= p.getTaglia() %>" form="<%= formId %>"></td>
+                    <td><input type="number" step="0.01" name="prezzo" value="<%= p.getPrezzo() %>" form="<%= formId %>"></td>
+                    <td><input type="number" name="stock" value="<%= p.getQuantita() %>" form="<%= formId %>"></td>
+                    <td><input type="text" name="descrizione" value="<%= p.getDescrizione() %>" form="<%= formId %>"></td>
+                    
+                    <td>
+                        <form id="<%= formId %>" action="${pageContext.request.contextPath}/AdminServlet" method="POST">
+                            <input type="hidden" name="azioneProdotto" value="modifica">
+                            <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
+                            <button type="submit" class="btn-action btn-edit">Salva</button>
+                        </form>
+                        
+                        <form action="${pageContext.request.contextPath}/AdminServlet" method="POST" onsubmit="return confirm('Eliminare?')">
+                            <input type="hidden" name="azioneProdotto" value="elimina">
+                            <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
+                            <button type="submit" class="btn-action btn-delete">Elimina</button>
+                        </form>
+                    </td>
+                </tr>
+    <% 
+            }
+        } else {
+    %>
+            <tr><td colspan="11" class="text-empty">Nessun prodotto trovato.</td></tr>
+    <% } %>
+</tbody>
     </table>
 </div>
 </section>
