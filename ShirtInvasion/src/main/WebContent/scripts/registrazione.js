@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Selezioniamo il form e tutti i campi necessari
     const registrazioneForm = document.getElementById("registrazioneForm");
+    const nomeInput = document.getElementById("nome");
+    const cognomeInput = document.getElementById("cognome");
     const emailInput = document.getElementById("email");
     const telefonoInput = document.getElementById("telefono");
     const passwordInput = document.getElementById("password");
@@ -28,8 +29,37 @@ document.addEventListener("DOMContentLoaded", function() {
     registrazioneForm.addEventListener("submit", function(event) {
         let isValid = true;
         
-      
+        
         clearErrors();
+
+        // Espressione regolare per Nome e Cognomi
+        const nameRegex = /^[A-Za-zÀ-ÿ\s']+$/;
+
+        //  Validazione Nome
+        const nomeValue = nomeInput.value.trim();
+        if (!nomeValue) {
+            showError(nomeInput, "Il campo nome è obbligatorio.");
+            isValid = false;
+        } else if (nomeValue.length < 2) {
+            showError(nomeInput, "Il nome deve contenere almeno 2 caratteri.");
+            isValid = false;
+        } else if (!nameRegex.test(nomeValue)) {
+            showError(nomeInput, "Il nome può contenere solo lettere.");
+            isValid = false;
+        }
+
+        //  Validazione Cognome
+        const cognomeValue = cognomeInput.value.trim();
+        if (!cognomeValue) {
+            showError(cognomeInput, "Il campo cognome è obbligatorio.");
+            isValid = false;
+        } else if (cognomeValue.length < 2) {
+            showError(cognomeInput, "Il cognome deve contenere almeno 2 caratteri.");
+            isValid = false;
+        } else if (!nameRegex.test(cognomeValue)) {
+            showError(cognomeInput, "Il cognome può contenere solo lettere.");
+            isValid = false;
+        }
 
         //  Validazione Email
         const emailValue = emailInput.value.trim();
@@ -42,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
             isValid = false;
         }
 
-        //  Validazione Telefono 
+        //  Validazione Telefono (Solo numeri, da 9 a 11 cifre)
         const telefonoValue = telefonoInput.value.trim();
         const telefonoRegex = /^[0-9]{9,11}$/;
         if (!telefonoValue) {
@@ -82,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
             isValid = false;
         }
 
-        //Blocca l'invio del form alla servlet se c'è anche un solo errore
+        // Blocca l'invio del form alla servlet se c'è anche un solo errore
         if (!isValid) {
             event.preventDefault();
         }

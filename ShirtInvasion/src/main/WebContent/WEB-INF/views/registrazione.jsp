@@ -9,7 +9,9 @@
     
     <script src="${pageContext.request.contextPath}/scripts/registrazione.js" defer></script>
 </head>
-<body class="login-body"> <div class="login-card">
+<body class="login-body">
+
+    <div class="login-card">
         <h2>Crea un account su ShirtInvasion</h2>
         
         <% if (request.getAttribute("messaggioErrore") != null) { %>
@@ -17,6 +19,17 @@
         <% } %>
 
         <form id="registrazioneForm" action="${pageContext.request.contextPath}/RegistrazioneServlet" method="post">
+            
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cognome">Cognome:</label>
+                <input type="text" id="cognome" name="cognome" required>
+            </div>
+
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
