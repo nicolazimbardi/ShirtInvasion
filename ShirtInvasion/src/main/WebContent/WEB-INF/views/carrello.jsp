@@ -72,21 +72,28 @@
             %>
                 <div class="cart-item">
                     
-                    <div class="cart-thumb-box">
-                        <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
-                            <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="<%= p.getNome() %>">
-                        <% } else { %>
-                            👕 <% } %>
-                    </div>
+    <div class="cart-thumb-box">
+    <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" style="text-decoration: none; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+        <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
+            <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="<%= p.getNome() %>">
+        <% } else { %>
+            👕
+        <% } %>
+    </a>
+</div>
 
-                    <div class="cart-item-details">
-                        <h3><%= p.getNome() %></h3>
-                        <p><%= p.getMarca() %> &bull; <%= p.getSquadra() %> &bull; <%= p.getStagione() %></p>
-                        <p>Taglia: <strong><%= p.getTaglia() %></strong></p>
-                        <% if (p.getDescrizione() != null && !p.getDescrizione().isEmpty()) { %>
-                            <p style="margin-top: 5px; font-style: italic;"><%= p.getDescrizione() %></p>
-                        <% } %>
-                    </div>
+<div class="cart-item-details">
+    <h3>
+        <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" class="product-title-link">
+            <%= p.getNome() %>
+        </a>
+    </h3>
+    <p><%= p.getMarca() %> &bull; <%= p.getSquadra() %> &bull; <%= p.getStagione() %></p>
+    <p>Taglia: <strong><%= p.getTaglia() %></strong></p>
+    <% if (p.getDescrizione() != null && !p.getDescrizione().isEmpty()) { %>
+        <p style="margin-top: 5px; font-style: italic;"><%= p.getDescrizione() %></p>
+    <% } %>
+</div>
 
                     <div class="cart-item-right">
                         <div class="cart-item-price"><%= String.format("%.2f", p.getPrezzo() * p.getQuantitaCarrello()) %> €</div>

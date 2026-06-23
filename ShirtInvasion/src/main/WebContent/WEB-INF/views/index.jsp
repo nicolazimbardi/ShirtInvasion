@@ -110,7 +110,7 @@
 </div>
 
 <h3>
-    <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" style="text-decoration: none; color: inherit;">
+    <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" class="product-title-link">
         <%= p.getNome() %>
     </a>
 </h3>
