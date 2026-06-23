@@ -1044,5 +1044,18 @@ body.page-carrello .main-container {
         padding: 20px;
         gap: 30px;
     }
+     }
+    /* ==========================================================================
+   18. LINK TITOLI PRODOTTI (Hover)
+   ========================================================================== */
+.product-title-link {
+    text-decoration: none;
+    color: #022340; /* Blu scuro principale */
+    transition: color 0.2s ease-in-out;
 }
+
+.product-title-link:hover {
+    color: #00a8ff; /* Azzurro accesso stile logo */
+}
+
     
