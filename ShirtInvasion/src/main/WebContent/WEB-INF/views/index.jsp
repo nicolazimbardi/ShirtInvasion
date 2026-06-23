@@ -45,7 +45,7 @@
                                        Ciao, <%= utenteLoggato.getNome() %> ▼
                                     </div>
                                     <div class="dropdown-content">
-                                        <a href="${pageContext.request.contextPath}/profilo.jsp">
+                                       <a href="${pageContext.request.contextPath}/ProfiloServlet">
                                             <span>Profilo</span> <span>👤</span>
                                         </a>
                                         <a href="${pageContext.request.contextPath}/ordini.jsp">

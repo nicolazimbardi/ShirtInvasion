@@ -14,6 +14,12 @@ import model.Utente;
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        // Mostra la pagina di login nascosta dentro WEB-INF
+        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
+    } 
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
@@ -33,15 +39,9 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/");
             }
         }
-
         else {
             request.setAttribute("messaggioErrore", "Email o password errate!");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
     }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-    } 
 }
