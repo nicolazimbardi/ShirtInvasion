@@ -74,23 +74,40 @@ public class AdminServlet extends HttpServlet {
         List<Prodotto> catalogo = prodottoDao.doRetrieveAll(); 
 
         List<String[]> listaOrdiniArray = new ArrayList<>();
-        String queryOrdini = "SELECT o.id_ordine, u.email, o.data_ordine, o.totale, o.stato " +
-                             "FROM ordini o JOIN utenti u ON o.id_utente = u.id_utente"; 
+        String dataInizio = request.getParameter("dataInizio");
+        String dataFine = request.getParameter("dataFine");
+
+        String queryOrdini =
+        "SELECT o.id_ordine, u.email, o.data_ordine, o.totale, o.stato " +
+        "FROM ordini o JOIN utenti u ON o.id_utente = u.id_utente";
+
+        boolean filtroDate =
+            dataInizio != null && !dataInizio.isEmpty() &&
+            dataFine != null && !dataFine.isEmpty();
+
+        if (filtroDate) {
+            queryOrdini += " WHERE DATE(o.data_ordine) BETWEEN ? AND ?";
+        }
         
         if (ds != null) {
             try (Connection conn = ds.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(queryOrdini);
-                 ResultSet rs = ps.executeQuery()) {
+                 PreparedStatement ps = conn.prepareStatement(queryOrdini)) {
 
-                while (rs.next()) {
-                    String[] rigaOrdine = new String[5];
-                    rigaOrdine[0] = rs.getString("id_ordine");
-                    rigaOrdine[1] = rs.getString("email"); 
-                    rigaOrdine[2] = rs.getString("data_ordine");
-                    rigaOrdine[3] = String.format("%.2f €", rs.getDouble("totale"));
-                    rigaOrdine[4] = rs.getString("stato");
-                    
-                    listaOrdiniArray.add(rigaOrdine);
+                if (filtroDate) {
+                    ps.setString(1, dataInizio);
+                    ps.setString(2, dataFine);
+                }
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        String[] rigaOrdine = new String[5];
+                        rigaOrdine[0] = rs.getString("id_ordine");
+                        rigaOrdine[1] = rs.getString("email");
+                        rigaOrdine[2] = rs.getString("data_ordine");
+                        rigaOrdine[3] = String.format("%.2f €", rs.getDouble("totale"));
+                        rigaOrdine[4] = rs.getString("stato");
+                        listaOrdiniArray.add(rigaOrdine);
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -99,7 +116,7 @@ public class AdminServlet extends HttpServlet {
 
         request.setAttribute("listaFotoDisponibili", elencoFoto);
         request.setAttribute("prodottiCatalogo", catalogo);
-        request.setAttribute("listaOrdiniSenzaClasse", listaOrdiniArray); // Inviato alla Sezione 2 della JSP
+        request.setAttribute("listaOrdiniSenzaClasse", listaOrdiniArray);
         
         request.getRequestDispatcher("/WEB-INF/views/admin.jsp").forward(request, response);
     }
@@ -124,7 +141,11 @@ public class AdminServlet extends HttpServlet {
                 nuovo.setStagione(request.getParameter("stagione"));
                 nuovo.setMarca(request.getParameter("marca"));
                 nuovo.setTaglia(request.getParameter("taglia"));
-                nuovo.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+                
+                String prezzoRaw = request.getParameter("prezzo");
+                if(prezzoRaw != null) prezzoRaw = prezzoRaw.replace(",", ".");
+                nuovo.setPrezzo(Double.parseDouble(prezzoRaw));
+                
                 nuovo.setCampionato(request.getParameter("campionato"));
                 nuovo.setQuantita(Integer.parseInt(request.getParameter("stock")));
                 nuovo.setDescrizione(request.getParameter("descrizione"));
@@ -146,18 +167,20 @@ public class AdminServlet extends HttpServlet {
                 }
             } 
             else if ("modifica".equals(azioneProdotto)) {
-
                 int idMod = Integer.parseInt(request.getParameter("id"));
                 Prodotto pMod = prodottoDao.doRetrieveById(idMod);
 
                 if (pMod != null) {
-
                     pMod.setSquadra(request.getParameter("squadra"));
                     pMod.setNome(request.getParameter("modello"));
                     pMod.setStagione(request.getParameter("stagione"));
                     pMod.setMarca(request.getParameter("marca"));
                     pMod.setTaglia(request.getParameter("taglia"));
-                    pMod.setPrezzo(Double.parseDouble(request.getParameter("prezzo")));
+                    
+                    String prezzoRaw = request.getParameter("prezzo");
+                    if(prezzoRaw != null) prezzoRaw = prezzoRaw.replace(",", ".");
+                    pMod.setPrezzo(Double.parseDouble(prezzoRaw));
+                    
                     pMod.setCampionato(request.getParameter("campionato"));
                     pMod.setQuantita(Integer.parseInt(request.getParameter("stock")));
                     pMod.setDescrizione(request.getParameter("descrizione"));
@@ -171,11 +194,10 @@ public class AdminServlet extends HttpServlet {
                 }
             } 
         } catch (NumberFormatException | NullPointerException e) {
-            request.setAttribute("messaggioErrore", "Dati inseriti non validi.");
+            request.setAttribute("messaggioErrore", "Dati inseriti non validi numericamente.");
             e.printStackTrace();
         }
 
-        // Richiama doGet per ricaricare la pagina con i dati aggiornati
         doGet(request, response);
     }
 }
