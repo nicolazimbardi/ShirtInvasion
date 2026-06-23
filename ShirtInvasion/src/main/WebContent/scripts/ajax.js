@@ -28,19 +28,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
                             // Cicla su ogni prodotto trovato nel database
                             data.forEach(prodotto => {
-                                const div = document.createElement("div");
-                                div.style.padding = "10px";
-                                div.style.cursor = "pointer";
-                                div.style.borderBottom = "1px solid #eee";
-                                
-                                // Mostra il Nome e la Squadra
-                                div.innerHTML = `<strong>${prodotto.nome}</strong> - <em>${prodotto.squadra}</em>`;
+								const div = document.createElement("div");
+
+								div.style.display = "flex";
+								div.style.alignItems = "center";
+								div.style.gap = "10px";
+								div.style.padding = "10px";
+								div.style.cursor = "pointer";
+								div.style.borderBottom = "1px solid #eee";
+
+								div.innerHTML = `
+								    <img
+								        src="images/${prodotto.immagine}"
+								        alt="${prodotto.nome}"
+								        style="width:60px;height:60px;object-fit:cover;border-radius:5px;">
+
+								    <div>
+								        <strong>${prodotto.nome}</strong><br>
+								        <span>${prodotto.squadra}</span>
+								    </div>
+								`;
 
                                
                                 //Ti porta alla pagina del singolo prodotto.
-                                div.addEventListener("click", function() {
-                                    window.location.href = "ProdottoServlet?id=" + prodotto.idProdotto;
-                                });
+								div.addEventListener("click", function() {
+								    window.location.href = "DettaglioServlet?id=" + prodotto.idProdotto;
+								});
 
                                 
                                 div.addEventListener("mouseenter", () => div.style.backgroundColor = "#f0f0f0");
