@@ -2,6 +2,7 @@
 <%@ page import="model.Utente" %>
 <%@ page import="model.Indirizzo" %>
 <%@ page import="java.util.List" %>
+<%@ page import="dao.IndirizzoDAO" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -48,7 +49,7 @@
         <!-- SEZIONE 1: DATI UTENTE -->
         <div class="profile-card">
             <h3 class="profile-section-title">👤 Informazioni Personali</h3>
-            <form action="${pageContext.request.contextPath}/ProfiloServlet?azione=modificaDati" method="post">
+            <form id="form-profilo" action="${pageContext.request.contextPath}/ProfiloServlet?azione=modificaDati" method="post">
                 <div class="profile-form-grid">
                     <div class="profile-form-group">
                         <label for="nome">Nome</label>
@@ -111,7 +112,7 @@
         <!-- SEZIONE 3: FORM AGGIUNTA NUOVO INDIRIZZO -->
         <div class="profile-card">
             <h3 class="profile-section-title">🏠 Aggiungi un nuovo indirizzo</h3>
-            <form action="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=aggiungi" method="post">
+            <form id="form-indirizzo" action="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=aggiungi" method="post">
                 <div class="profile-form-grid">
                     <div class="profile-form-group" style="grid-column: span 2;">
                         <label for="via">Via/Piazza e Civico</label>
@@ -146,6 +147,7 @@
     <footer class="main-footer">
         <p>© 2026 ShirtInvasion. Tutti i diritti riservati. Sviluppato in Java Web MVC.</p>
     </footer>
+<script src="${pageContext.request.contextPath}/scripts/profilo.js" defer></script>
 
 </body>
 </html>
