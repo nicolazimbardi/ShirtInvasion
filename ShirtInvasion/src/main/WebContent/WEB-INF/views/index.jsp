@@ -9,6 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShirtInvasion - Catalogo Maglie</title>
     <link rel="stylesheet" href="styles/stile.css">
+    
+    <script>
+        const contextPath = "${pageContext.request.contextPath}";
+    </script>
+    
     <script src="scripts/ajax.js" defer></script>
 </head>
 <body>
