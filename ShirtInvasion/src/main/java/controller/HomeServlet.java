@@ -10,17 +10,28 @@ import jakarta.servlet.http.HttpServletResponse;
 import dao.ProdottoDAO;
 import model.Prodotto;
 
-@WebServlet(urlPatterns = {"/home", ""}) 
+@WebServlet(urlPatterns = {"/home", ""})
 public class HomeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        ProdottoDAO prodottoDao = new ProdottoDAO();
-        List<Prodotto> listaProdotti = prodottoDao.doRetrieveAll();
+        // Recuperiamo i parametri scelti dall'utente nella index
+        String marca = request.getParameter("marca");
+        String taglia = request.getParameter("taglia");
+        String ordine = request.getParameter("ordine");
         
+        ProdottoDAO prodottoDao = new ProdottoDAO();
+        
+        // Eseguiamo la query filtrata
+        List<Prodotto> listaProdotti = prodottoDao.doRetrieveAll(marca, taglia, ordine);
+        
+        // Rispediamo i dati alla pagina JSP
         request.setAttribute("prodotti", listaProdotti);
+        request.setAttribute("selMarca", marca);
+        request.setAttribute("selTaglia", taglia);
+        request.setAttribute("selOrdine", ordine);
         
         request.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(request, response);
     }

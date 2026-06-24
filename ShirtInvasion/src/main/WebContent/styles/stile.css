@@ -167,6 +167,12 @@ h2 {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     gap: 25px;
     margin-bottom: 50px;
+    
+    /* Queste 3 righe allineano la griglia esattamente sotto ai filtri */
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
 }
 
 .product-card, .card-prodotto {
@@ -2024,4 +2030,138 @@ body.page-carrello .main-container {
 /* ...per quando ci passi sopra col mouse! */
 .hamburger-btn:hover {
     transform: scale(1.1); 
+}
+/* ==========================================================================
+   STILE ISOLATO PER LA BARRA DEI FILTRI
+   ========================================================================== */
+
+.catalog-header-bar {
+    max-width: 1200px;
+    margin: 40px auto 20px auto;
+    padding: 0 20px 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    border-bottom: 2px solid #eaeaea;
+}
+
+.catalog-header-bar h2 {
+    font-size: 24px;
+    color: #022340;
+    margin: 0;
+    font-weight: 700;
+}
+
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.select-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-select {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    outline: none;
+    cursor: pointer;
+    min-width: 140px;
+    transition: border-color 0.2s;
+}
+
+.filter-select:focus {
+    border-color: #00a8ff;
+}
+
+.button-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-filter-apply {
+    background-color: #022340;
+    color: #ffffff;
+    border: 1px solid transparent; /* Aggiunto per bilanciare il bordo di Resetta */
+    padding: 0 22px;               /* Il padding verticale non serve più con un'altezza fissa */
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    /* Regole salva-allineamento */
+    box-sizing: border-box; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px; /* Altezza bloccata e identica per entrambi */
+}
+
+.btn-filter-apply:hover {
+    background-color: #00a8ff;
+}
+
+.btn-filter-reset {
+    background-color: #f1f1f1;
+    color: #666666;
+    text-decoration: none;
+    padding: 0 20px;               /* Il padding verticale non serve più con un'altezza fissa */
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.2s;
+    
+    /* Regole salva-allineamento */
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px; /* Altezza bloccata e identica per entrambi */
+}
+
+.btn-filter-reset:hover {
+    background-color: #e5e5e5;
+    color: #333333;
+}
+
+@media (max-width: 768px) {
+    .catalog-header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .filter-form, .select-group, .button-group {
+        width: 100%;
+    }
+    .filter-select, .btn-filter-apply, .btn-filter-reset {
+        flex: 1;
+    }
+}
+/* ==========================================================================
+   OPZIONE B: HOVER SUL TITOLO AL PASSAGGIO DEL MOUSE SULLA CARD
+   ========================================================================== */
+
+/* Stato normale: il link eredita il colore blu scuro dell'h3 */
+.product-card h3 a, .card-prodotto h3 a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out; /* Rende il cambio di colore fluido */
+}
+
+/* Quando il mouse entra nella card, il titolo si illumina di azzurro */
+.product-card:hover h3 a, .card-prodotto:hover h3 a {
+    color: #00a8ff; 
 }

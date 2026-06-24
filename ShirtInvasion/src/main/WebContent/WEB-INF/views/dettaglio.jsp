@@ -46,11 +46,22 @@
 
                 <div class="detail-specs">
                     <p><strong>Disponibilità:</strong> 
-                        <% if(p.getQuantita() > 0) { %>
-                            <span style="color: #1a7f37; font-weight:bold;">In stock (<%= p.getQuantita() %>)</span>
-                        <% } else { %>
+                        <% 
+                            int qta = p.getQuantita();
+                            if (qta > 15) { 
+                        %>
+                            <span style="color: #1a7f37; font-weight:bold;">Disponibile</span>
+                        <% 
+                            } else if (qta > 0) { 
+                        %>
+                            <span style="color: #ff9900; font-weight:bold;">Ultime <%= qta %> rimaste!</span>
+                        <% 
+                            } else { 
+                        %>
                             <span style="color: #d1242f; font-weight:bold;">Esaurito</span>
-                        <% } %>
+                        <% 
+                            } 
+                        %>
                     </p>
                 </div>
 
