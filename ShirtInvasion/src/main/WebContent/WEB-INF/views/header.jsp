@@ -98,19 +98,15 @@
             <% 
                     }
                 } else { 
+                    // --------- GESTIONE HEADER PER OSPITE (NON LOGGATO) ---------
             %>
-                    <%-- Switch dinamico Carrello / Home per ospite (non loggato) --%>
+                    <li><a href="${pageContext.request.contextPath}/" style="font-weight: bold;">Home 🏠</a></li>
+
                     <% if (!isCarrelloPage) { %>
                         <li>
                             <a href="${pageContext.request.contextPath}/CarrelloServlet" class="cart-nav-link">
                                 Il mio Carrello 🛒
                                 <% if (numeroArticoli > 0) { %><span class="cart-badge"><%= numeroArticoli %></span><% } %>
-                            </a>
-                        </li>
-                    <% } else { %>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/" class="cart-nav-link">
-                                Torna alla Home 🏠
                             </a>
                         </li>
                     <% } %>
