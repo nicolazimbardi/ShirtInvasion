@@ -11,30 +11,32 @@
     <title>ShirtInvasion - Catalogo Maglie</title>
     <link rel="stylesheet" href="styles/stile.css">
     <script src="scripts/ajax.js" defer></script>
-        <script src="${pageContext.request.contextPath}/scripts/menu.js" defer></script>
+       
     
 </head>
 <body>
+<div id="menuOverlay" class="menu-overlay" onclick="closeSidebar()"></div>
 
+<nav id="sidebarMenu" class="sidebar">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">&times;</a>
+    <div class="sidebar-header">
+        <h2>Campionati</h2>
+    </div>
+    
+    <a href="${pageContext.request.contextPath}/campionato?nome=Serie A">Serie A</a>
+    <a href="${pageContext.request.contextPath}/campionato?nome=Premier League">Premier League</a>
+    <a href="${pageContext.request.contextPath}/campionato?nome=La Liga">La Liga</a>
+    
+    <a href="${pageContext.request.contextPath}/home" style="margin-top: 20px; font-size: 14px; color: #00a8ff;">← Torna alla Home</a>
+</nav>
   <header class="main-header">
 
-    <div class="header-left">
-
-        <div class="league-menu">
-            <button class="league-btn" id="menuBtn">☰</button>
-
-            <div class="league-dropdown" id="menuDropdown">
-                <a href="${pageContext.request.contextPath}/campionato?nome=Serie A">Serie A</a>
-                <a href="${pageContext.request.contextPath}/campionato?nome=Premier League">Premier League</a>
-                <a href="${pageContext.request.contextPath}/campionato?nome=La Liga">La Liga</a>
-            </div>
-        </div>
-
-        <div class="logo">
-            <h1>Shirt<span>Invasion</span> ⚽</h1>
-        </div>
-
+<div class="header-left">
+    <button class="hamburger-btn" onclick="openSidebar()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: white;">☰</button>
+    <div class="logo">
+        <h1>Shirt<span>Invasion</span> ⚽</h1>
     </div>
+</div>
     
 
     <nav class="nav-bar">
@@ -208,6 +210,15 @@
     <footer class="main-footer">
         <p>&copy; 2026 ShirtInvasion. Tutti i diritti riservati. Sviluppato in Java Web MVC.</p>
     </footer>
-
+<script>
+    function openSidebar() {
+        document.getElementById("sidebarMenu").classList.add("open");
+        document.getElementById("menuOverlay").classList.add("show");
+    }
+    function closeSidebar() {
+        document.getElementById("sidebarMenu").classList.remove("open");
+        document.getElementById("menuOverlay").classList.remove("show");
+    }
+</script>
 </body>
 </html>
