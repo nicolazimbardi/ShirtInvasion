@@ -241,4 +241,22 @@ public class ProdottoDAO {
 
         return prodotti;
     }
+    public boolean aggiornaStock(int idProdotto, int quantitaDaSottrarre) {
+        // La clausola "quantita >= ?" ci protegge da eventuali stock negativi a livello di database
+        String query = "UPDATE prodotti SET quantita = quantita - ? WHERE id_prodotto = ? AND quantita >= ?";
+        
+        try (Connection conn = ds.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            
+            ps.setInt(1, quantitaDaSottrarre);
+            ps.setInt(2, idProdotto);
+            ps.setInt(3, quantitaDaSottrarre);
+            
+            return ps.executeUpdate() > 0;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

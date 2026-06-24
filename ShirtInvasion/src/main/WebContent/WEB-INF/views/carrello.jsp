@@ -9,6 +9,20 @@
     <meta charset="UTF-8">
     <title>ShirtInvasion - Il mio Carrello</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
+    <style>
+        /* Stili aggiuntivi inline per i messaggi di errore (per comodità, puoi spostarli in stile.css) */
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: #fdf2f2 !important;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+            display: block;
+        }
+    </style>
 </head>
 <body class="page-carrello">
 
@@ -24,8 +38,6 @@
     
 <nav class="nav-bar">
     <ul>
-     
-        
         <li><a href="${pageContext.request.contextPath}/home">Continua lo shopping</a></li>
         
         <% if (utenteLoggato != null) { %>
@@ -47,6 +59,28 @@
 <main class="main-container" style="margin-top: 40px;">
     <h2>Il mio Carrello</h2>
 
+    <%-- INIZIO ALERT ERRORE STOCK --%>
+    <%
+        String erroreStock = (String) session.getAttribute("erroreStock");
+        if (erroreStock != null) {
+    %>
+        <div style="background-color: #fef2f2; border: 1px solid #fca5a5; border-left: 5px solid #ef4444; padding: 15px; margin-bottom: 20px; border-radius: 6px;">
+            <h4 style="color: #b91c1c; margin-top: 0; margin-bottom: 10px; font-size: 16px;">
+                ⚠️ Attenzione: 
+            </h4>
+            <p style="color: #991b1b; margin: 0; font-size: 14px; line-height: 1.5;">
+                <%= erroreStock %>
+                <br><br>
+                <em>Ti preghiamo di modificare le quantità nel carrello per poter procedere.</em>
+            </p>
+        </div>
+    <%
+            // Rimuoviamo l'errore dalla sessione dopo averlo mostrato
+            session.removeAttribute("erroreStock");
+        }
+    %>
+    <%-- FINE ALERT ERRORE STOCK --%>
+
     <%
         Carrello carrello = (Carrello) session.getAttribute("carrello");
         List<Prodotto> elementi = (carrello != null) ? carrello.getElementi() : null;
@@ -59,7 +93,7 @@
         </div>
     <%
         } else {
-            // Calcoliamo la quantità FISICA reale totale sommando la quantità di ciascun articolo distinto
+            // Calcoliamo la quantità FISICA reale totale
             int totaleArticoliFisici = 0;
             for (Prodotto p : elementi) {
                 totaleArticoliFisici += p.getQuantitaCarrello();
@@ -101,16 +135,19 @@
                     <div class="cart-item-right">
                         <div class="cart-item-price"><%= String.format("%.2f", p.getPrezzo() * p.getQuantitaCarrello()) %> €</div>
                         
-                        <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: flex-end; gap: 5px;">
-                            <label for="qta_<%= p.getIdProdotto() %>" style="font-size: 13px; color: #666;">Q.tà:</label>
+                        <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post" style="margin-bottom: 12px; display: flex; align-items: flex-start; justify-content: flex-end; gap: 5px;">
+                            <label for="qta_<%= p.getIdProdotto() %>" style="font-size: 13px; color: #666; margin-top: 6px;">Q.tà:</label>
                             <input type="hidden" name="azione" value="aggiornaQta">
                             <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
-                            <input type="number" id="qta_<%= p.getIdProdotto() %>" name="quantita" value="<%= p.getQuantitaCarrello() %>" min="1" max="20" 
-                                   style="width: 55px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-weight: 600;" 
-                                   onchange="this.form.submit()">
+                            
+                            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                <input type="number" id="qta_<%= p.getIdProdotto() %>" name="quantita" value="<%= p.getQuantitaCarrello() %>" min="1" max="20" 
+                                       class="cart-qta-input"
+                                       style="width: 55px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px; font-weight: 600;">
+                            </div>
                         </form>
 
-                        <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post">
+                        <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post" style="text-align: right;">
                             <input type="hidden" name="azione" value="rimuovi">
                             <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
                             <button type="submit" class="btn-remove-item">Rimuovi</button>
@@ -144,6 +181,44 @@
 <footer class="main-footer">
     <p>&copy; 2026 ShirtInvasion. Tutti i diritti riservati. Sviluppato in Java Web MVC.</p>
 </footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('.cart-qta-input').forEach(function(input) {
+            
+            function validaQuantita(campo) {
+                var valore = parseInt(campo.value);
+                var min = parseInt(campo.getAttribute("min")) || 1;
+                var max = parseInt(campo.getAttribute("max")) || 20;
+                
+                // Rimuove l'errore precedente
+                campo.classList.remove("is-invalid");
+                var errorePrecedente = campo.parentNode.querySelector(".error-message");
+                if (errorePrecedente) errorePrecedente.remove();
+
+                // Controlla validità
+                if (isNaN(valore) || valore < min || valore > max) {
+                    campo.classList.add("is-invalid");
+                    
+                    var errorSpan = document.createElement("span");
+                    errorSpan.className = "error-message";
+                    errorSpan.innerText = "Max: " + max;
+                    
+                    campo.parentNode.appendChild(errorSpan);
+                    return false;
+                }
+                return true;
+            }
+
+            // Evento change per la validazione client side
+            input.addEventListener('change', function(e) {
+                if (validaQuantita(input)) {
+                    input.form.submit(); // Submit sicuro solo se passa il check
+                }
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
