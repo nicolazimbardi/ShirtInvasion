@@ -100,7 +100,8 @@
                 
                 <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
                 
-                <p style="font-size: 13px; color: #666;"><strong>ORDER NOW</strong> per ricevere la tua maglia in tempi record.</p>
+                <p style="font-size: 13px; color: #666;"><strong>ORDINA ORA</strong> per ricevere la tua maglia in 24/48h.</p>
+                
             </div>
         </div>
 

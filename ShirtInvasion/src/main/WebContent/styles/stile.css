@@ -1157,6 +1157,7 @@ body.page-carrello .main-container {
 .header-left{
     display:flex;
     align-items:center;
+    gap: 15px;
 }
 
 .logo{
@@ -1919,4 +1920,59 @@ body.page-carrello .main-container {
 }
 .product-card.sold img{
     opacity:0.5;
+}
+
+/* --- Stile per l'immagine del Logo nell'Header (Effetto Stemma) --- */
+.header-logo-img {
+    height: 85px;          /* Dimensione molto più grande, come nel tuo schizzo */
+    width: auto;
+    vertical-align: middle;
+    margin-left: -30px;      /* Attaccato alla "n" di Invasion */
+    
+    /* TRUCCO: I margini negativi permettono al logo di essere gigante 
+       senza sformare o allargare l'altezza totale dell'header blu */
+    margin-top: -15px;
+    margin-bottom: -20px;
+    
+    position: relative;
+    z-index: 10;           /* Assicura che lo stemma resti sempre in primissimo piano */
+}
+
+/* --- Allineamento e spaziatura del widget di spedizione rimasto --- */
+.content-news {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Spinge il contenuto verso il fondo del contenitore principale */
+    height: 100%;             /* Sfrutta tutta l'altezza dell'elemento main */
+}
+
+.express-shipping-large {
+    padding: 25px;             /* Aumenta lo spazio interno per rendere il box più importante */
+    line-height: 1.6;          /* Rende il testo lungo molto più leggibile */
+}
+
+.express-shipping-large h3 {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+/* --- Stile, grandezza e posizione dell'Hamburger --- */
+.hamburger-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 36px;       /* Molto più grande e visibile */
+    margin-left: -10px;    /* Sposta il menu più a sinistra verso il bordo della pagina */
+    padding: 0;            /* Rimuove spaziature invisibili predefinite del bottone */
+    
+    /* Aggiustamento ottico per metterlo in asse con il centro esatto della parola "ShirtInvasion" */
+    position: relative;
+    top: -5px;              /* Spostalo di 1 o 2 px in alto/basso se lo vedi ancora un pelo storto */
+    
+    transition: transform 0.2s ease; /* Effetto fluido... */
+}
+
+/* ...per quando ci passi sopra col mouse! */
+.hamburger-btn:hover {
+    transform: scale(1.1); 
 }
