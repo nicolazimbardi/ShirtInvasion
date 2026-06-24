@@ -28,9 +28,10 @@
     <nav class="nav-bar">
         <ul>
             <% 
-                // CONTROLLO PAGINA ATTUALE: verifica se l'utente è nel carrello
+                // CONTROLLO PAGINA ATTUALE: verifica se l'utente è nel carrello o nel pannello admin
                 String currentURI = request.getRequestURI();
                 boolean isCarrelloPage = currentURI.contains("CarrelloServlet") || currentURI.contains("carrello.jsp");
+                boolean isAdminPage = currentURI.contains("AdminServlet") || currentURI.contains("admin.jsp");
 
                 // Calcolo articoli nel carrello
                 Carrello carrelloSession = (Carrello) session.getAttribute("carrello");
@@ -79,8 +80,20 @@
 
             <% 
                     } else { 
+                        // --------- GESTIONE HEADER PER L'ADMIN ---------
+                        if (isAdminPage) { 
             %>
-                        <li><a href="${pageContext.request.contextPath}/AdminServlet" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
+                            <li style="color: #ffcc00; font-weight: bold; padding: 10px 15px;">
+                                Admin: <%= utenteLoggatoHeader.getNome() %> <%= utenteLoggatoHeader.getCognome() %>
+                            </li>
+            <% 
+                        } else { 
+            %>
+                            <li><a href="${pageContext.request.contextPath}/AdminServlet" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
+            <% 
+                        } 
+            %>
+                        <li><a href="${pageContext.request.contextPath}/" style="font-weight: bold;">Home 🏠</a></li>
                         <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
             <% 
                     }

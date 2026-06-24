@@ -14,29 +14,9 @@
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="logo">
-            <h1>Pannello di Controllo Amministratore 🛠️</h1>
-        </div>
-        <nav class="nav-bar">
-    <ul>
-        <li style="color: white; font-weight: bold; padding: 10px 15px;">
-            Admin: <% 
-                Utente utenteSessione = (Utente) session.getAttribute("utente"); 
-                if(utenteSessione != null) { 
-            %><%= utenteSessione.getCognome() + " " + utenteSessione.getNome() %><% 
-                } 
-            %>
-        </li>
-        
-        <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
-        
-        <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
-    </ul>
-</nav>
-    </header>
+    <jsp:include page="header.jsp" />
 
-    <main class="main-container admin-page">
+    <main class="main-container admin-page" style="margin-top: 40px;">
         
         <% 
             String msgSuccesso = (String) request.getAttribute("messaggioSuccesso");
@@ -60,184 +40,149 @@
             } 
         %>
 
-        <!-- SEZIONE 1: GESTIONE CATALOGO -->
         <section class="admin-section">
             <h2>1. Gestione Catalogo Articoli (Aggiungi, Elimina, Modifica)</h2>
             
             <p class="admin-section-title-sub"> Aggiungi un nuovo articolo :</p>
             
+            <form action="${pageContext.request.contextPath}/AdminServlet" method="POST">
+                <input type="hidden" name="azioneProdotto" value="inserisci">
+                
+                <div class="admin-form-row">
+                    <input type="text" name="squadra" placeholder="Squadra" required>
 
-<form action="${pageContext.request.contextPath}/AdminServlet" method="POST">
-    <input type="hidden" name="azioneProdotto" value="inserisci">
-    
-    <div class="admin-form-row">
+                    <select name="campionato" required>
+                        <option value="">-- Campionato --</option>
+                        <option value="Serie A">Serie A</option>
+                        <option value="Premier League">Premier League</option>
+                        <option value="La Liga">La Liga</option>
+                    </select>
 
-    <input type="text" name="squadra" placeholder="Squadra" required>
+                    <input type="text" name="modello" placeholder="Modello/Nome" required>
+                    <input type="text" name="stagione" placeholder="Stagione (es 2026/27)" required>
+                    <input type="text" name="marca" placeholder="Marca" required>
+                    <input type="text" name="taglia" placeholder="Taglia" required>
+                    <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required>
+                    <input type="number" name="stock" placeholder="Stock" required>
+                    <input type="text" name="descrizione" placeholder="Descrizione dettagliata">
 
-    <select name="campionato" required>
-        <option value="">-- Campionato --</option>
-        <option value="Serie A">Serie A</option>
-        <option value="Premier League">Premier League</option>
-        <option value="La Liga">La Liga</option>
-    </select>
-
-    <input type="text" name="modello" placeholder="Modello/Nome" required>
-
-    <input type="text" name="stagione" placeholder="Stagione (es 2026/27)" required>
-
-    <input type="text" name="marca" placeholder="Marca" required>
-
-    <input type="text" name="taglia" placeholder="Taglia" required>
-
-    <input type="number" step="0.01" name="prezzo" placeholder="Prezzo (€)" required>
-
-    <input type="number" name="stock" placeholder="Stock" required>
-
-    <input type="text" name="descrizione" placeholder="Descrizione dettagliata">
-
-</div>        
-        <select name="immagine" id="scelta-immagine" required>
-            <option value="">-- Scegli Foto --</option>
-            <% 
-                List<String> fotoDisponibili = (List<String>) request.getAttribute("listaFotoDisponibili");
-                if (fotoDisponibili != null) {
-                    for (String foto : fotoDisponibili) {
-            %>
-                        <option value="<%= foto %>"><%= foto %></option>
-            <% 
-                    }
-                } 
-            %>
-        </select>
-        
-        <button type="submit" class="btn-admin-save">Salva</button>
-    </div>
-</form>
-
-                <!-- BOX ANTEPRIMA VISIVA GESTITO DA CLASSI CSS -->
-                <div id="box-anteprima" class="preview-gallery-container">
-                    <p>Anteprima maglia:</p>
-                    <div class="preview-image-frame">
-                        <img id="img-anteprima" src="" alt="Anteprima">
-                    </div>
+                    <select name="immagine" id="scelta-immagine" required>
+                        <option value="">-- Scegli Foto --</option>
+                        <% 
+                            List<String> fotoDisponibili = (List<String>) request.getAttribute("listaFotoDisponibili");
+                            if (fotoDisponibili != null) {
+                                for (String foto : fotoDisponibili) {
+                        %>
+                                    <option value="<%= foto %>"><%= foto %></option>
+                        <% 
+                                }
+                            } 
+                        %>
+                    </select>
+                    
+                    <button type="submit" class="btn-admin-save">Salva</button>
                 </div>
             </form>
 
-            <!-- TABELLA CATALOGO ARTICOLI -->
+            <div id="box-anteprima" class="preview-gallery-container">
+                <p>Anteprima maglia:</p>
+                <div class="preview-image-frame">
+                    <img id="img-anteprima" src="" alt="Anteprima">
+                </div>
+            </div>
+
             <div class="admin-table-wrapper">
-    <table class="admin-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Foto</th>
-                <th>Squadra</th>
-                <th>Campionato</th>
-                <th>Modello</th>
-                
-                <th>Stagione</th>
-                <th>Marca</th>
-                <th>Taglia</th>
-                <th>Prezzo (€)</th>
-                <th>Stock</th>
-                <th>Descrizione</th>
-                <th>Azioni</th>
-            </tr>
-        </thead>
-        <tbody>
-    <% 
-        List<Prodotto> catalogo = (List<Prodotto>) request.getAttribute("prodottiCatalogo"); 
-        if (catalogo != null && !catalogo.isEmpty()) {
-            for (Prodotto p : catalogo) {
-                // Generiamo un ID unico per il form di questa riga
-                String formId = "form_edit_" + p.getIdProdotto();
-    %>
-                <tr>
-                    <td class="td-id"><%= p.getIdProdotto() %></td>
-                    <td>
-    <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>"
-         class="img-mini"
-         alt="Maglia">
-
-    <br>
-
-    <select name="immagine" form="<%= formId %>">
-
-        <% if(fotoDisponibili != null){
-            for(String foto : fotoDisponibili){ %>
-
-            <option value="<%= foto %>"
-                <%= foto.equals(p.getImmagine()) ? "selected" : "" %>>
-                <%= foto %>
-            </option>
-
-        <% }
-        } %>
-
-    </select>
-</td>
-<td>
-    <input type="text" name="squadra" value="<%= p.getSquadra() %>" form="<%= formId %>">
-</td>             
-
-<td>
-    <select name="campionato" form="<%= formId %>">
-        <option value="Serie A" <%= "Serie A".equals(p.getCampionato()) ? "selected" : "" %>>Serie A</option>
-        <option value="Premier League" <%= "Premier League".equals(p.getCampionato()) ? "selected" : "" %>>Premier League</option>
-        <option value="La Liga" <%= "La Liga".equals(p.getCampionato()) ? "selected" : "" %>>La Liga</option>
-    </select>
-</td>
-<td><input type="text" name="modello" value="<%= p.getNome() %>" form="<%= formId %>"></td>
-                    <td><input type="text" name="stagione" value="<%= p.getStagione() %>" form="<%= formId %>"></td>
-                    <td><input type="text" name="marca" value="<%= p.getMarca() %>" form="<%= formId %>"></td>
-                    <td><input type="text" name="taglia" value="<%= p.getTaglia() %>" form="<%= formId %>"></td>
-                    <td><input type="number" step="0.01" name="prezzo" value="<%= p.getPrezzo() %>" form="<%= formId %>"></td>
-                    <td><input type="number" name="stock" value="<%= p.getQuantita() %>" form="<%= formId %>"></td>
-                    <td><input type="text" name="descrizione" value="<%= p.getDescrizione() %>" form="<%= formId %>"></td>
-                    
-                    <td>
-                        <form id="<%= formId %>" action="${pageContext.request.contextPath}/AdminServlet" method="POST">
-                            <input type="hidden" name="azioneProdotto" value="modifica">
-                            <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
-                            <button type="submit" class="btn-action btn-edit">Salva</button>
-                        </form>
-                        
-                        <form action="${pageContext.request.contextPath}/AdminServlet" method="POST" onsubmit="return confirm('Eliminare?')">
-                            <input type="hidden" name="azioneProdotto" value="elimina">
-                            <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
-                            <button type="submit" class="btn-action btn-delete">Elimina</button>
-                        </form>
-                    </td>
-                </tr>
-    <% 
-            }
-        } else {
-    %>
-            <tr><td colspan="11" class="text-empty">Nessun prodotto trovato.</td></tr>
-    <% } %>
-</tbody>
-    </table>
-</div>
-</section>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Foto</th>
+                            <th>Squadra</th>
+                            <th>Campionato</th>
+                            <th>Modello</th>
+                            <th>Stagione</th>
+                            <th>Marca</th>
+                            <th>Taglia</th>
+                            <th>Prezzo (€)</th>
+                            <th>Stock</th>
+                            <th>Descrizione</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <% 
+                    List<Prodotto> catalogo = (List<Prodotto>) request.getAttribute("prodottiCatalogo"); 
+                    if (catalogo != null && !catalogo.isEmpty()) {
+                        for (Prodotto p : catalogo) {
+                            String formId = "form_edit_" + p.getIdProdotto();
+                %>
+                            <tr>
+                                <td class="td-id"><%= p.getIdProdotto() %></td>
+                                <td>
+                                    <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" class="img-mini" alt="Maglia"><br>
+                                    <select name="immagine" form="<%= formId %>">
+                                        <% if(fotoDisponibili != null){
+                                            for(String foto : fotoDisponibili){ %>
+                                                <option value="<%= foto %>" <%= foto.equals(p.getImmagine()) ? "selected" : "" %>>
+                                                    <%= foto %>
+                                                </option>
+                                        <% }
+                                        } %>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="squadra" value="<%= p.getSquadra() %>" form="<%= formId %>"></td>             
+                                <td>
+                                    <select name="campionato" form="<%= formId %>">
+                                        <option value="Serie A" <%= "Serie A".equals(p.getCampionato()) ? "selected" : "" %>>Serie A</option>
+                                        <option value="Premier League" <%= "Premier League".equals(p.getCampionato()) ? "selected" : "" %>>Premier League</option>
+                                        <option value="La Liga" <%= "La Liga".equals(p.getCampionato()) ? "selected" : "" %>>La Liga</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" name="modello" value="<%= p.getNome() %>" form="<%= formId %>"></td>
+                                <td><input type="text" name="stagione" value="<%= p.getStagione() %>" form="<%= formId %>"></td>
+                                <td><input type="text" name="marca" value="<%= p.getMarca() %>" form="<%= formId %>"></td>
+                                <td><input type="text" name="taglia" value="<%= p.getTaglia() %>" form="<%= formId %>"></td>
+                                <td><input type="number" step="0.01" name="prezzo" value="<%= p.getPrezzo() %>" form="<%= formId %>"></td>
+                                <td><input type="number" name="stock" value="<%= p.getQuantita() %>" form="<%= formId %>"></td>
+                                <td><input type="text" name="descrizione" value="<%= p.getDescrizione() %>" form="<%= formId %>"></td>
+                                
+                                <td>
+                                    <form id="<%= formId %>" action="${pageContext.request.contextPath}/AdminServlet" method="POST">
+                                        <input type="hidden" name="azioneProdotto" value="modifica">
+                                        <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
+                                        <button type="submit" class="btn-action btn-edit">Salva</button>
+                                    </form>
+                                    
+                                    <form action="${pageContext.request.contextPath}/AdminServlet" method="POST" onsubmit="return confirm('Eliminare?')">
+                                        <input type="hidden" name="azioneProdotto" value="elimina">
+                                        <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
+                                        <button type="submit" class="btn-action btn-delete">Elimina</button>
+                                    </form>
+                                </td>
+                            </tr>
+                <% 
+                        }
+                    } else {
+                %>
+                        <tr><td colspan="12" class="text-empty">Nessun prodotto trovato.</td></tr>
+                <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
         <section class="admin-section">
             <h2>2. Visualizzazione Ordini per Data e per Cliente</h2>
             
             <div class="admin-filter-bar">
-            <form action="${pageContext.request.contextPath}/AdminServlet" method="get">
-
-    <input type="hidden" name="filtro" value="ordini">
-
-    <label>Da:</label>
-    <input type="date" name="dataInizio">
-
-    <label>A:</label>
-    <input type="date" name="dataFine">
-
-    <button type="submit" class="btn-filter">
-        Cerca
-    </button>
-
-</form>
+                <form action="${pageContext.request.contextPath}/AdminServlet" method="get">
+                    <input type="hidden" name="filtro" value="ordini">
+                    <label>Da:</label>
+                    <input type="date" name="dataInizio">
+                    <label>A:</label>
+                    <input type="date" name="dataFine">
+                    <button type="submit" class="btn-filter">Cerca</button>
+                </form>
             </div>
             
             <div class="admin-table-wrapper">
@@ -252,31 +197,24 @@
                         </tr>
                     </thead>
                     <tbody>
-    <% 
-        List<String[]> ordiniClienti = (List<String[]>) request.getAttribute("listaOrdiniSenzaClasse");
-        if (ordiniClienti != null && !ordiniClienti.isEmpty()) {
-            for (String[] ord : ordiniClienti) {
-    %>
-                <tr>
-                    <td><%= ord[0] %></td> <!-- ID Ordine -->
-                    <td><%= ord[1] %></td> <!-- Email Cliente -->
-                    <td><%= ord[2] %></td> <!-- Data Ordine -->
-                    <td><strong><%= ord[3] %></strong></td> <!-- Totale -->
-                    <td><%= ord[4] %></td> <!-- Stato -->
-                </tr>
-    <% 
-            }
-        } else {
-    %>
-            <tr>
-                <td colspan="5" class="text-empty">Nessun ordine presente nel database.</td>
-            </tr>
-    <% 
-        }
-    %>
-</tbody>
-
-
+                <% 
+                    List<String[]> ordiniClienti = (List<String[]>) request.getAttribute("listaOrdiniSenzaClasse");
+                    if (ordiniClienti != null && !ordiniClienti.isEmpty()) {
+                        for (String[] ord : ordiniClienti) {
+                %>
+                            <tr>
+                                <td><%= ord[0] %></td> <td><%= ord[1] %></td> <td><%= ord[2] %></td> <td><strong><%= ord[3] %></strong></td> <td><%= ord[4] %></td> </tr>
+                <% 
+                        }
+                    } else {
+                %>
+                        <tr>
+                            <td colspan="5" class="text-empty">Nessun ordine presente nel database.</td>
+                        </tr>
+                <% 
+                    }
+                %>
+                    </tbody>
                 </table>
             </div>
         </section>
