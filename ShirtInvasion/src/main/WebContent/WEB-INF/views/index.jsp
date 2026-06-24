@@ -131,7 +131,7 @@
             } else {
         %>
                 <div style="grid-column: 1 / -1; text-align: center; padding: 50px; font-size: 18px; color: #666;">
-                    <p>Il catalogo è attualmente vuoto o nessun prodotto soddisfa i criteri.</p>
+                    <p>Nessun prodotto soddisfa i criteri.</p>
                 </div>
         <%
             }

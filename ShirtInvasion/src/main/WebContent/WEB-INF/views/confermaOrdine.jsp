@@ -23,7 +23,7 @@
             
             <div class="success-details">
                 <p>Il tuo ordine è stato ricevuto ed è attualmente in lavorazione.</p>
-                <p>Ti invieremo un'email con i dettagli della spedizione non appena il pacco lascerà il nostro magazzino. Nel frattempo, il tuo carrello è stato svuotato.</p>
+                <p>Ti invieremo un'email con i dettagli della spedizione non appena il pacco lascerà il nostro magazzino.</p>
             </div>
             
             <div class="confirmation-actions">
