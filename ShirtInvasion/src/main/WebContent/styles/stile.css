@@ -84,13 +84,15 @@ h2::after, h3::after, .hero-text h2::after {
     font-size: 32px;
     margin-bottom: 10px;
     font-weight: 700;
+    color: #FFFFFF;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
 }
 
 .hero-text p {
     font-size: 18px;
     opacity: 0.9;
+    color: #EAF6FF;
 }
-
 /* ==========================================================================
    4. CONTENITORE GENERALE
    ========================================================================== */
@@ -1805,12 +1807,12 @@ body.page-carrello .main-container {
 .hamburger-btn {
     background: none;
     border: none;
-    color: #022340; /* Usa bianco #ffffff se il tuo header è scuro */
+    color: #ffffff;
     font-size: 28px;
     cursor: pointer;
     padding: 5px 10px;
-    transition: color 0.3s ease;
 }
+
 
 .hamburger-btn:hover {
     color: #00a8ff;

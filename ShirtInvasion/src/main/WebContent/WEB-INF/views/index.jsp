@@ -27,7 +27,6 @@
     <a href="${pageContext.request.contextPath}/campionato?nome=Premier League">Premier League</a>
     <a href="${pageContext.request.contextPath}/campionato?nome=La Liga">La Liga</a>
     
-    <a href="${pageContext.request.contextPath}/home" style="margin-top: 20px; font-size: 14px; color: #00a8ff;">← Torna alla Home</a>
 </nav>
   <header class="main-header">
 
