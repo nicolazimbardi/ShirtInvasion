@@ -17,7 +17,6 @@ public class AggiornaProfiloServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
         Utente utenteSessione = (Utente) session.getAttribute("utente"); 
         
         if (utenteSessione == null) {
@@ -25,27 +24,22 @@ public class AggiornaProfiloServlet extends HttpServlet {
             return;
         }
 
+        // Recupero parametri
         String nome = request.getParameter("nome");
         String cognome = request.getParameter("cognome");
-        String email = request.getParameter("email");
         String telefono = request.getParameter("telefono");
-        String password = request.getParameter("password");
+        
 
+        // Aggiornamento dati anagrafici
         utenteSessione.setNome(nome);
         utenteSessione.setCognome(cognome);
-        utenteSessione.setEmail(email);
         utenteSessione.setTelefono(telefono);
-        
-        if (password != null && !password.trim().isEmpty()) {
-            utenteSessione.setPassword(password);
-        }
+       
 
+        // Salvataggio nel Database
         UtenteDAO utenteDAO = new UtenteDAO();
-        boolean aggiornato = utenteDAO.doUpdate(utenteSessione);
-
-        if (aggiornato) {
+        if (utenteDAO.doUpdate(utenteSessione)) {
             session.setAttribute("utente", utenteSessione);
-            // Reindirizziamo alla Servlet, non al file JSP
             response.sendRedirect("ProfiloServlet?success=1");
         } else {
             response.sendRedirect("ProfiloServlet?error=1");
