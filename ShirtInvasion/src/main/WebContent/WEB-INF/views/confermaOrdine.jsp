@@ -3,21 +3,39 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Grazie per l'acquisto!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShirtInvasion - Grazie per l'acquisto!</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
 </head>
-<body style="font-family: sans-serif; text-align: center; padding: 50px;">
-    <h1 style="color: #0d2c47;">ShirtInvasion &#9917;</h1>
-    <div style="background: #e0f7fa; padding: 30px; display: inline-block; border-radius: 8px; margin-top: 20px; max-width: 500px;">
-        <h2>Ordine Completato con Successo! 🎉</h2>
-        <p>Il tuo ordine sarà presto in lavorazione.</p>
-        <p>Il carrello è stato svuotato.</p>
-        <br>
-        
-        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-            <a href="<%= request.getContextPath() %>/home" style="background: #00bcd4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">Torna alla Home</a>
-            
-            <a href="<%= request.getContextPath() %>/OrdiniServlet" style="background: #0d2c47; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">I miei Ordini</a>
+<body class="page-conferma">
+
+    <header class="main-header">
+        <div class="logo">
+            <h1>Shirt<span>Invasion</span> &#9917;</h1>
         </div>
-    </div>
+    </header>
+
+    <main class="confirmation-container">
+        <div class="confirmation-box">
+            <div class="success-icon">🎉</div>
+            <h2>Ordine Completato con Successo!</h2>
+            <p class="success-subtitle">Grazie per aver scelto ShirtInvasion.</p>
+            
+            <div class="success-details">
+                <p>Il tuo ordine è stato ricevuto ed è attualmente in lavorazione.</p>
+                <p>Ti invieremo un'email con i dettagli della spedizione non appena il pacco lascerà il nostro magazzino. Nel frattempo, il tuo carrello è stato svuotato.</p>
+            </div>
+            
+            <div class="confirmation-actions">
+                <a href="${pageContext.request.contextPath}/home" class="btn-action btn-primary">Torna alla Home</a>
+                <a href="${pageContext.request.contextPath}/OrdiniServlet" class="btn-action btn-secondary">I miei Ordini</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 ShirtInvasion. Tutti i diritti riservati. Sviluppato in Java Web MVC.</p>
+    </footer>
+
 </body>
 </html>

@@ -1690,3 +1690,110 @@ body.page-carrello .main-container {
     border: 1px solid #dc3545 !important;
     background-color: #fdf2f2 !important;
 }
+/* ==========================================================================
+   STILI PAGINA CONFERMA ORDINE
+   ========================================================================== */
+
+.page-conferma {
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.confirmation-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.confirmation-box {
+    background: #ffffff;
+    border-top: 5px solid #00a8ff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    max-width: 600px;
+    text-align: center;
+    width: 100%;
+}
+
+.success-icon {
+    font-size: 65px;
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.confirmation-box h2 {
+    color: #022340;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.success-subtitle {
+    color: #00a8ff;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.success-details {
+    background: #fdfdfd;
+    border: 1px solid #eaeaea;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 35px;
+    color: #555;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.success-details p {
+    margin-bottom: 10px;
+}
+
+.success-details p:last-child {
+    margin-bottom: 0;
+}
+
+.confirmation-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-action {
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+/* Bottone azzurro pieno (stile primario) */
+.btn-primary {
+    background-color: #00a8ff;
+    color: #ffffff;
+    border: 2px solid #00a8ff;
+}
+
+.btn-primary:hover {
+    background-color: #008ecc;
+    border-color: #008ecc;
+}
+
+/* Bottone con bordo blu scuro e sfondo trasparente (stile secondario) */
+.btn-secondary {
+    background-color: transparent;
+    color: #022340;
+    border: 2px solid #022340;
+}
+
+.btn-secondary:hover {
+    background-color: #022340;
+    color: #ffffff;
+}
