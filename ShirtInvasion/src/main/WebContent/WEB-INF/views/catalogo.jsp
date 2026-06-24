@@ -84,8 +84,7 @@
             for(Prodotto p : prodotti) {
         %>
 
-        <div class="product-card">
-
+<div class="product-card <%= p.getQuantita() == 0 ? "sold" : "" %>">
             <div class="product-img-placeholder">
 
                 <img
@@ -121,18 +120,28 @@
 
             <div class="card-footer">
 
-                <span class="price">
-                    € <%= String.format("%.2f", p.getPrezzo()) %>
-                </span>
+    <span class="price">
+        € <%= String.format("%.2f", p.getPrezzo()) %>
+    </span>
 
-                <a class="btn-add-cart"
-                   href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>">
+    <% if(p.getQuantita() > 0) { %>
 
-                    Dettagli
+        <a class="btn-add-cart"
+           href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>">
 
-                </a>
+            Dettagli
 
-            </div>
+        </a>
+
+    <% } else { %>
+
+        <span class="sold-out">
+            VENDUTO
+        </span>
+
+    <% } %>
+
+</div>
 
         </div>
 
