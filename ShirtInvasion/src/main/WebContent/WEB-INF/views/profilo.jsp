@@ -24,17 +24,7 @@
         }
     %>
 
-    <header class="main-header">
-        <div class="logo">
-            <h1>Shirt<span>Invasion</span> ⚽</h1>
-        </div>
-        <nav class="nav-bar">
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/home">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/LoginServlet?azione=logout" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
-            </ul>
-        </nav>
-    </header>
+    <jsp:include page="header.jsp" />
 
     <main class="main-container" style="margin-top: 40px; min-height: 70vh;">
         

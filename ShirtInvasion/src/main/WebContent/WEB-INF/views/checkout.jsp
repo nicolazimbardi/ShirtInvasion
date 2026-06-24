@@ -38,18 +38,9 @@
         <p style="color: #666;">Ti stiamo reindirizzando al pagamento, non chiudere la pagina.</p>
     </div>
 
-   <header class="main-header">
-        <div class="logo">
-            <h1>Shirt<span>Invasion</span> &#9917;</h1>
-        </div>
-        <nav class="nav-bar">
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/CarrelloServlet">Torna al Carrello</a></li>
-            </ul>
-        </nav>
-    </header>
+    <jsp:include page="header.jsp" />
 
-    <main class="checkout-container">
+    <main class="checkout-container" style="margin-top: 40px;">
         <%
             Carrello carrello = (Carrello) session.getAttribute("carrello");
             Utente utente = (Utente) session.getAttribute("utente");

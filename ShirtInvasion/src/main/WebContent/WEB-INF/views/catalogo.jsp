@@ -5,62 +5,15 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-
-<title><%= request.getAttribute("campionato") %> - ShirtInvasion</title>
-
-<link rel="stylesheet"
-      href="${pageContext.request.contextPath}/styles/stile.css">
+    <meta charset="UTF-8">
+    <title><%= request.getAttribute("campionato") %> - ShirtInvasion</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
 </head>
 
 <body>
 
-<div id="menuOverlay" class="menu-overlay"></div>
-
-<nav id="sidebarMenu" class="sidebar">
-
-    <a href="javascript:void(0)" class="close-btn">&times;</a>
-
-    <div class="sidebar-header">
-        <h2>Campionati</h2>
-    </div>
-
-    <a href="${pageContext.request.contextPath}/campionato?nome=Serie A">
-        Serie A
-    </a>
-
-    <a href="${pageContext.request.contextPath}/campionato?nome=Premier League">
-        Premier League
-    </a>
-
-    <a href="${pageContext.request.contextPath}/campionato?nome=La Liga">
-        La Liga
-    </a>
-
-    <a href="${pageContext.request.contextPath}/home"
-       style="margin-top:20px;font-size:14px;color:#00a8ff;">
-        ← Torna alla Home
-    </a>
-
-</nav>
-
-<header class="main-header">
-
-    <div class="logo" style="display:flex;align-items:center;">
-
-        <button class="hamburger-btn" id="menuButton">
-            &#9776;
-        </button>
-<h1 style="margin-left:15px;">
-    <a href="${pageContext.request.contextPath}/home"
-       style="text-decoration:none;color:white;">
-        Shirt<span style="color:#00a8ff;">Invasion</span> ⚽
-    </a>
-</h1>
-
-    </div>
-
-</header>
+<!-- Inclusione dell'header e della sidebar centralizzati -->
+<jsp:include page="header.jsp" />
 
 <div class="hero-picture">
     <div class="hero-text">
@@ -76,42 +29,29 @@
     <div class="products-grid">
 
         <%
-        List<Prodotto> prodotti =
-                (List<Prodotto>) request.getAttribute("prodotti");
+        List<Prodotto> prodotti = (List<Prodotto>) request.getAttribute("prodotti");
 
         if(prodotti != null && !prodotti.isEmpty()) {
-
             for(Prodotto p : prodotti) {
         %>
 
-<div class="product-card <%= p.getQuantita() == 0 ? "sold" : "" %>">
+        <div class="product-card <%= p.getQuantita() == 0 ? "sold" : "" %>">
             <div class="product-img-placeholder">
-
-                <img
-                src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>"
-                alt="<%= p.getNome() %>">
-
+                <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="<%= p.getNome() %>">
             </div>
 
             <h3>
-
-                <a class="product-title-link"
-                   href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>">
-
+                <a class="product-title-link" href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>">
                     <%= p.getSquadra() %>
-
                 </a>
-
             </h3>
 
             <p class="meta-info">
-                <strong>Modello:</strong>
-                <%= p.getNome() %>
+                <strong>Modello:</strong> <%= p.getNome() %>
             </p>
 
             <p class="meta-info">
-                <strong>Stagione:</strong>
-                <%= p.getStagione() %>
+                <strong>Stagione:</strong> <%= p.getStagione() %>
             </p>
 
             <p class="description">
@@ -119,30 +59,20 @@
             </p>
 
             <div class="card-footer">
+                <span class="price">
+                    € <%= String.format("%.2f", p.getPrezzo()) %>
+                </span>
 
-    <span class="price">
-        € <%= String.format("%.2f", p.getPrezzo()) %>
-    </span>
-
-    <% if(p.getQuantita() > 0) { %>
-
-        <a class="btn-add-cart"
-           href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>">
-
-            Dettagli
-
-        </a>
-
-    <% } else { %>
-
-        <span class="sold-out">
-            VENDUTO
-        </span>
-
-    <% } %>
-
-</div>
-
+                <% if(p.getQuantita() > 0) { %>
+                    <a class="btn-add-cart" href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>">
+                        Dettagli
+                    </a>
+                <% } else { %>
+                    <span class="sold-out">
+                        VENDUTO
+                    </span>
+                <% } %>
+            </div>
         </div>
 
         <%
@@ -165,8 +95,6 @@
 <footer class="main-footer">
     <p>&copy; 2026 ShirtInvasion - Tutti i diritti riservati.</p>
 </footer>
-
-<script src="${pageContext.request.contextPath}/scripts/menu.js"></script>
 
 </body>
 </html>

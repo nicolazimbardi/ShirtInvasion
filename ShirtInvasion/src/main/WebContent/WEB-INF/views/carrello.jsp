@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.Carrello" %>
 <%@ page import="model.Prodotto" %>
-<%@ page import="model.Utente" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="it">
@@ -26,35 +25,7 @@
 </head>
 <body class="page-carrello">
 
-<header class="main-header">
-    <div class="logo">
-        <h1>Shirt<span>Invasion</span> &#9917;</h1>
-    </div>
-    
-    <%
-        // Recuperiamo l'utente loggato dalla sessione
-        Utente utenteLoggato = (Utente) session.getAttribute("utente");
-    %>
-    
-<nav class="nav-bar">
-    <ul>
-        <li><a href="${pageContext.request.contextPath}/home">Continua lo shopping</a></li>
-        
-        <% if (utenteLoggato != null) { %>
-            <%-- Se è un admin, mostriamo il link al pannello --%>
-            <% if ("ADMIN".equalsIgnoreCase(utenteLoggato.getRuolo())) { %>
-                <li><a href="${pageContext.request.contextPath}/AdminServlet" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
-            <% } %>
-            
-            <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
-            
-        <% } else { %>
-            <li><a href="${pageContext.request.contextPath}/LoginServlet" style="font-weight: bold;">Accedi</a></li>
-            <li><a href="${pageContext.request.contextPath}/RegistrazioneServlet" style="font-weight: bold;">Registrati</a></li>
-        <% } %>
-    </ul>
-</nav>
-</header>
+<jsp:include page="header.jsp" />
 
 <main class="main-container" style="margin-top: 40px;">
     <h2>Il mio Carrello</h2>
@@ -109,28 +80,28 @@
             %>
                 <div class="cart-item">
                     
-    <div class="cart-thumb-box">
-    <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" style="text-decoration: none; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
-        <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
-            <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="<%= p.getNome() %>">
-        <% } else { %>
-            👕
-        <% } %>
-    </a>
-</div>
+                    <div class="cart-thumb-box">
+                        <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" style="text-decoration: none; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                            <% if (p.getImmagine() != null && !p.getImmagine().isEmpty()) { %>
+                                <img src="${pageContext.request.contextPath}/images/<%= p.getImmagine() %>" alt="<%= p.getNome() %>">
+                            <% } else { %>
+                                👕
+                            <% } %>
+                        </a>
+                    </div>
 
-<div class="cart-item-details">
-    <h3>
-        <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" class="product-title-link">
-            <%= p.getNome() %>
-        </a>
-    </h3>
-    <p><%= p.getMarca() %> &bull; <%= p.getSquadra() %> &bull; <%= p.getStagione() %></p>
-    <p>Taglia: <strong><%= p.getTaglia() %></strong></p>
-    <% if (p.getDescrizione() != null && !p.getDescrizione().isEmpty()) { %>
-        <p style="margin-top: 5px; font-style: italic;"><%= p.getDescrizione() %></p>
-    <% } %>
-</div>
+                    <div class="cart-item-details">
+                        <h3>
+                            <a href="${pageContext.request.contextPath}/DettaglioServlet?id=<%= p.getIdProdotto() %>" class="product-title-link">
+                                <%= p.getNome() %>
+                            </a>
+                        </h3>
+                        <p><%= p.getMarca() %> &bull; <%= p.getSquadra() %> &bull; <%= p.getStagione() %></p>
+                        <p>Taglia: <strong><%= p.getTaglia() %></strong></p>
+                        <% if (p.getDescrizione() != null && !p.getDescrizione().isEmpty()) { %>
+                            <p style="margin-top: 5px; font-style: italic;"><%= p.getDescrizione() %></p>
+                        <% } %>
+                    </div>
 
                     <div class="cart-item-right">
                         <div class="cart-item-price"><%= String.format("%.2f", p.getPrezzo() * p.getQuantitaCarrello()) %> €</div>

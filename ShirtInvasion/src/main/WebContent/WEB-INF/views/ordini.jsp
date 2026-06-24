@@ -12,13 +12,9 @@
 </head>
 <body class="bg-light">
 
-    <header class="main-header">
-        <div class="logo">
-            <h1>Shirt<span>Invasion</span> ⚽</h1>
-        </div>
-    </header>
+    <jsp:include page="header.jsp" />
 
-    <main class="orders-page-container">
+    <main class="orders-page-container" style="margin-top: 40px;">
         <div class="orders-main-card">
             
             <h2 class="orders-title">Storico dei tuoi Ordini</h2>
@@ -69,7 +65,7 @@
                 %>
 
             </div>
-            </div>
+        </div>
     </main>
 
     <footer class="main-footer">

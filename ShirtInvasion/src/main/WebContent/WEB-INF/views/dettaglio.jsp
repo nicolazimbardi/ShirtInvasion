@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.Prodotto" %>
 <%@ page import="model.Utente" %>
-<%@ page import="model.Carrello" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,38 +17,7 @@
         Utente utenteLoggato = (Utente) session.getAttribute("utente");
     %>
 
-    <header class="main-header">
-        <div class="logo">
-            <h1><a href="<%= request.getContextPath() %>/" style="text-decoration: none; color: white;">ShirtInvasion<span>⚽</span></a></h1>
-        </div>
-        <nav class="nav-bar">
-    <ul>
-        <li><a href="<%= request.getContextPath() %>/">Home</a></li>
-        
-        <li>
-            <a href="<%= request.getContextPath() %>/CarrelloServlet" class="cart-nav-link">
-                Il mio Carrello 🛒
-                <% 
-                    Carrello cart = (Carrello) session.getAttribute("carrello");
-                    if (cart != null && cart.getNumeroTotaleArticoli() > 0) { 
-                %>
-                    <span class="cart-badge"><%= cart.getNumeroTotaleArticoli() %></span>
-                <% } %>
-            </a>
-        </li>
-        
-        <% if (utenteLoggato == null) { %>
-            <li><a href="<%= request.getContextPath() %>/LoginServlet">Accedi</a></li>
-            <li><a href="<%= request.getContextPath() %>/RegistrazioneServlet">Registrati</a></li>
-        <% } else { %>
-            <% if ("ADMIN".equals(utenteLoggato.getRuolo())) { %>
-                <li><a href="<%= request.getContextPath() %>/AdminServlet" style="color: #ffcc00;">Admin Panel</a></li>
-            <% } %>
-          <li><a href="<%= request.getContextPath() %>/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
-        <% } %>
-    </ul>
-</nav>
-    </header>
+    <jsp:include page="header.jsp" />
 
     <main class="main-container" style="margin-top: 40px;">
         <% if (p != null) { %>
