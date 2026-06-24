@@ -1286,13 +1286,7 @@ body.page-carrello .main-container {
     background-color: #0568A6;
 }
 
-.profile-btn-save-address {
-    background-color: #28a745; /* Verde per l'aggiunta di un nuovo elemento */
-}
 
-.profile-btn-save-address:hover {
-    background-color: #218838;
-}
 
 /* Lista degli Indirizzi (Box come piccole card) */
 .profile-address-list {
@@ -1567,4 +1561,161 @@ body.bg-light {
     color: #64748b;
     font-style: italic;
     margin: 40px 0;
+}
+
+/* =========================================
+   STILI PAGINA CHECKOUT (Coerenti col Carrello)
+   ========================================= */
+
+.checkout-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.checkout-box {
+    background-color: #FFFFFF;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.checkout-form-section {
+    flex: 2;
+    min-width: 300px;
+    border-top: 4px solid #00a8ff; /* Richiamo visivo al bottone del carrello */
+}
+
+.checkout-summary-section {
+    flex: 1;
+    min-width: 300px;
+    height: fit-content;
+    border-top: 4px solid #022340; /* Richiamo al blu scuro del tema */
+}
+
+.checkout-box h2 {
+    color: #022340;
+    font-size: 26px;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.checkout-box h3 {
+    color: #022340;
+    font-size: 18px;
+    border-bottom: 2px solid #eeeeee;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+/* Stili Form ingranditi e migliorati */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 15px;
+}
+
+.form-group select, 
+.form-group input {
+    width: 100%;
+    padding: 14px 15px; /* Padding aumentato per campi più grandi */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 16px; /* Font più grande */
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group select:focus, 
+.form-group input:focus {
+    outline: none;
+    border-color: #00a8ff;
+    box-shadow: 0 0 5px rgba(0, 168, 255, 0.3);
+}
+
+/* Layout su riga per i form */
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+.form-col { flex: 1; }
+.form-col-2 { flex: 2; }
+
+.indirizzo-nuovo-container {
+    background: #f8f8f8;
+    padding: 20px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* Bottone di Conferma Paga identico al Checkout Cart */
+.btn-confirm-pay {
+    width: 100%;
+    background-color: #00a8ff;
+    color: #FFFFFF;
+    border: 1px solid #00a8ff;
+    padding: 16px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 30px;
+    box-sizing: border-box;
+}
+
+.btn-confirm-pay:hover {
+    background-color: #0568A6;
+    border-color: #0568A6;
+}
+
+/* Overlay Caricamento */
+#loading-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    z-index: 9999; display: none;
+}
+.spinner {
+    width: 60px; height: 60px;
+    border: 6px solid #e0e0e0; border-top: 6px solid #00a8ff;
+    border-radius: 50%; animation: spin 1s linear infinite;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Messaggi di Errore Validazione JS */
+.error-msg {
+    color: #cc0000;
+    font-size: 13px;
+    display: none;
+    margin-top: 5px;
+    font-weight: bold;
+}
+.input-error {
+    border-color: #cc0000 !important;
+    background-color: #fffafa;
+}
+
+/* Riepilogo Ordine */
+.summary-item {
+    display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; border-bottom: 1px dashed #eee; padding-bottom: 8px; color: #555;
+}
+.summary-row {
+    display: flex; justify-content: space-between; margin-bottom: 10px; color:#555; font-size: 16px;
+}
+.summary-total {
+    display: flex; justify-content: space-between; font-size: 24px; color: #022340; font-weight: bold; margin-top: 20px; border-top: 2px solid #eee; padding-top: 15px;
 }

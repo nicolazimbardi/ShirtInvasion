@@ -134,7 +134,7 @@
                         <input type="text" id="nazione" name="nazione" value="Italia" required>
                     </div>
                     <div class="profile-form-group">
-                        <button type="submit" class="profile-btn-submit profile-btn-save-address">Salva Indirizzo 💾</button>
+                        <button type="submit" class="profile-btn-submit ">Salva Indirizzo 💾</button>
                     </div>
                 </div>
             </form>
