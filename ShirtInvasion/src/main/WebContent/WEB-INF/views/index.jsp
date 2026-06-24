@@ -169,15 +169,38 @@
                                 <p class="description"><%= p.getDescrizione() %></p>
                                 <p class="taglia">Taglia: <span><%= p.getTaglia() %></span></p>
                                 
-                                <div class="card-footer">
-                                    <span class="price"><%= String.format("%.2f", p.getPrezzo()) %> €</span>
-                                    
-                                    <% if (utenteLoggato == null || !"ADMIN".equalsIgnoreCase(utenteLoggato.getRuolo())) { %>
-                                        <a class="btn-add-cart" href="CarrelloServlet?azione=aggiungi&id=<%= p.getIdProdotto() %>">Aggiungi</a>
-                                    <% } else { %>
-                                        <span style="color: gray; font-size: 0.8em; font-weight: bold;">(Admin non può acquistare)</span>
-                                    <% } %>
-                                </div>
+                               <div class="card-footer">
+    <div>
+        <span class="price">
+            <%= String.format("%.2f", p.getPrezzo()) %> €
+        </span>
+
+        <% if (p.getQuantita() <= 0) { %>
+            <p style="color:#dc3545;font-weight:bold;margin-top:5px;">
+                Non disponibile
+            </p>
+        <% } %>
+    </div>
+
+    <% if (p.getQuantita() <= 0) { %>
+
+        <span class="sold-out-badge">VENDUTO</span>
+
+    <% } else if (utenteLoggato == null || !"ADMIN".equalsIgnoreCase(utenteLoggato.getRuolo())) { %>
+
+        <a class="btn-add-cart"
+           href="CarrelloServlet?azione=aggiungi&id=<%= p.getIdProdotto() %>">
+            Aggiungi
+        </a>
+
+    <% } else { %>
+
+        <span style="color: gray; font-size: 0.8em; font-weight: bold;">
+            (Admin non può acquistare)
+        </span>
+
+    <% } %>
+</div>
                             </div>
                 <%
                         }
