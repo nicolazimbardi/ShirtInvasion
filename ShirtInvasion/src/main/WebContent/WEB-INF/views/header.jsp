@@ -83,24 +83,24 @@
                         // --------- GESTIONE HEADER PER L'ADMIN ---------
                         if (isAdminPage) { 
             %>
-                            <li style="color: #ffcc00; font-weight: bold; padding: 10px 15px;">
+                            <li class="admin-status-text">
                                 Admin: <%= utenteLoggatoHeader.getNome() %> <%= utenteLoggatoHeader.getCognome() %>
                             </li>
             <% 
                         } else { 
             %>
-                            <li><a href="${pageContext.request.contextPath}/AdminServlet" style="color: #4CAF50; font-weight: bold;">Pannello Admin 🛠️</a></li>
+                            <li><a href="${pageContext.request.contextPath}/AdminServlet" class="admin-panel-link">Pannello Admin 🛠️</a></li>
             <% 
                         } 
             %>
-                        <li><a href="${pageContext.request.contextPath}/" style="font-weight: bold;">Home 🏠</a></li>
-                        <li><a href="${pageContext.request.contextPath}/LogoutServlet" style="color: #ff4d4d; font-weight: bold;">Esci 🚪</a></li>
+                        <li><a href="${pageContext.request.contextPath}/" class="nav-bold-link">Home 🏠</a></li>
+                        <li><a href="${pageContext.request.contextPath}/LogoutServlet" class="logout-link-red">Esci 🚪</a></li>
             <% 
                     }
                 } else { 
                     // --------- GESTIONE HEADER PER OSPITE (NON LOGGATO) ---------
             %>
-                    <li><a href="${pageContext.request.contextPath}/" style="font-weight: bold;">Home 🏠</a></li>
+                    <li><a href="${pageContext.request.contextPath}/" class="nav-bold-link">Home 🏠</a></li>
 
                     <% if (!isCarrelloPage) { %>
                         <li>
@@ -111,8 +111,8 @@
                         </li>
                     <% } %>
 
-                    <li><a href="${pageContext.request.contextPath}/LoginServlet" style="font-weight: bold;">Accedi</a></li>
-                    <li><a href="${pageContext.request.contextPath}/RegistrazioneServlet" style="font-weight: bold;">Registrati</a></li>
+                    <li><a href="${pageContext.request.contextPath}/LoginServlet" class="nav-bold-link">Accedi</a></li>
+                    <li><a href="${pageContext.request.contextPath}/RegistrazioneServlet" class="nav-bold-link">Registrati</a></li>
             <% 
                 } 
             %>

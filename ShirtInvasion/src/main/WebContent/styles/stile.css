@@ -2178,3 +2178,71 @@ body.page-carrello .main-container {
 .product-card:hover h3 a, .card-prodotto:hover h3 a {
     color: #00a8ff; 
 }
+/* =========================================================
+   STILI HEADER PER ADMIN E OSPITI (Sostituiscono gli stili inline)
+   ========================================================= */
+.admin-status-text {
+    color: #ffcc00; 
+    font-weight: bold; 
+    padding: 10px 15px;
+}
+
+.admin-panel-link {
+    color: #4CAF50 !important; 
+    font-weight: bold;
+}
+
+.nav-bold-link {
+    font-weight: bold;
+}
+
+.logout-link-red {
+    color: #ff4d4d !important; 
+    font-weight: bold;
+}
+
+/* =========================================================
+   MEDIA QUERY PER SMARTPHONE (Fino a 768px di larghezza)
+   ========================================================= */
+@media screen and (max-width: 768px) {
+    
+    .main-header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        gap: 15px; 
+    }
+
+    .header-left {
+        width: 100%;
+        justify-content: center; 
+    }
+
+    .nav-bar {
+        width: 100%;
+    }
+
+    /* Permette ai link di andare a capo fluidamente quando non c'è spazio */
+    .nav-bar ul {
+        display: flex;
+        flex-wrap: wrap; 
+        justify-content: center;
+        align-items: center;
+        gap: 12px; 
+        padding: 0;
+    }
+
+    /* Riduce i testi e sovrascrive i padding su mobile */
+    .nav-bar ul li,
+    .nav-bar ul li a,
+    .admin-status-text {
+        font-size: 14px;
+        text-align: center;
+        padding: 5px 8px !important; 
+    }
+
+    .cart-badge {
+        font-size: 12px;
+        padding: 2px 5px;
+    }
+}
