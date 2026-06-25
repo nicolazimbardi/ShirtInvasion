@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShirtInvasion - Catalogo Maglie</title>
-    <link rel="stylesheet" href="styles/stile.css">
+    <link rel="stylesheet" href="styles/stile.css?v=<%= System.currentTimeMillis() %>">
     
     <script>
         const contextPath = "${pageContext.request.contextPath}";

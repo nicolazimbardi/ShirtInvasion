@@ -211,7 +211,7 @@ h2 {
 .product-img-placeholder img, .card-img-placeholder img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Adatta le maglie senza tagliarle o distorcerle */
+    object-fit: cover; /* Adatta le maglie senza tagliarle o distorcerle */
     background-color: #ffffff;
 }
 
@@ -238,7 +238,19 @@ h2 {
     font-size: 14px;
     color: #777777;
     margin-bottom: 5px;
-}
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 3;       /* Il motore che taglia a 3 righe */
+    line-clamp: 3;               /* Aggiunto per far sparire l'avviso dell'editor */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    /* Forza l'altezza di 3 righe precise */
+    line-height: 1.4;
+    height: 58px; 
+} 
+
 
 .taglia {
     font-size: 14px;
