@@ -141,7 +141,7 @@
     <aside class="content-news" style="max-width: 1200px; margin: 20px auto; padding: 20px;">
         <div class="widget-box express-shipping-large">
             <h3>📦 Spedizione Express</h3>
-            <p>La passione per il calcio non può attendere! Garantiamo una spedizione totalmente gratuita per tutti gli ordini superiori a 50€.</p>
+            <p>La passione per il calcio non può attendere! Garantiamo una spedizione totalmente gratuita per tutti gli ordini superiori a 90€.</p>
             <p>Il nostro servizio di logistica elabora gli acquisti in tempo reale: riceverai la tua maglia da collezione comodamente a casa tua entro 24/48 ore lavorative tramite corriere espresso tracciato.</p>
         </div>
     </aside>
