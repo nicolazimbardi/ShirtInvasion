@@ -149,6 +149,7 @@
                                 
                                 <td>
                                     <form id="<%= formId %>" action="${pageContext.request.contextPath}/AdminServlet" method="POST">
+                                       <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                                         <input type="hidden" name="azioneProdotto" value="modifica">
                                         <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
                                         <button type="submit" class="btn-action btn-edit">Salva</button>
@@ -156,6 +157,7 @@
                                     
                                     <form action="${pageContext.request.contextPath}/AdminServlet" method="POST" onsubmit="return confirm('Eliminare?')">
                                         <input type="hidden" name="azioneProdotto" value="elimina">
+                                           <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                                         <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
                                         <button type="submit" class="btn-action btn-delete">Elimina</button>
                                     </form>
