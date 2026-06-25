@@ -1091,7 +1091,7 @@ body.page-carrello .main-container {
     display: block;
     width: 100%;
     text-align: center;
-    background-color: #1e5a2d; /* Verde in stile Classic Football Shirts */
+    background-color: #00a8ff; /* Verde in stile Classic Football Shirts */
     color: #ffffff;
     padding: 18px;
     font-size: 18px;
@@ -1104,7 +1104,7 @@ body.page-carrello .main-container {
 }
 
 .btn-detail-cart:hover {
-    background-color: #14401e;
+    background-color: #3d8cd4;
     color: #ffffff;
 }
 
