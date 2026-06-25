@@ -96,7 +96,7 @@
                         <% if (!ind.isAttivo()) { %>
                             <a href="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=attiva&idIndirizzo=<%= ind.getIdIndirizzo() %>" class="profile-action-activate">Rendi Attivo</a>
                         <% } %>
-                        <a href="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=elimina&idIndirizzo=<%= ind.getIdIndirizzo() %>" class="profile-action-delete" onclick="return confirm('Vuoi davvero eliminare questo indirizzo?')">Elimina 🗑️</a>
+                        <a href="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=elimina&idIndirizzo=<%= ind.getIdIndirizzo() %>" class="profile-action-delete">Elimina 🗑️</a>
                     </div>
                 </div>
             <% 
