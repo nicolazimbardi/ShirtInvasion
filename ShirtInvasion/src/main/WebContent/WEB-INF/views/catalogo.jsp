@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title><%= request.getAttribute("campionato") %> - ShirtInvasion</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css?v=<%= System.currentTimeMillis() %>">
 </head>
 
 <body>

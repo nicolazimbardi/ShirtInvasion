@@ -9,7 +9,7 @@
     <title>ShirtInvasion - Il mio Carrello</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/stile.css">
     <style>
-        /* Stili aggiuntivi inline per i messaggi di errore (per comodità, puoi spostarli in stile.css) */
+        /* Stili aggiuntivi inline per i messaggi di errore */
         .is-invalid {
             border-color: #dc3545 !important;
             background-color: #fdf2f2 !important;
@@ -20,6 +20,27 @@
             font-weight: 600;
             margin-top: 4px;
             display: block;
+        }
+
+        /* Nuovi stili per sistemare l'anteprima delle maglie (sovrascrive stile.css) */
+        .cart-thumb-box {
+            width: 100px !important;
+            height: 130px !important;
+            background-color: #ffffff;
+            border: 1px solid #eeeeee;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .cart-thumb-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain !important;
+            padding: 5px;
+            border-radius: 6px;
         }
     </style>
 </head>
@@ -98,10 +119,7 @@
                         </h3>
                         <p><%= p.getMarca() %> &bull; <%= p.getSquadra() %> &bull; <%= p.getStagione() %></p>
                         <p>Taglia: <strong><%= p.getTaglia() %></strong></p>
-                        <% if (p.getDescrizione() != null && !p.getDescrizione().isEmpty()) { %>
-                            <p style="margin-top: 5px; font-style: italic;"><%= p.getDescrizione() %></p>
-                        <% } %>
-                    </div>
+                        </div>
 
                     <div class="cart-item-right">
                         <div class="cart-item-price"><%= String.format("%.2f", p.getPrezzo() * p.getQuantitaCarrello()) %> €</div>
