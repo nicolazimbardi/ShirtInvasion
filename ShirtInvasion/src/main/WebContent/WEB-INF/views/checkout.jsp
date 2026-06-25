@@ -61,6 +61,7 @@
             <h2>Dettagli Spedizione e Pagamento</h2>
             
             <form id="checkout-form" action="${pageContext.request.contextPath}/CarrelloServlet" method="post" novalidate>
+            <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                 <input type="hidden" name="azione" value="confermaAcquisto">
                 <input type="hidden" name="totaleFinale" value="<%= totaleFinale %>">
                 

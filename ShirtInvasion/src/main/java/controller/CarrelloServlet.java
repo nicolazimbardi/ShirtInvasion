@@ -172,6 +172,27 @@ public class CarrelloServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        
+        // =======================================================================
+        // FIX CSRF: VERIFICA DEL TOKEN DI SESSIONE (Solo per le richieste POST)
+        // =======================================================================
+        HttpSession session = request.getSession(false);
+        
+        // Il controllo del token ha senso solo se l'utente ha una sessione attiva (è loggato)
+        // Se è un GUEST, la logica del tuo doGet lo fermerà comunque più avanti se cerca di fare checkout.
+        if (session != null && session.getAttribute("utente") != null) {
+            String tokenRequest  = request.getParameter("sessionToken");
+            String tokenSessione = (String) session.getAttribute("sessionToken");
+
+            if (tokenRequest == null || tokenSessione == null || !tokenSessione.equals(tokenRequest)) {
+                // Token non valido o assente -> Blocco di sicurezza!
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token di sessione non valido o scaduto.");
+                return; 
+            }
+        }
+        
+        // Se il token è valido (oppure l'utente non è loggato ma sta solo aggiungendo 
+        // roba al carrello come guest), passa la palla alla logica normale
         doGet(request, response);
     }
 }

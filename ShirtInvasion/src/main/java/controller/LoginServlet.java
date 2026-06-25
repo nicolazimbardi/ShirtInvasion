@@ -31,6 +31,8 @@ public class LoginServlet extends HttpServlet {
         if (utenteLoggato != null) {
             HttpSession session = request.getSession();
             session.setAttribute("utente", utenteLoggato);
+            String token = java.util.UUID.randomUUID().toString();
+            session.setAttribute("sessionToken", token);
             
             if ("ADMIN".equals(utenteLoggato.getRuolo())) {
                 response.sendRedirect(request.getContextPath() + "/AdminServlet");

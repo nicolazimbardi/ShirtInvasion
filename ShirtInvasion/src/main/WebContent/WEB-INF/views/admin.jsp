@@ -47,6 +47,7 @@
             
             <form action="${pageContext.request.contextPath}/AdminServlet" method="POST">
                 <input type="hidden" name="azioneProdotto" value="inserisci">
+                <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                 
                 <div class="admin-form-row">
                     <input type="text" name="squadra" placeholder="Squadra" required>

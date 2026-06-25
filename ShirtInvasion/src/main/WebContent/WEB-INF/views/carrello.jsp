@@ -107,6 +107,7 @@
                         <div class="cart-item-price"><%= String.format("%.2f", p.getPrezzo() * p.getQuantitaCarrello()) %> €</div>
                         
                         <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post" style="margin-bottom: 12px; display: flex; align-items: flex-start; justify-content: flex-end; gap: 5px;">
+                        <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                             <label for="qta_<%= p.getIdProdotto() %>" style="font-size: 13px; color: #666; margin-top: 6px;">Q.tà:</label>
                             <input type="hidden" name="azione" value="aggiornaQta">
                             <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
@@ -119,6 +120,7 @@
                         </form>
 
                         <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post" style="text-align: right;">
+                        <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                             <input type="hidden" name="azione" value="rimuovi">
                             <input type="hidden" name="id" value="<%= p.getIdProdotto() %>">
                             <button type="submit" class="btn-remove-item">Rimuovi</button>
@@ -137,6 +139,7 @@
 
             <div class="cart-actions">
                 <form action="${pageContext.request.contextPath}/CarrelloServlet" method="post" style="margin: 0;">
+                <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                     <input type="hidden" name="azione" value="svuota">
                     <button type="submit" class="btn-empty-cart">Svuota carrello</button>
                 </form>

@@ -33,6 +33,7 @@
         <div class="profile-card">
             <h3 class="profile-section-title">👤 Informazioni Personali</h3>
             <form id="form-profilo" action="${pageContext.request.contextPath}/AggiornaProfiloServlet" method="post" novalidate>
+            <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                 <div class="profile-form-grid">
                     
                     <% if ("wrong_password".equals(request.getParameter("error"))) { %>
@@ -109,6 +110,7 @@
         <div class="profile-card">
             <h3 class="profile-section-title">🏠 Aggiungi un nuovo indirizzo</h3>
             <form id="form-indirizzo" action="${pageContext.request.contextPath}/GestioneIndirizziServlet?azione=aggiungi" method="post" novalidate>
+            <input type="hidden" name="sessionToken" value="${sessionScope.sessionToken}">
                 <div class="profile-form-grid">
                     <div class="profile-form-group" style="grid-column: span 2;">
                         <label for="via">Via/Piazza e Civico</label>

@@ -17,6 +17,20 @@ public class GestioneIndirizziServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        // =======================================================================
+        // FIX CSRF: VERIFICA DEL TOKEN DI SESSIONE (Solo per l'aggiunta da form POST)
+        // =======================================================================
+        HttpSession session = request.getSession();
+        String tokenRequest  = request.getParameter("sessionToken");
+        String tokenSessione = (String) session.getAttribute("sessionToken");
+
+        if (tokenRequest == null || tokenSessione == null || !tokenSessione.equals(tokenRequest)) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token di sessione non valido o scaduto.");
+            return; // Blocca la richiesta se qualcuno manipola il form
+        }
+
+        // Se il token è corretto, autorizza la richiesta e passa la logica al doGet
         doGet(request, response);
     }
 
@@ -57,7 +71,7 @@ public class GestioneIndirizziServlet extends HttpServlet {
             } else if ("attiva".equals(azione)) {
                 int idIndirizzo = Integer.parseInt(request.getParameter("idIndirizzo"));
                 
-                // ECCO LA CORREZIONE: Ora richiama correttamente il metodo "impostaAttivo" del tuo DAO
+                // Richiama correttamente il metodo "impostaAttivo" del tuo DAO
                 indDAO.impostaAttivo(idIndirizzo, utente.getIdUtente());
 
             } else if ("elimina".equals(azione)) {

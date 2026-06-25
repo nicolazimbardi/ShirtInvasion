@@ -23,6 +23,13 @@ public class AggiornaProfiloServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/LoginServlet");
             return;
         }
+        String tokenRequest  = request.getParameter("sessionToken");
+        String tokenSessione = (String) session.getAttribute("sessionToken");
+
+        if (tokenRequest == null || tokenSessione == null || !tokenSessione.equals(tokenRequest)) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token di sessione non valido o scaduto.");
+            return; 
+        }
 
         // Recupero parametri
         String nome = request.getParameter("nome");

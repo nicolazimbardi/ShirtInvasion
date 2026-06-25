@@ -124,14 +124,27 @@ public class AdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
+    	
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("utente") == null || !"ADMIN".equals(((Utente)session.getAttribute("utente")).getRuolo())) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Non autorizzato");
             return;
         }
+     // FIX CSRF: verifica token di sessione
+        String tokenRequest  = request.getParameter("sessionToken");
+        String tokenSessione = (String) request.getSession().getAttribute("sessionToken");
+
+        // Se il token nella request è nullo, oppure quello in sessione è nullo, oppure non combaciano
+        if (tokenRequest == null || tokenSessione == null || !tokenSessione.equals(tokenRequest)) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token di sessione non valido o scaduto. Richiesta bloccata.");
+            return; // Interrompe l'esecuzione della Servlet
+        }
+
+        // Se arriva qui, il token è valido e l'operazione può procedere...
 
         ProdottoDAO prodottoDao = new ProdottoDAO();
         String azioneProdotto = request.getParameter("azioneProdotto");
+        
 
         try {
             if ("inserisci".equals(azioneProdotto)) {
